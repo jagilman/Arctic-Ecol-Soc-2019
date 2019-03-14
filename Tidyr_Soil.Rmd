@@ -107,7 +107,7 @@ AKgeochem_2_long <- gather(AKgeochem_2, key = Feature, value = value, -REC_NO)
 
 
 ## PLUTOsoil
-Commented out by CP/AP on 14 March 2019 - redundant data with Nat. GeoChem DB
+Commented out by CP/AP on 14 March 2019 - redundant data with Nat. GeoChem DB.
 
 ```{r reading_pluto}
 
