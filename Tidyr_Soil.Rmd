@@ -107,20 +107,21 @@ AKgeochem_2_long <- gather(AKgeochem_2, key = Feature, value = value, -REC_NO)
 
 
 ## PLUTOsoil
+Commented out by CP/AP on 14 March 2019 - redundant data with Nat. GeoChem DB
 
 ```{r reading_pluto}
 
-library(foreign)
+#library(foreign)
 
-pluto <- read.dbf("plutosoil.dbf")
+#pluto <- read.dbf("plutosoil.dbf")
 
-pluto <- pluto %>% filter(STATE == "AK")
+#pluto <- pluto %>% filter(STATE == "AK")
 
 
-pluto_2 <- select(pluto,id,LABNO,FIELD,JOBN,STATE, COUNTY,LATITUDE,LONGITUDE,MAT,DESCRIPTN_,NAME,SUB__DATE,B12, B13, B20, B21, B22, TOA, matches('HG_|Q_HG|PB_|Q_PB|NI_|Q_NI|AS_|Q_AS|CD_|Q_CD|CR_|Q_CR|TL_|Q_TL'))
+# pluto_2 <- select(pluto,id,LABNO,FIELD,JOBN,STATE, COUNTY,LATITUDE,LONGITUDE,MAT,DESCRIPTN_,NAME,SUB__DATE,B12, B13, B20, B21, B22, TOA, matches('HG_|Q_HG|PB_|Q_PB|NI_|Q_NI|AS_|Q_AS|CD_|Q_CD|CR_|Q_CR|TL_|Q_TL'))
 
-pluto_2 <- rename(pluto_2, SUB_DATE = SUB__DATE)
-pluto_2 <- rename(pluto_2, DESCRIPT = DESCRIPTN_)
+# pluto_2 <- rename(pluto_2, SUB_DATE = SUB__DATE)
+# pluto_2 <- rename(pluto_2, DESCRIPT = DESCRIPTN_)
 
 ```
 
