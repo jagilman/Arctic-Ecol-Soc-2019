@@ -26,22 +26,20 @@ Load libraries
 ```{r}
 library(tidyverse)
 library(dplyr)
+library(RCurl)
 
 ```
 
-Read in data file, ignored first 4 rows - blank and or random file info, blank cells to NA
+Read in data file from Git, ignored first 4 rows - blank and or random file info, blank cells to NA
 ```{r}
-B_Soil <- read.csv("C:/Users/Apryl/Documents/NR995/BestValue_Soil.csv", header = TRUE, skip = 4, na.strings = c(NA, ""))
+downloadBSoil <- getURL("https://raw.githubusercontent.com/jagilman/Arctic-Ecol-Soc-2019/master/BestValue_Soil.csv") 
+B_Soil <- read.csv(text = downloadBSoil, header = TRUE, skip = 4, na.strings = c(NA, ""))
 ```
 
 Figure out which columns to remove/drop or expand 
 Removed all columns ending with Sum, these are repeat info of existing columns. Create new df with only desired chemical species.  Add desired columns to chem database
 ```{r}
 NoSum <- select (B_Soil, -c(ends_with('_Sum')))
-
-
-
-Our_Chem <- select(NoSum, starts_with("Hg_"), starts_with("Pb_"), starts_with("Ni_"), starts_with('As') , starts_with('Cd'), starts_with('Pb'), starts_with('Ti'))
 
 data1 <- select(NoSum, matches('LAB_ID|FIELD_ID|DATE_SUBMITTED|DATE_COLLECT|LATITUDE|LONGITUDE|QUAD|SPHEROID|DATUM|DEPTH|SAMPLE_SOURCE|LOCATE_DESC|PRIMARY_CLASS|SAMPLE_COMMENT|SAMPLE_ZONE|HORIZON|ORGANICS|DRAINAGE|PREP|Hg_|Pb_|Ni_|As_|Cd_|Cr_|Tl_'))
 
@@ -62,13 +60,13 @@ data2 <- filter(data1, is.na(DEPTH) == FALSE | is.na(SAMPLE_SOURCE) == FALSE)
 ```
 
 
-Loading the whole US geochem file -- national geochemical survey data base
+Loading the whole US geochem file from Git -- national geochemical survey data base
 
 And filtering for just alaska (by latitude > 52 deg north) and for just soil data
 
 ```{r load_us_geochem}
-
-usgeochem <- read.csv("geochem.csv", header = T, na.strings = "")
+downloadUSgeochem <- getURL("https://raw.githubusercontent.com/jagilman/Arctic-Ecol-Soc-2019/master/geochem.csv")
+usgeochem <- read.csv(text=downloadUSgeochem, header = T, na.strings = "")
 
 AKgeochem <- filter(usgeochem, LATITUDE > 52.000 & TYPEDESC == "SOIL")
 
