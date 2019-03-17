@@ -48,14 +48,15 @@ USGS1 <- select(NoSum, matches('LAB_ID|FIELD_ID|DATE_SUBMITTED|DATE_COLLECT|LATI
 ```
 
 
-Filtering everything that has no info on one of the following:
+Filtering everything that has no info on the following:
 
 * depth
 * sample source
 
 ```{r latlon_depth}
 
-USGS2 <- filter(data1, is.na(DEPTH) == FALSE | is.na(SAMPLE_SOURCE) == FALSE)
+USGS2 <- filter(USGS1, is.na(DEPTH) == FALSE)
+USGS3 <- filter(USGS2, is.na(SAMPLE_SOURCE) == FALSE)
 
 
 ```
@@ -92,16 +93,18 @@ AKgeochem_2 <- select(AKgeochem,REC_NO,LABNO,LABNO2,FLDNAM,COLL_DATE,FLDNAM_AN,D
 AKgeochem_3 <- select(AKgeochem_2, -c(AS_NURE, CD_NURE, CR_NURE, HG_NURE, NI_NURE, PB_NURE))
 ##need to remove rows from DESCRIPT that lack depths
 
-#filter(str_detect(AKgeochem_3$DESCIRPT, "*;")) this doesn't work - trying to figure out how to tell R to remove rows that don't have ";" since this is what separates depths from descriptions in this column - separating the columns without removing rows without depths produces weird results
+AKgeochem_4 <- filter(AKgeochem_3, DESCRIPT != "no sheet") #removes samples lacking info
+AKgeochem_5 <-separate(AKgeochem_4, col="DESCRIPT", into=c("DEPTH", "DESCRIPT"), sep=";") #separates depth and description
+AKgeochem_6 <- filter(AKgeochem_5, is.na(DESCRIPT) == FALSE) #removes *most* samples without depths, since their descriptions went into the DEPTH col when split
+AKgeochem_7 <- slice(AKgeochem_6, c(1:17, 19:57, 59:149, 151:174, 176:181)) #remove rest of rows lacking depths that did not split correctly above
 
-##then separate DESCRIPT into depth and location notes - only do once rows without depths removed
-AKgeochem_4 <-transform(AKgeochem_3, DESCRIPT = colsplit(DESCRIPT, split = ";", names = c('DEPTH', 'NOTES')))
 
 
 ```
 
 To do once AKgeochem is finished: Filtering down to shared variables between USGS and National Geochem Survey
-Both have: Latitude, longitude, soil horizon, datum, depth (once AKgeochem is filtered properly), location description, chemistry data, analytical method, identifiers, collection dates
+Both have: Latitude, longitude, soil horizon, datum, depth, location description, chemistry data, analytical method, identifiers, collection dates
+Issues: inconsistency in chem data reporting - values and analytical methods are interspersed differently between the columns
 
 
 ```{r longform1}
