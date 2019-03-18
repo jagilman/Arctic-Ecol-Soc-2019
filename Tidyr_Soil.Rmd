@@ -109,11 +109,35 @@ Issues: inconsistency in chem data reporting - values and analytical methods are
 ```{r}
 #filtering down to shared columns
 AKgeochem_8 <- select(AKgeochem_7,FLDNAM,COLL_DATE,DEPTH,DESCRIPT,SOIL_HORIZ,DATUM,LATITUDE,LONGITUDE,VEG, AS_ICP40, AS_AA, AS_INAA, CD_ICP40, CR_ICP40, CR_INAA, NI_ICP40, NI_INAA, PB_ICP40)
+##NOT Elegant but works! Here we are creating empty columns and filling them with analytical methods to match the USGS format
+AKgeochem_9 <- separate(AKgeochem_8, col=c("AS_ICP40"), into=c("AS1", "AS_ICP"), sep=" ") 
+AKgeochem_9$AS_ICP <- "AES_HF"
+AKgeochem_9 <- separate(AKgeochem_9, col=c("AS_AA"), into=c("AS2", "AS_AA"), sep=" ")
+AKgeochem_9$AS_AA <- "AA_HG_ST"
+AKgeochem_9 <- separate(AKgeochem_9, col=c("AS_INAA"), into=c("AS3", "AS_INAA"), sep=" ") 
+AKgeochem_9$AS_INAA <- "INAA"
+AKgeochem_9 <- separate(AKgeochem_9, col=c("CD_ICP40"), into=c("CD", "CD_ICP"), sep=" ") 
+AKgeochem_9$CD_ICP <- "AES_HF"
+AKgeochem_9 <- separate(AKgeochem_9, col=c("CR_ICP40"), into=c("CR1", "CR_ICP"), sep=" ") 
+AKgeochem_9$CR_ICP <- "AES_HF"
+AKgeochem_9 <- separate(AKgeochem_9, col=c("CR_INAA"), into=c("CR2", "CR_INAA"), sep=" ") 
+AKgeochem_9$CR_INAA <- "INAA"
+AKgeochem_9 <- separate(AKgeochem_9, col=c("NI_ICP40"), into=c("NI", "NI_ICP"), sep=" ") 
+AKgeochem_9$NI_ICP <- "AES_HF"
+AKgeochem_9 <- separate(AKgeochem_9, col=c("NI_INAA"), into=c("NI2", "NI_INAA"), sep=" ") 
+AKgeochem_9$NI_INAA <- "INAA"
+AKgeochem_9 <- separate(AKgeochem_9, col=c("PB_ICP40"), into=c("PB", "PB_ICP"), sep=" ") 
+AKgeochem_9$PB_ICP <- "AES_HF"
 
-USGS4 <- select(USGS3,FIELD_ID, DATE_COLLECT, DEPTH, LOCATE_DESC, HORIZON, DATUM, LATITUDE, LONGITUDE, SAMPLE_SOURCE, As_ppm, As_ppm_AM, Cd_ppm, Cd_ppm_AM, Cr_ppm, Cr_ppm_AM, Ni_ppm, Ni_ppm_AM, Pb_ppm, Pb_ppm_AM) #dropped Tl - no data. 
+
+
 
 ```
 
+```{r}
+
+USGS4 <- select(USGS3,FIELD_ID, DATE_COLLECT, DEPTH, LOCATE_DESC, HORIZON, DATUM, LATITUDE, LONGITUDE, SAMPLE_SOURCE, As_ppm, As_ppm_AM, Cd_ppm, Cd_ppm_AM, Cr_ppm, Cr_ppm_AM, Ni_ppm, Ni_ppm_AM, Pb_ppm, Pb_ppm_AM) #dropped Tl - no data. 
+```
 
 
 ```{r longform1}
