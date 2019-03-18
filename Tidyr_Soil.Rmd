@@ -27,7 +27,7 @@ Load libraries
 library(tidyverse)
 library(dplyr)
 library(RCurl)
-library(reshape)
+#library(reshape)
 
 ```
 
@@ -106,6 +106,15 @@ To do once AKgeochem is finished: Filtering down to shared variables between USG
 Both have: Latitude, longitude, soil horizon, datum, depth, location description, chemistry data, analytical method, identifiers, collection dates
 Issues: inconsistency in chem data reporting - values and analytical methods are interspersed differently between the columns
 
+```{r}
+#filtering down to shared columns
+AKgeochem_8 <- select(AKgeochem_7,FLDNAM,COLL_DATE,DEPTH,DESCRIPT,SOIL_HORIZ,DATUM,LATITUDE,LONGITUDE,VEG, AS_ICP40, AS_AA, AS_INAA, CD_ICP40, CR_ICP40, CR_INAA, NI_ICP40, NI_INAA, PB_ICP40)
+
+USGS4 <- select(USGS3,FIELD_ID, DATE_COLLECT, DEPTH, LOCATE_DESC, HORIZON, DATUM, LATITUDE, LONGITUDE, SAMPLE_SOURCE, As_ppm, As_ppm_AM, Cd_ppm, Cd_ppm_AM, Cr_ppm, Cr_ppm_AM, Ni_ppm, Ni_ppm_AM, Pb_ppm, Pb_ppm_AM) #dropped Tl - no data. 
+
+```
+
+
 
 ```{r longform1}
 ###we should o this once the two data sets are joined, no? 
@@ -116,23 +125,7 @@ AKgeochem_2_long <- gather(AKgeochem_2, key = Feature, value = value, -REC_NO)
 
 ```
 
-
-## PLUTOsoil
-Commented out by CP/AP on 14 March 2019 - redundant data with Nat. GeoChem DB.
-
-```{r reading_pluto}
-
-#library(foreign)
-
-#pluto <- read.dbf("plutosoil.dbf")
-
-#pluto <- pluto %>% filter(STATE == "AK")
-
-
-# pluto_2 <- select(pluto,id,LABNO,FIELD,JOBN,STATE, COUNTY,LATITUDE,LONGITUDE,MAT,DESCRIPTN_,NAME,SUB__DATE,B12, B13, B20, B21, B22, TOA, matches('HG_|Q_HG|PB_|Q_PB|NI_|Q_NI|AS_|Q_AS|CD_|Q_CD|CR_|Q_CR|TL_|Q_TL'))
-
-# pluto_2 <- rename(pluto_2, SUB_DATE = SUB__DATE)
-# pluto_2 <- rename(pluto_2, DESCRIPT = DESCRIPTN_)
+Removed PLUTO - older version of National Geochem DB. 
 
 ```
 
