@@ -1,6 +1,23 @@
 ---
-title: "Arctic_Eco_Paper"
-output: html_document
+title: "Arctic Eco Paper"
+author: 
+  - Nicole
+  - Katie
+  - etc....
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+    bookdown::html_document2:
+      fig_caption: yes
+      reference_docx: "../templates/template.docx" # Insert path for the DOCX file
+#bibliography: references.bib   
+#would need to create bib file....once done, can cite in document
+#csl: "../templates/journal-of-archaeological-science.csl" # Insert path for the bib-style can download styles from Zotoro I believe....
+abstract: |
+  Text of abstract
+keywords: |
+  keyword 1; keyword 2; keyword 3
+highlights: |
+  These are the highlights. 
 ---
 
 ##Introduction 
