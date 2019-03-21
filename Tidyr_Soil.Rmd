@@ -134,7 +134,26 @@ AKgeochem_9$NI_INAA <- "INAA"
 AKgeochem_9 <- separate(AKgeochem_9, col=c("PB_ICP40"), into=c("PB", "PB_ICP"), sep=" ") 
 AKgeochem_9$PB_ICP <- "AES_HF"
 
+<<<<<<< HEAD
 ##now we need to use gather() to get a summary column of the concentrations and analytical methods for each element -- i.e. AS1, AS2, and AS3 become As_ppmm and AS_ICP, AS_AA, and AS_INAA become As_AM 
+=======
+
+
+```
+
+```{r}
+
+USGS4 <- select(USGS3,FIELD_ID, DATE_COLLECT, DEPTH, LOCATE_DESC, HORIZON, DATUM, LATITUDE, LONGITUDE, SAMPLE_SOURCE, As_ppm, As_ppm_AM, Cd_ppm, Cd_ppm_AM, Cr_ppm, Cr_ppm_AM, Ni_ppm, Ni_ppm_AM, Pb_ppm, Pb_ppm_AM) #dropped Tl - no data. 
+```
+
+
+```{r longform1}
+###we should o this once the two data sets are joined, no? 
+##cut down both datasets to shared variables, rename columns to match, join, and then longform
+AKgeochem_2_long <- gather(AKgeochem_2, key = Feature, value = value, -REC_NO)
+
+#this results in some variables being dropped which can be fixed by converting them into characters and then - after turning everything in long form - switching them back into factors with levels. This is why I tagged the uploaded file "Caution"
+>>>>>>> b52b46dcaf3799bc44a4a117f00f2d5f2e36c629
 
 ```
 
