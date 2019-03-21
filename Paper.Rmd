@@ -1,0 +1,57 @@
+---
+title: "Arctic_Eco_Paper"
+output: html_document
+---
+
+##Introduction 
+```{r}
+#	General introduction to artic warming (Apryl)
+    #Climate Change and the Arctic
+    #Permafrost thaw and active layer depth increasing, hydrological regime changes
+    #Arctic’s ecosystem service roles
+    #Planetary roles
+    #Warming fastest --> feedback loops, melting permafrost
+```
+
+  The role of the Arctic in global climate, while still not fully understood, is recognized for its importance to global ocean circulation and mid-latitude weather impacts (SWIPA, 2017).  The Arctic has long been a heat sink for the northernhemisphere (SWIPA, 2017).  The current global warming trend and resulting effects of climate change, which are more pervasive at higher latitudes, are causing significant spatial and temporal changes within the Arctic.  While the warming rate in theArctic over the past 50 years has been twice that of the global rate, the past five years (2011 –2015), has seen the Arctic warmer than any time since 1900 (SWIPA, 2017).  Numerous ecological and cryospheric impacts result when the temperature in the subarctic crosses the 0°C mean annual threshold (Callaghan et al.,2010).  Decreasing sea ice extent and duration allows for increased carbon dioxide (CO2) absorption into the ocean contributing to increased ocean acidification impacting marine food webs and ecosystems (SWIPA, 2017).  Coastal flooding and erosion affect freshwater drinking sources and damage existing infrastructure (Callaghan et al.,2010, SWIPA, 2017).  As hydrology is altered by thawing permafrost (Callaghan et al.,2010, SWIPA, 2017) increased wildfire frequency and/or severity will impact the toicity and contaminant cycling within the Arctic (SWIPA, 2017).    
+ 
+  Increasing temperatures and resulting permafrost thaw are exposing not only larger amounts of these previously frozen soils and bodies of water to the atmosphere, but the amount of time they remain exposed is also increasing.  Due to low decomposition rates from this region the area has long acted as sink for carbon (C).  As the area is subjected to warmer temperatures and increased hydrological activity it is expected that the chemical, biological and physical characteristics of the Arctic will change as previously sequestered C is released.  This C, in the form of dissolved organic matter (DOM) becomes available, for hydrological export as dissolved organic carbon (DOC) or particulate organic carbon (POC) and for microbial decomposition and mineralization (Olefeldt et al., 2012, Marschner and Kalbitz, 2003). Increased DOM availability leads to increased micronutrient availability and pollution transport by influencing the solubility and mobility of organic matter and metals (Marschner and Kalbitz, 2003).
+```{r}
+#NOTE:  paper says this ("Increased DOM availability leads to increased micronutrient availability and pollution transport by influencing the solubility and mobility of organic matter and metals (Marschner and Kalbitz, 2003)") is commonly acknowledged, but cites 4 papers from the 1990’s....do we need more citations?
+```
+  
+  
+```{r}
+#Heavy metals accumulation in the arctic (Katie)
+    #Sources of heavy metals
+    #Mobility of heavy metals (permafrost thaw) 
+    #How much heavy metals can permafrost release? (Schuster paper on Hg)
+    #Find another paper linking other heavy metals (from list in class?) to permafrost thaw 
+```
+  
+  Thawing permafrost is a potential source of organic matter, nutrients, and metals that can be naturally or anthropogenically deposited in arctic systems. These materials are susceptible to liberation from permafrost by climate change impacts (Loiko et al.,2017, Pierre et al. 2018, and Schuster et al. 2018). Rapid warming events have been found to cause abrupt permafrost thaw and collapse that mobilize millions of cubic meters of terrestrial material into hydrological systems (Pierre et al. 2018). This mobile terrestrial material contains metals and nutrients that form biogeochemical hotspots in arctic ecosystems (Loiko et al. 2017). For example, more Mercury (Hg) is stored in northern permafrost soils than all other sources combinedand has been found inhigh concentrations downstream of permafrost thaw sites; the release of this Hg has the potential to alter global Hg cycles and poses ecological and human health threat (Pierre et al 2018 and Schuster et al. 2018).Loiko et al. also found increased concentrations of Iron (Fe), Aluminum (Al), Chromium (Cr), Cadmium (Cd), and Lead (Pb) in rapid permafrost thaw areas in the Siberian arctic (2017). While toxic substances like Hg have been more closely monitored, a knowledge gap exists between understanding theability of thawed permafrost to release terrestrial materials and unknown amounts of toxic heavy metals stored in these soils. As warming and rapid thaw continue to become more widespread, there is large potential for these toxic substances to be releasedinto surface waters and infiltrate ecosystems (Loiko et al. 2017, Pierre et al. 2018, and Schuster et al. 2018). 
+```{r}
+#Note that Loiko et al is from Siberia
+```
+  
+```{r}
+#General discussion on how heavy metals impact human health (Nicole)
+    #Sources of heavy metals are food and water supply
+    #Point out that many heavy metals sources are anthropogenic (industrial activity)
+    #These sources will be elevated by permafrost thaw
+```
+  
+   Heavy metals and other toxins have been identified in arctic soils, waters (Landers et al. 1995) wildlife (Trust et al. 2000), indigenous foods (Burger et al. 2007), and people (Boucher et al. 2012, and Valera et al. 2012).  The majority of these toxins originate outside the Arctic region from anthropogenic sources like industrial and agricultural activity (Landers et al. 1995 and Suk et al. 2004). Arctic indigenous peoples still rely heavily on traditional foods and are therefore Arctic peoples can ingest heavy metals and toxins through their food. Indigenous people are especially at risk because they consume local higher trophic level animals which have been found to contain arsenic, mercury, cadmium, lead, and selenium (Burger et al, 2007, Suk et al. 2004), which all have detrimental effects on human health. Arsenic, which can accumulate within the body and is a known carcinogenic (Liu et al. 2007), was found in concentration 14 times higher than the threshold deemed safe by some regulation in some commonly consumed Alaskan fish (Burger et al. 2007). One study of indigenous children in the Canadian Arctic found their median blood mercury levels to be 81.5 nmoL/L (Valera et al. 2012) which is ~1.8 times higher than the upper limit of normal blood mercury levels (MAYO CLINIC). Both lead and mercury have been found to decrease early processing of visual information in children and lead exposure has been linked to increased risk of ADHD (Curren et al. 2018, Eubig et al. 2010). The effects of climate change in the Arctic threaten to increase the release and transport of heavy metals which could potentially further elevate indigenous people's risk of consuming them. The extent and magnitude of this threat, however, is not well studied.
+
+```{r}
+
+#CTRL+ALT+I creates a new gray section 
+
+#{r,echo=FALSE} makes the gray boxes not display when you knit it together
+
+```
+
+##Methods
+##Results
+##Discustion 
+##Conclustion 

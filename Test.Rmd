@@ -1,0 +1,32 @@
+---
+title: "test"
+author: "Jessica Ernakovich"
+date: "3/21/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+```{r, echo=FALSE}
+#1.General introduction to artic warming (Apryl)
+#a.Climate Change and the Arctic
+#b.Permafrost thaw and active layer depth increasing, hydrological regime changes
+#Arctic’s ecosystem service roles
+#Planetary roles
+#Warming fastest --> feedback loops, melting permafrost
+
+```
+
+The role of the Arctic in global climate, while still not fully understood, is recognized for its importance to global ocean circulation and mid-latitude weather impacts (SWIPA, 2017).  The Arctic has long been a heat sink for the northernhemisphere (SWIPA, 2017).  The current global warming trend and resulting effects of climate change, which are more pervasive at higher latitudes, are causing significant spatial and temporal changes within the Arctic.  While the warming rate in theArctic over the past 50 years has been twice that of the global rate, the past five years (2011 –2015), has seen the Arctic warmer than any time since 1900 (SWIPA, 2017). 
+
+## Methods
+
+
+## Results
+
+
+## Discussion
+
