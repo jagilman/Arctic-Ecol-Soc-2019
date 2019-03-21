@@ -129,7 +129,7 @@ AKgeochem_9$NI_INAA <- "INAA"
 AKgeochem_9 <- separate(AKgeochem_9, col=c("PB_ICP40"), into=c("PB", "PB_ICP"), sep=" ") 
 AKgeochem_9$PB_ICP <- "AES_HF"
 
-
+##now we need to use gather() to get a summary column of the concentrations and analytical methods for each element -- i.e. AS1, AS2, and AS3 become As_ppmm and AS_ICP, AS_AA, and AS_INAA become As_AM 
 
 
 ```
