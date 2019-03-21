@@ -1,0 +1,21 @@
+---
+title: "Arctic_Eco_Paper"
+output: html_document
+---
+
+##Introduction 
+
+  Thawing permafrost is a potential source of organic matter, nutrients, and metals that can be naturally or anthropogenically deposited in arctic systems. These materials are susceptible to liberation from permafrost by climate change impacts (Loiko et al.,2017, Pierre et al. 2018, and Schuster et al. 2018). Rapid warming events have been found to cause abrupt permafrost thaw and collapse that mobilize millions of cubic meters of terrestrial material into hydrological systems (Pierre et al. 2018). This mobile terrestrial material contains metals and nutrients that form biogeochemical hotspots in arctic ecosystems (Loiko et al. 2017). For example, more Mercury (Hg) is stored in northern permafrost soils than all other sources combinedand has been found inhigh concentrations downstream of permafrost thaw sites; the release of this Hg has the potential to alter global Hg cycles and poses ecological and human health threat (Pierre et al 2018 and Schuster et al. 2018).Loiko et al. also found increased concentrations of Iron (Fe), Aluminum (Al), Chromium (Cr), Cadmium (Cd), and Lead (Pb) in rapid permafrost thaw areas in the Siberian arctic (2017). While toxic substances like Hg have been more closely monitored, a knowledge gap exists between understanding theability of thawed permafrost to release terrestrial materials and unknown amounts of toxic heavy metals stored in these soils. As warming and rapid thaw continue to become more widespread, there is large potential for these toxic substances to be releasedinto surface waters and infiltrate ecosystems (Loiko et al. 2017, Pierre et al. 2018, and Schuster et al. 2018). 
+
+```{r, echo=FALSE}
+
+#CTRL+ALT+I creates a new gray section 
+
+#{r,echo=FALSE} makes the gray boxes not display when you knit it together
+
+```
+
+##Methods
+##Results
+##Discustion 
+##Conclustion 
