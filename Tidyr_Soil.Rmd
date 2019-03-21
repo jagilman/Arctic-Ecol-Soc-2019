@@ -16,18 +16,14 @@ Clear workspace (if desired/needed)
 rm(list = ls())
 ```
 
-Check and/or change working directory
-```{r}
-#getwd()
-#setwd("~/NR995")
-```
-
 Load libraries
 ```{r}
 library(tidyverse)
 library(dplyr)
 library(RCurl)
 #library(reshape)
+
+
 
 ```
 
@@ -47,19 +43,38 @@ USGS1 <- select(NoSum, matches('LAB_ID|FIELD_ID|DATE_SUBMITTED|DATE_COLLECT|LATI
 
 ```
 
-
 Filtering everything that has no info on the following:
 
 * depth
 * sample source
 
+Then narrowed down columns.  
+
 ```{r latlon_depth}
 
 USGS2 <- filter(USGS1, is.na(DEPTH) == FALSE)
 USGS3 <- filter(USGS2, is.na(SAMPLE_SOURCE) == FALSE)
-
+USGS4 <- select(USGS3,FIELD_ID, DATE_COLLECT, DEPTH, LOCATE_DESC, HORIZON, DATUM, LATITUDE, LONGITUDE, SAMPLE_SOURCE, As_ppm, As_ppm_AM, Cd_ppm, Cd_ppm_AM, Cr_ppm, Cr_ppm_AM, Ni_ppm, Ni_ppm_AM, Pb_ppm, Pb_ppm_AM) #dropped Tl - no data.
 
 ```
+
+We need to wrangle the depths.... 
+```{r}
+USGS4$DEPTH <- recode(USGS4$DEPTH, "surface (0-25cm)"  = "0-25 cm") #renaming several rows to get depth intervial
+USGS4$DEPTH <- recode(USGS4$DEPTH, "surface (0-25cm)"  = "0-25 cm") 
+#separating the top depth from the interval
+USGS5 <- separate(USGS4, col=c("DEPTH"), into=c("UPPER", "DEPTH"), sep="-") 
+#separating the lower depth
+USGS6 <- separate(USGS5, col=c("DEPTH"), into=c("LOWER", "UNIT"), sep=" ")
+#taking out rows without depths
+USGS7 <- filter(USGS6, LOWER != "unknown") 
+USGS8 <- filter(USGS7, LOWER != "by horizon")
+###issue here - several rows where there wasn't a space between Xcm, and some the lower depth and unit didn't split
+##ideally - we split the columns on a pattern detection that splits the upper depth out at first non numeric charcter, the lower depth after the next numeric value, and then isolates the unit
+```
+
+
+
 
 
 Loading the whole US geochem file from Git -- national geochemical survey data base
@@ -76,8 +91,7 @@ AKgeochem <- filter(usgeochem, LATITUDE > 52.000 & TYPEDESC == "SOIL")
 ```
 
 
-Filtering for chemistry (As, Cd, Pb, Hg, Ni, Cr, Tl)
-
+All previous filtering of Nat. GeoChem Survery below - tabled this dataset on 21 Marhc 2019
 
 ```{r chemfilter}
 
@@ -98,15 +112,6 @@ AKgeochem_5 <-separate(AKgeochem_4, col="DESCRIPT", into=c("DEPTH", "DESCRIPT"),
 AKgeochem_6 <- filter(AKgeochem_5, is.na(DESCRIPT) == FALSE) #removes *most* samples without depths, since their descriptions went into the DEPTH col when split
 AKgeochem_7 <- slice(AKgeochem_6, c(1:17, 19:57, 59:149, 151:174, 176:181)) #remove rest of rows lacking depths that did not split correctly above
 
-
-
-```
-
-To do once AKgeochem is finished: Filtering down to shared variables between USGS and National Geochem Survey
-Both have: Latitude, longitude, soil horizon, datum, depth, location description, chemistry data, analytical method, identifiers, collection dates
-Issues: inconsistency in chem data reporting - values and analytical methods are interspersed differently between the columns
-
-```{r}
 #filtering down to shared columns
 AKgeochem_8 <- select(AKgeochem_7,FLDNAM,COLL_DATE,DEPTH,DESCRIPT,SOIL_HORIZ,DATUM,LATITUDE,LONGITUDE,VEG, AS_ICP40, AS_AA, AS_INAA, CD_ICP40, CR_ICP40, CR_INAA, NI_ICP40, NI_INAA, PB_ICP40)
 ##NOT Elegant but works! Here we are creating empty columns and filling them with analytical methods to match the USGS format
@@ -131,25 +136,6 @@ AKgeochem_9$PB_ICP <- "AES_HF"
 
 ##now we need to use gather() to get a summary column of the concentrations and analytical methods for each element -- i.e. AS1, AS2, and AS3 become As_ppmm and AS_ICP, AS_AA, and AS_INAA become As_AM 
 
-
 ```
 
-```{r}
-
-USGS4 <- select(USGS3,FIELD_ID, DATE_COLLECT, DEPTH, LOCATE_DESC, HORIZON, DATUM, LATITUDE, LONGITUDE, SAMPLE_SOURCE, As_ppm, As_ppm_AM, Cd_ppm, Cd_ppm_AM, Cr_ppm, Cr_ppm_AM, Ni_ppm, Ni_ppm_AM, Pb_ppm, Pb_ppm_AM) #dropped Tl - no data. 
-```
-
-
-```{r longform1}
-###we should o this once the two data sets are joined, no? 
-##cut down both datasets to shared variables, rename columns to match, join, and then longform
-AKgeochem_2_long <- gather(AKgeochem_2, key = Feature, value = value, -REC_NO)
-
-#this results in some variables being dropped which can be fixed by converting them into characters and then - after turning everything in long form - switching them back into factors with levels. This is why I tagged the uploaded file "Caution"
-
-```
-
-Removed PLUTO - older version of National Geochem DB. 
-
-```
 
