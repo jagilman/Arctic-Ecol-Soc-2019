@@ -2,7 +2,7 @@
 title: "Arctic Eco Paper"
 author: 
   - Nicole
-  - Katie
+  - Katie B
   - etc....
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
