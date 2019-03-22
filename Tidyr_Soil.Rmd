@@ -63,6 +63,9 @@ We need to wrangle the depths....
 #Recoding a chunk of depths to separate them correctly, removing non-numeric depths
 USGS4$DEPTH <- recode(USGS4$DEPTH, "surface (0-25cm)"  = "0-25 cm") #renaming several rows to get depth intervial
 USGS4 <- filter(USGS4,!DEPTH  %in% c("unknown", "by horizon", "various", "A horizon", "B horizon", "C horizon", "surface", "Various", "loess", "loess ?")) 
+##making units more consistent
+USGS4$DEPTH<-str_replace(USGS4$DEPTH, "inches", "in")
+USGS4$DEPTH<-str_replace(USGS4$DEPTH, "feet", "ft")
 
 #this parses out the top and bottom depth as is - now need to ammend to get the units in a third column
 USGS5 <- separate(USGS4, col="DEPTH", c("UPPPER", "LOWER"), sep = '-') %>% mutate_at(vars("UPPPER", "LOWER"), parse_number)
