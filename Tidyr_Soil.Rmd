@@ -60,17 +60,13 @@ USGS4 <- select(USGS3,FIELD_ID, DATE_COLLECT, DEPTH, LOCATE_DESC, HORIZON, DATUM
 
 We need to wrangle the depths.... 
 ```{r}
+#Recoding a chunk of depths to separate them correctly, removing non-numeric depths
 USGS4$DEPTH <- recode(USGS4$DEPTH, "surface (0-25cm)"  = "0-25 cm") #renaming several rows to get depth intervial
-USGS4$DEPTH <- recode(USGS4$DEPTH, "surface (0-25cm)"  = "0-25 cm") 
-#separating the top depth from the interval
-USGS5 <- separate(USGS4, col=c("DEPTH"), into=c("UPPER", "DEPTH"), sep="-") 
-#separating the lower depth
-USGS6 <- separate(USGS5, col=c("DEPTH"), into=c("LOWER", "UNIT"), sep=" ")
-#taking out rows without depths
-USGS7 <- filter(USGS6, LOWER != "unknown") 
-USGS8 <- filter(USGS7, LOWER != "by horizon")
-###issue here - several rows where there wasn't a space between Xcm, and some the lower depth and unit didn't split
-##ideally - we split the columns on a pattern detection that splits the upper depth out at first non numeric charcter, the lower depth after the next numeric value, and then isolates the unit
+USGS4 <- filter(USGS4,!DEPTH  %in% c("unknown", "by horizon", "various", "A horizon", "B horizon", "C horizon", "surface", "Various", "loess", "loess ?")) 
+
+#this parses out the top and bottom depth as is - now need to ammend to get the units in a third column
+USGS5 <- separate(USGS4, col="DEPTH", c("UPPPER", "LOWER"), sep = '-') %>% mutate_at(vars("UPPPER", "LOWER"), parse_number)
+
 ```
 
 
@@ -134,7 +130,8 @@ AKgeochem_9$NI_INAA <- "INAA"
 AKgeochem_9 <- separate(AKgeochem_9, col=c("PB_ICP40"), into=c("PB", "PB_ICP"), sep=" ") 
 AKgeochem_9$PB_ICP <- "AES_HF"
 
-```
+##now we need to use gather() to get a summary column of the concentrations and analytical methods for each element -- i.e. AS1, AS2, and AS3 become As_ppmm and AS_ICP, AS_AA, and AS_INAA become As_AM 
 
+```
 
 
