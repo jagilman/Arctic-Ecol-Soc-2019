@@ -3,7 +3,7 @@ title: "Arctic Eco Paper"
 author: 
   - Nicole
   - Katie B
-  - etc....
+  - etc...
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
     bookdown::html_document2:
