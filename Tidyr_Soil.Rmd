@@ -66,9 +66,12 @@ USGS4 <- filter(USGS4,!DEPTH  %in% c("unknown", "by horizon", "various", "A hori
 ##making units more consistent
 USGS4$DEPTH<-str_replace(USGS4$DEPTH, "inches", "in")
 USGS4$DEPTH<-str_replace(USGS4$DEPTH, "feet", "ft")
+USGS4$DEPTH<-str_replace(USGS4$DEPTH, "'", " in")
 
-#this parses out the top and bottom depth as is - now need to ammend to get the units in a third column
-USGS5 <- separate(USGS4, col="DEPTH", c("UPPPER", "LOWER"), sep = '-') %>% mutate_at(vars("UPPPER", "LOWER"), parse_number)
+#separate out units
+USGS5 <- separate(USGS4, col="DEPTH", c("DEPTH", "UNIT"), sep = ' ')
+#separate upper and lower units
+USGS5 <- separate(USGS5, col="DEPTH", c("UPPPER", "LOWER"), sep = '-') %>% mutate_at(vars("UPPPER", "LOWER"), parse_number)
 
 ```
 
