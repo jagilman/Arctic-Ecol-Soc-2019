@@ -2,8 +2,8 @@
 title: "Arctic Eco Paper"
 author: 
   - Nicole
-  - Katie
-  - etc....
+  - Katie B
+  - etc...
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
     bookdown::html_document2:
@@ -32,7 +32,7 @@ highlights: |
 
   The role of the Arctic in global climate, while still not fully understood, is recognized for its importance to global ocean circulation and mid-latitude weather impacts (SWIPA, 2017).  The Arctic has long been a heat sink for the northernhemisphere (SWIPA, 2017).  The current global warming trend and resulting effects of climate change, which are more pervasive at higher latitudes, are causing significant spatial and temporal changes within the Arctic.  While the warming rate in theArctic over the past 50 years has been twice that of the global rate, the past five years (2011 –2015), has seen the Arctic warmer than any time since 1900 (SWIPA, 2017).  Numerous ecological and cryospheric impacts result when the temperature in the subarctic crosses the 0°C mean annual threshold (Callaghan et al.,2010).  Decreasing sea ice extent and duration allows for increased carbon dioxide (CO2) absorption into the ocean contributing to increased ocean acidification impacting marine food webs and ecosystems (SWIPA, 2017).  Coastal flooding and erosion affect freshwater drinking sources and damage existing infrastructure (Callaghan et al.,2010, SWIPA, 2017).  As hydrology is altered by thawing permafrost (Callaghan et al.,2010, SWIPA, 2017) increased wildfire frequency and/or severity will impact the toicity and contaminant cycling within the Arctic (SWIPA, 2017).    
  
-  Increasing temperatures and resulting permafrost thaw are exposing not only larger amounts of these previously frozen soils and bodies of water to the atmosphere, but the amount of time they remain exposed is also increasing.  Due to low decomposition rates from this region the area has long acted as sink for carbon (C).  As the area is subjected to warmer temperatures and increased hydrological activity it is expected that the chemical, biological and physical characteristics of the Arctic will change as previously sequestered C is released.  This C, in the form of dissolved organic matter (DOM) becomes available, for hydrological export as dissolved organic carbon (DOC) or particulate organic carbon (POC) and for microbial decomposition and mineralization (Olefeldt et al., 2012, Marschner and Kalbitz, 2003). Increased DOM availability leads to increased micronutrient availability and pollution transport by influencing the solubility and mobility of organic matter and metals (Marschner and Kalbitz, 2003).
+  Increasing temperatures and resulting permafrost thaw are exposing not only larger amounts of these previously frozen soils and bodies of water to the atmosphere, but the amount of time they remain exposed is also increasing.  Due to low decomposition rates from this region the area has long acted as sink for carbon (C).  As the area is subjected to warmer temperatures and increased hydrological activity it is expected that the chemical, biological and physical characteristics of the Arctic will change as previously sequestered C is released.  This C, in the form of dissolved organic matter (DOM) becomes available, for hydrological export as dissolved organic carbon (DOC) or particulate organic carbon (POC) and for microbial decomposition and mineralization (Olefeldt et al., 2012, Marschner and Kalbitz, 2003). Increased DOM availability leads to increased micronutrient availability and pollution transport by influencing the solubility and mobility of organic matter and metals (Marschner and Kalbitz, 2003). 
 ```{r}
 #NOTE:  paper says this ("Increased DOM availability leads to increased micronutrient availability and pollution transport by influencing the solubility and mobility of organic matter and metals (Marschner and Kalbitz, 2003)") is commonly acknowledged, but cites 4 papers from the 1990’s....do we need more citations?
 ```
