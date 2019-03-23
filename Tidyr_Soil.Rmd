@@ -61,7 +61,8 @@ USGS4 <- select(USGS3,FIELD_ID, DATE_COLLECT, DEPTH, LOCATE_DESC, HORIZON, DATUM
 We need to wrangle the depths.... 
 ```{r}
 #Recoding a chunk of depths to separate them correctly, removing non-numeric depths
-USGS4$DEPTH <- recode(USGS4$DEPTH, "surface (0-25cm)"  = "0-25 cm") #renaming several rows to get depth intervial
+USGS4$DEPTH <- recode(USGS4$DEPTH, "surface (0-25cm)"  = "0-25 cm")
+USGS4$DEPTH <- recode(USGS4$DEPTH, "0- 5cm"  = "0-5 cm")#renaming several rows to get depth intervial
 USGS4 <- filter(USGS4,!DEPTH  %in% c("unknown", "by horizon", "various", "A horizon", "B horizon", "C horizon", "surface", "Various", "loess", "loess ?")) 
 ##making units more consistent
 USGS4$DEPTH<-str_replace(USGS4$DEPTH, "inches", "in")
@@ -73,8 +74,28 @@ USGS5 <- separate(USGS4, col="DEPTH", c("DEPTH", "UNIT"), sep = ' ')
 #separate upper and lower units
 USGS5 <- separate(USGS5, col="DEPTH", c("UPPPER", "LOWER"), sep = '-') %>% mutate_at(vars("UPPPER", "LOWER"), parse_number)
 
+#remove bad split
+USGS5 <- filter(USGS5, UNIT !="channel" )
+#keep only rows with units
+USGS5 <- filter(USGS5, UNIT %in% c("cm", "in", "ft"))
+
+
 ```
 
+Now we need to convert units all to cm...work in progress...
+```{r}
+USGS5$UNIT <- as.character(USGS5$UNIT)
+str(USGS5$UNIT)
+
+mutate(USGS5, TOP = 
+         ifelse(grepl("in", UNIT), USGS5$UPPER*2.54,
+        ifelse(grepl("ft", UNIT), USGS5$UPPER*30.48, USGS5$UPPER*1)))
+
+
+
+USGS5$TOP <- ifelse(USGS5$UNIT = "in", USGS5$UPPER*2.54, USGS5$UPPER*1)
+##ifelse(USGS5$UNIT %in% "ft", USGS5$UPPER*30.48, USGS5$UPPER*1))
+```
 
 
 
