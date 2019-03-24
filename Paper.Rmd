@@ -66,7 +66,11 @@ highlights: |
 
 #{r,echo=FALSE} makes the gray boxes not display when you knit it together
 
+#Objectives
+
 ```
+
+  The objectives of this study are (1) to identify the distribution and density of soil sampling sites across the Alaskan arctic that quantify As, Cd, Pb, Hg, Ni, Tl, and Cr presence, (2) determine the heterogeneity of heavy metal concentrations in soil profiles across the Alaskan arctic, and (3) quantify the proximity of soil sampling sites and potential heavy metal hotspots to local communities to identify potential gaps in available data and threats to arctic communities.  
 
 ##Methods
 ##Results
