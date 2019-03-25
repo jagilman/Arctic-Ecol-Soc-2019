@@ -83,7 +83,7 @@ USGS5 <- filter(USGS5, UNIT %in% c("cm", "in", "ft"))
 
 ```
 
-Now we need to convert units all to cm...work in progress...meanwhile I am going to do it offline so we can move forward. We can fix this part later
+Now we need to convert units all to cm using a loop (probably)...work in progress...meanwhile I am going to do it offline so we can move forward. We can fix this part later - CP
 
 ```{r}
 write.csv(USGS5, file = "filtered_USGS.csv")
