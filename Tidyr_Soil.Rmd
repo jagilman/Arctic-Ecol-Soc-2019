@@ -21,7 +21,8 @@ Load libraries
 library(tidyverse)
 library(dplyr)
 library(RCurl)
-#library(reshape)
+library(ggplot2)
+library(reshape2)
 
 
 
@@ -54,7 +55,7 @@ Then narrowed down columns.
 
 USGS2 <- filter(USGS1, is.na(DEPTH) == FALSE)
 USGS3 <- filter(USGS2, is.na(SAMPLE_SOURCE) == FALSE)
-USGS4 <- select(USGS3,FIELD_ID, DATE_COLLECT, DEPTH, LOCATE_DESC, HORIZON, DATUM, LATITUDE, LONGITUDE, SAMPLE_SOURCE, As_ppm, As_ppm_AM, Cr_ppm, Cr_ppm_AM, Ni_ppm, Ni_ppm_AM, Pb_ppm, Pb_ppm_AM) #dropped Tl - no data.
+USGS4 <- select(USGS3,FIELD_ID, DATE_COLLECT, DEPTH, LOCATE_DESC, HORIZON, DATUM, LATITUDE, LONGITUDE, SAMPLE_SOURCE, As_ppm, As_ppm_AM, Cr_ppm, Cr_ppm_AM, Hg_ppm, Hg_ppm_AM, Ni_ppm, Ni_ppm_AM, Pb_ppm, Pb_ppm_AM) #dropped Tl - no data.
 
 ```
 
@@ -82,19 +83,81 @@ USGS5 <- filter(USGS5, UNIT %in% c("cm", "in", "ft"))
 
 ```
 
-Now we need to convert units all to cm...work in progress...
+Now we need to convert units all to cm...work in progress...meanwhile I am going to do it offline so we can move forward. We can fix this part later
+
 ```{r}
-USGS5$UNIT <- as.character(USGS5$UNIT)
-str(USGS5$UNIT)
+write.csv(USGS5, file = "filtered_USGS.csv")
 
-mutate(USGS5, TOP = 
-         ifelse(grepl("in", UNIT), USGS5$UPPER*2.54,
-        ifelse(grepl("ft", UNIT), USGS5$UPPER*30.48, USGS5$UPPER*1)))
+downloadUSGS <- getURL("https://raw.githubusercontent.com/jagilman/Arctic-Ecol-Soc-2019/master/filtered_USGS.csv")
+USGS_analyze <- read.csv(text=downloadUSGS, header = T, na.strings = "")
+
+```
+
+Looking at distributions of metals data with boxplots and Cleveland dot plots
+```{r}
+boxplot(USGS_numeric$As_ppm)
+dotchart(USGS_numeric$As_ppm, xlab = "As (ppm)", xlim=c(-50,400),
+         ylab = "Order of the data")
+
+boxplot(USGS_numeric$Cr_ppm)
+dotchart(USGS_numeric$Cr_ppm, xlab = "Cr (ppm)", xlim=c(-50,400),
+         ylab = "Order of the data")
+
+boxplot(USGS_numeric$Hg_ppm)
+dotchart(USGS_numeric$Hg_ppm, xlab = "Hg (ppm)", xlim=c(-50,200),
+         ylab = "Order of the data")
+
+boxplot(USGS_numeric$Ni_ppm)
+dotchart(USGS_numeric$Ni_ppm, xlab = "Ni (ppm)", xlim=c(-50,400),
+         ylab = "Order of the data")
+
+boxplot(USGS_numeric$Pb_ppm)
+dotchart(USGS_numeric$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000),
+         ylab = "Order of the data") #one data point an order of magnitude higher than others....
+```
 
 
+Now...basic correlation plots of metals + lat/lon and depth
+```{r}
+USGS_numeric <- select(USGS_analyze,TOP_CM, LATITUDE, LONGITUDE, As_ppm, Cr_ppm, Hg_ppm, Ni_ppm, Pb_ppm) 
+USGS_numeric$As_ppm <- as.numeric(USGS_numeric$As_ppm)
+USGS_numeric$Cr_ppm <- as.numeric(USGS_numeric$Cr_ppm)
+USGS_numeric$Ni_ppm <- as.numeric(USGS_numeric$Ni_ppm)
+USGS_numeric$Hg_ppm <- as.numeric(USGS_numeric$Hg_ppm)
+#creating a correlation matrix
+cormat <- round(cor(USGS_numeric),2)
+cormat
 
-USGS5$TOP <- ifelse(USGS5$UNIT = "in", USGS5$UPPER*2.54, USGS5$UPPER*1)
-##ifelse(USGS5$UNIT %in% "ft", USGS5$UPPER*30.48, USGS5$UPPER*1))
+#"melting" the matrix (make longform)
+melted_cormat <- melt(cormat)
+head(melted_cormat)
+
+#plot heatmap of correlation matrix
+ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile()
+```
+
+
+```{r}
+#Can't get this to work yet...I think something is wrong with the UPPER column? It says it's numeric...but it won't perform any mathematical operations on the column. 
+
+#> USGS5$UPPER
+#NULL
+#> as.numeric(USGS5$UPPER)
+#numeric(0)
+
+
+###should work in theory...doesn't
+converted <- mutate(USGS5, TOP = 
+        ifelse(grepl("in", UNIT), USGS5$UPPER*2.54,
+        ifelse(grepl("ft", UNIT), USGS5$UPPER*30.48, USGS5$UPPER*1))
+
+
+###should work in theory...doesn't
+USGS5$TOP <- ifelse(USGS5$UNIT %in% "in", USGS5$UPPER*2.54, USGS5$UPPER*1, 
+ifelse(USGS5$UNIT %in% "ft", USGS5$UPPER*30.48, USGS5$UPPER*1))
+
+
 ```
 
 
