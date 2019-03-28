@@ -95,6 +95,9 @@ USGS_analyze$Cr_ppm <- as.numeric(USGS_analyze$Cr_ppm)
 USGS_analyze$Ni_ppm <- as.numeric(USGS_analyze$Ni_ppm)
 USGS_analyze$Hg_ppm <- as.numeric(USGS_analyze$Hg_ppm)
 
+USGS_analyze <- filter(USGS_analyze, SAMPLE_SOURCE !="float" ) #only one sample with this source
+USGS_analyze <- filter(USGS_analyze, SAMPLE_SOURCE !="wetland/swamp/marsh/bog/fen" ) #only one sample with this source
+
 ```
 
 Looking at distributions of metals data with boxplots and Cleveland dot plots
@@ -103,6 +106,24 @@ boxplot(USGS_analyze$As_ppm)
 dotchart(USGS_analyze$As_ppm, xlab = "As (ppm)", xlim=c(-50,400),
          ylab = "Order of the data")
 hist(USGS_analyze$As_ppm)
+boxplot(USGS_analyze$As_ppm ~ USGS_analyze$SAMPLE_SOURCE)
+str(USGS_analyze$As_ppm_AM)
+
+ggplot(USGS_analyze, aes(As_ppm_AM, As_ppm)) + 
+  geom_boxplot(aes(col = As_ppm_AM)) +
+  xlab("source") +
+  ylab("As (ppm)") +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+ggplot(USGS_analyze, aes(SAMPLE_SOURCE, As_ppm)) + 
+  geom_boxplot(aes(col = SAMPLE_SOURCE)) +
+  xlab("source") +
+  ylab("As (ppm)") +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
 
 boxplot(USGS_analyze$Cr_ppm)
 dotchart(USGS_analyze$Cr_ppm, xlab = "Cr (ppm)", xlim=c(-50,400),
@@ -124,6 +145,7 @@ boxplot(USGS_analyze$Pb_ppm)
 dotchart(USGS_analyze$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000),
          ylab = "Order of the data") #one data point an order of magnitude higher than others....
 hist(USGS_analyze$Pb_ppm)
+summary(USGS_analyze$Pb_ppm)
 ```
 
 
