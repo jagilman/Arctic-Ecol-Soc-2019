@@ -98,6 +98,11 @@ USGS_analyze$Hg_ppm <- as.numeric(USGS_analyze$Hg_ppm)
 USGS_analyze <- filter(USGS_analyze, SAMPLE_SOURCE !="float" ) #only one sample with this source
 USGS_analyze <- filter(USGS_analyze, SAMPLE_SOURCE !="wetland/swamp/marsh/bog/fen" ) #only one sample with this source
 
+#this removed values that are all the same within the same analytical method/sampling site
+USGS_analyze$As_ppm<- na_if(USGS_analyze$As_ppm, 310)
+USGS_analyze$Cr_ppm<- na_if(USGS_analyze$Cr_ppm, 266)
+USGS_analyze$Hg_ppm<- na_if(USGS_analyze$Hg_ppm, 87)
+USGS_analyze$Ni_ppm<- na_if(USGS_analyze$Ni_ppm, 292)
 ```
 
 Looking at distributions of metals data with boxplots and Cleveland dot plots
