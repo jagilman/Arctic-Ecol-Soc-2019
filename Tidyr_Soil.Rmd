@@ -105,9 +105,12 @@ USGS_analyze$Hg_ppm<- na_if(USGS_analyze$Hg_ppm, 87)
 USGS_analyze$Ni_ppm<- na_if(USGS_analyze$Ni_ppm, 292)
 ##Remove negative values from Pb column
 is.na(USGS_analyze$Pb_ppm) <- USGS_analyze$Pb_ppm < 0
+#USGS_analyze$Pb_ppm<- na_if(USGS_analyze$Pb_ppm, 3800.0)
+USGS_analyze$Pb_log <- log10(USGS_analyze$Pb_ppm)
 ```
 
-Looking at distributions of metals data with basic boxplots, Cleveland dot plots, and histograms to look at distrubtions (commented out for now). Then nicers box plots to look at concentration by sample source.  
+Looking at distributions of metals data with basic boxplots, Cleveland dot plots, and histograms to look at distrubtions (commented out for now). Then nicers box plots to look at concentration by sample source.
+Things to do for ASIAQ - overlay WHO (or EPA/other country...EU, New York state?) standard for soil conc, put n values for sample sources, clean up colors/configuration
 ```{r}
 #boxplot(USGS_analyze$As_ppm)
 #dotchart(USGS_analyze$As_ppm, xlab = "As (ppm)", xlim=c(-50,400), ylab = "Order of the data")
@@ -130,7 +133,7 @@ ggplot(USGS_analyze, aes(SAMPLE_SOURCE, As_ppm)) +
 ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Cr_ppm)) + 
   geom_boxplot(aes(col = SAMPLE_SOURCE)) +
   xlab("source") +
-  ylab("As (ppm)") +
+  ylab("Cr (ppm)") +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
@@ -143,7 +146,7 @@ ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Cr_ppm)) +
 ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Hg_ppm)) + 
   geom_boxplot(aes(col = SAMPLE_SOURCE)) +
   xlab("source") +
-  ylab("As (ppm)") +
+  ylab("Hg (ppm)") +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
@@ -155,7 +158,7 @@ ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Hg_ppm)) +
 ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Ni_ppm)) + 
   geom_boxplot(aes(col = SAMPLE_SOURCE)) +
   xlab("source") +
-  ylab("As (ppm)") +
+  ylab("Ni (ppm)") +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
@@ -164,15 +167,14 @@ ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Ni_ppm)) +
 #dotchart(USGS_analyze$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000), ylab = "Order of the data") #one data point an order of magnitude higher than others....
 #hist(USGS_analyze$Pb_ppm)
 
-ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Pb_ppm)) + 
+ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Pb_log)) + 
   geom_boxplot(aes(col = SAMPLE_SOURCE)) +
   xlab("source") +
-  ylab("As (ppm)") +
+  ylab("Pb (ppm)") +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 ```
-
 
 Now...basic correlation plots of metals + lat/lon and depth
 ```{r}
@@ -189,6 +191,16 @@ head(melted_cormat)
 #plot heatmap of correlation matrix
 ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) + 
   geom_tile()
+```
+
+Ordination plot? ISSUE - missing values. 
+```{r}
+Main_matrix_metals <- select(USGS_analyze, As_ppm, Cr_ppm, Hg_ppm, Ni_ppm, Pb_ppm)
+
+install.packages("factoextra")
+library("factoextra")
+Main_matrix_metals
+metals.pca <- prcomp(Main_matrix_metals, scale = FALSE)
 ```
 
 
