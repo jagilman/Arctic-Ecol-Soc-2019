@@ -196,11 +196,21 @@ ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
 Ordination plot? ISSUE - missing values. 
 ```{r}
 Main_matrix_metals <- select(USGS_analyze, As_ppm, Cr_ppm, Hg_ppm, Ni_ppm, Pb_ppm)
+##removing NAs - can't do a PCA w/ NAs
+Main_matrix_metals <- filter(Main_matrix_metals, !is.na(As_ppm))
+Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Cr_ppm))
+Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Hg_ppm))
+Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Ni_ppm))
+Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Pb_ppm))
 
-install.packages("factoextra")
+#install.packages("factoextra")
 library("factoextra")
-Main_matrix_metals
-metals.pca <- prcomp(Main_matrix_metals, scale = FALSE)
+##think about - center/scale or log transform before analysis? 
+metals.pca <- princomp(Main_matrix_metals, cor = FALSE, scores= TRUE)
+summary(metals.pca)
+metals.pca$loadings
+#ending here - need to plot
+
 ```
 
 
