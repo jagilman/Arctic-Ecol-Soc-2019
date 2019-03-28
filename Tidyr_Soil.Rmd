@@ -95,37 +95,86 @@ USGS_analyze$Cr_ppm <- as.numeric(USGS_analyze$Cr_ppm)
 USGS_analyze$Ni_ppm <- as.numeric(USGS_analyze$Ni_ppm)
 USGS_analyze$Hg_ppm <- as.numeric(USGS_analyze$Hg_ppm)
 
+USGS_analyze <- filter(USGS_analyze, SAMPLE_SOURCE !="float" ) #only one sample with this source
+USGS_analyze <- filter(USGS_analyze, SAMPLE_SOURCE !="wetland/swamp/marsh/bog/fen" ) #only one sample with this source
+
+#this removed values that are all the same within the same analytical method/sampling site
+USGS_analyze$As_ppm<- na_if(USGS_analyze$As_ppm, 310)
+USGS_analyze$Cr_ppm<- na_if(USGS_analyze$Cr_ppm, 266)
+USGS_analyze$Hg_ppm<- na_if(USGS_analyze$Hg_ppm, 87)
+USGS_analyze$Ni_ppm<- na_if(USGS_analyze$Ni_ppm, 292)
+##Remove negative values from Pb column
+is.na(USGS_analyze$Pb_ppm) <- USGS_analyze$Pb_ppm < 0
+#USGS_analyze$Pb_ppm<- na_if(USGS_analyze$Pb_ppm, 3800.0)
+USGS_analyze$Pb_log <- log10(USGS_analyze$Pb_ppm)
 ```
 
-Looking at distributions of metals data with boxplots and Cleveland dot plots
+Looking at distributions of metals data with basic boxplots, Cleveland dot plots, and histograms to look at distrubtions (commented out for now). Then nicers box plots to look at concentration by sample source.
+Things to do for ASIAQ - overlay WHO (or EPA/other country...EU, New York state?) standard for soil conc, put n values for sample sources, clean up colors/configuration
 ```{r}
-boxplot(USGS_analyze$As_ppm)
-dotchart(USGS_analyze$As_ppm, xlab = "As (ppm)", xlim=c(-50,400),
-         ylab = "Order of the data")
-hist(USGS_analyze$As_ppm)
+#boxplot(USGS_analyze$As_ppm)
+#dotchart(USGS_analyze$As_ppm, xlab = "As (ppm)", xlim=c(-50,400), ylab = "Order of the data")
+#hist(USGS_analyze$As_ppm)
+#boxplot(USGS_analyze$As_ppm ~ USGS_analyze$SAMPLE_SOURCE)
 
-boxplot(USGS_analyze$Cr_ppm)
-dotchart(USGS_analyze$Cr_ppm, xlab = "Cr (ppm)", xlim=c(-50,400),
-         ylab = "Order of the data")
-hist(USGS_analyze$Cr_ppm)
 
-boxplot(USGS_analyze$Hg_ppm)
-dotchart(USGS_analyze$Hg_ppm, xlab = "Hg (ppm)", xlim=c(-50,200),
-         ylab = "Order of the data")
-hist(USGS_analyze$Hg_ppm) #lots of ones? and cluster of >80
-summary(USGS_analyze$Hg_ppm)
+ggplot(USGS_analyze, aes(SAMPLE_SOURCE, As_ppm)) + 
+  geom_boxplot(aes(col = SAMPLE_SOURCE)) +
+  xlab("source") +
+  ylab("As (ppm)") +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
 
-boxplot(USGS_analyze$Ni_ppm)
-dotchart(USGS_analyze$Ni_ppm, xlab = "Ni (ppm)", xlim=c(-50,400),
-         ylab = "Order of the data")
-hist(USGS_analyze$Ni_ppm)
+#boxplot(USGS_analyze$Cr_ppm)
+#dotchart(USGS_analyze$Cr_ppm, xlab = "Cr (ppm)", xlim=c(-50,400), ylab = "Order of the data")
+#hist(USGS_analyze$Cr_ppm)
 
-boxplot(USGS_analyze$Pb_ppm)
-dotchart(USGS_analyze$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000),
-         ylab = "Order of the data") #one data point an order of magnitude higher than others....
-hist(USGS_analyze$Pb_ppm)
+ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Cr_ppm)) + 
+  geom_boxplot(aes(col = SAMPLE_SOURCE)) +
+  xlab("source") +
+  ylab("Cr (ppm)") +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+#boxplot(USGS_analyze$Hg_ppm)
+#dotchart(USGS_analyze$Hg_ppm, xlab = "Hg (ppm)", xlim=c(-50,200), ylab = "Order of the data")
+#hist(USGS_analyze$Hg_ppm) #lots of ones? and cluster of >80
+
+
+ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Hg_ppm)) + 
+  geom_boxplot(aes(col = SAMPLE_SOURCE)) +
+  xlab("source") +
+  ylab("Hg (ppm)") +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+#boxplot(USGS_analyze$Ni_ppm)
+#dotchart(USGS_analyze$Ni_ppm, xlab = "Ni (ppm)", xlim=c(-50,400), ylab = "Order of the data")
+#hist(USGS_analyze$Ni_ppm)
+
+ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Ni_ppm)) + 
+  geom_boxplot(aes(col = SAMPLE_SOURCE)) +
+  xlab("source") +
+  ylab("Ni (ppm)") +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+#boxplot(USGS_analyze$Pb_ppm)
+#dotchart(USGS_analyze$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000), ylab = "Order of the data") #one data point an order of magnitude higher than others....
+#hist(USGS_analyze$Pb_ppm)
+
+ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Pb_log)) + 
+  geom_boxplot(aes(col = SAMPLE_SOURCE)) +
+  xlab("source") +
+  ylab("Pb (ppm)") +
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
 ```
-
 
 Now...basic correlation plots of metals + lat/lon and depth
 ```{r}
@@ -142,6 +191,16 @@ head(melted_cormat)
 #plot heatmap of correlation matrix
 ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) + 
   geom_tile()
+```
+
+Ordination plot? ISSUE - missing values. 
+```{r}
+Main_matrix_metals <- select(USGS_analyze, As_ppm, Cr_ppm, Hg_ppm, Ni_ppm, Pb_ppm)
+
+install.packages("factoextra")
+library("factoextra")
+Main_matrix_metals
+metals.pca <- prcomp(Main_matrix_metals, scale = FALSE)
 ```
 
 
