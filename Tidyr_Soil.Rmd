@@ -102,22 +102,28 @@ Looking at distributions of metals data with boxplots and Cleveland dot plots
 boxplot(USGS_analyze$As_ppm)
 dotchart(USGS_analyze$As_ppm, xlab = "As (ppm)", xlim=c(-50,400),
          ylab = "Order of the data")
+hist(USGS_analyze$As_ppm)
 
 boxplot(USGS_analyze$Cr_ppm)
 dotchart(USGS_analyze$Cr_ppm, xlab = "Cr (ppm)", xlim=c(-50,400),
          ylab = "Order of the data")
+hist(USGS_analyze$Cr_ppm)
 
 boxplot(USGS_analyze$Hg_ppm)
 dotchart(USGS_analyze$Hg_ppm, xlab = "Hg (ppm)", xlim=c(-50,200),
          ylab = "Order of the data")
+hist(USGS_analyze$Hg_ppm) #lots of ones? and cluster of >80
+summary(USGS_analyze$Hg_ppm)
 
 boxplot(USGS_analyze$Ni_ppm)
 dotchart(USGS_analyze$Ni_ppm, xlab = "Ni (ppm)", xlim=c(-50,400),
          ylab = "Order of the data")
+hist(USGS_analyze$Ni_ppm)
 
 boxplot(USGS_analyze$Pb_ppm)
 dotchart(USGS_analyze$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000),
          ylab = "Order of the data") #one data point an order of magnitude higher than others....
+hist(USGS_analyze$Pb_ppm)
 ```
 
 
