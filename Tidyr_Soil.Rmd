@@ -90,29 +90,33 @@ write.csv(USGS5, file = "filtered_USGS.csv")
 
 downloadUSGS <- getURL("https://raw.githubusercontent.com/jagilman/Arctic-Ecol-Soc-2019/master/filtered_USGS.csv")
 USGS_analyze <- read.csv(text=downloadUSGS, header = T, na.strings = "")
+USGS_analyze$As_ppm <- as.numeric(USGS_analyze$As_ppm)
+USGS_analyze$Cr_ppm <- as.numeric(USGS_analyze$Cr_ppm)
+USGS_analyze$Ni_ppm <- as.numeric(USGS_analyze$Ni_ppm)
+USGS_analyze$Hg_ppm <- as.numeric(USGS_analyze$Hg_ppm)
 
 ```
 
 Looking at distributions of metals data with boxplots and Cleveland dot plots
 ```{r}
-boxplot(USGS_numeric$As_ppm)
-dotchart(USGS_numeric$As_ppm, xlab = "As (ppm)", xlim=c(-50,400),
+boxplot(USGS_analyze$As_ppm)
+dotchart(USGS_analyze$As_ppm, xlab = "As (ppm)", xlim=c(-50,400),
          ylab = "Order of the data")
 
-boxplot(USGS_numeric$Cr_ppm)
-dotchart(USGS_numeric$Cr_ppm, xlab = "Cr (ppm)", xlim=c(-50,400),
+boxplot(USGS_analyze$Cr_ppm)
+dotchart(USGS_analyze$Cr_ppm, xlab = "Cr (ppm)", xlim=c(-50,400),
          ylab = "Order of the data")
 
-boxplot(USGS_numeric$Hg_ppm)
-dotchart(USGS_numeric$Hg_ppm, xlab = "Hg (ppm)", xlim=c(-50,200),
+boxplot(USGS_analyze$Hg_ppm)
+dotchart(USGS_analyze$Hg_ppm, xlab = "Hg (ppm)", xlim=c(-50,200),
          ylab = "Order of the data")
 
-boxplot(USGS_numeric$Ni_ppm)
-dotchart(USGS_numeric$Ni_ppm, xlab = "Ni (ppm)", xlim=c(-50,400),
+boxplot(USGS_analyze$Ni_ppm)
+dotchart(USGS_analyze$Ni_ppm, xlab = "Ni (ppm)", xlim=c(-50,400),
          ylab = "Order of the data")
 
-boxplot(USGS_numeric$Pb_ppm)
-dotchart(USGS_numeric$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000),
+boxplot(USGS_analyze$Pb_ppm)
+dotchart(USGS_analyze$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000),
          ylab = "Order of the data") #one data point an order of magnitude higher than others....
 ```
 
@@ -120,10 +124,7 @@ dotchart(USGS_numeric$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000),
 Now...basic correlation plots of metals + lat/lon and depth
 ```{r}
 USGS_numeric <- select(USGS_analyze,TOP_CM, LATITUDE, LONGITUDE, As_ppm, Cr_ppm, Hg_ppm, Ni_ppm, Pb_ppm) 
-USGS_numeric$As_ppm <- as.numeric(USGS_numeric$As_ppm)
-USGS_numeric$Cr_ppm <- as.numeric(USGS_numeric$Cr_ppm)
-USGS_numeric$Ni_ppm <- as.numeric(USGS_numeric$Ni_ppm)
-USGS_numeric$Hg_ppm <- as.numeric(USGS_numeric$Hg_ppm)
+
 #creating a correlation matrix
 cormat <- round(cor(USGS_numeric),2)
 cormat
