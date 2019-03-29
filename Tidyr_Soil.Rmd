@@ -195,7 +195,6 @@ ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
 
 Ordination plot? ISSUE - missing values. 
 ```{r}
-Main_matrix_metals <- select(USGS_analyze, As_ppm, Cr_ppm, Hg_ppm, Ni_ppm, Pb_ppm)
 ##removing NAs - can't do a PCA w/ NAs
 Main_matrix_metals <- filter(Main_matrix_metals, !is.na(As_ppm))
 Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Cr_ppm))
@@ -203,14 +202,21 @@ Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Hg_ppm))
 Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Ni_ppm))
 Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Pb_ppm))
 
+Main_matrix_metals <- select(USGS_analyze, As_ppm, Cr_ppm, Hg_ppm, Ni_ppm, Pb_ppm)
+
 ##Hg and Pb are very skewed, and the magnitudes (ie "abundances") of the values for metals vary between metal types - log transforming to limit affect of skew/mags on ordination
 Log_metals <- log10(Main_matrix_metals)
 
-#princomp runs the PCA, I am telling it not to center/scale columns by setting cor= FALSA and to generate PCA scores with scores = TREUE. 
-metals.pca <- princomp(Main_matrix_metals, cor = FALSE, scores= TRUE)
+#princomp runs the PCA, I am telling it not to center/scale columns by setting scale = FALSE. Need ggfortify package to plot using autoplot()
+#install.packages("ggfortify")
+library("ggfortify")
+
+metals.pca <- princomp(Log_metals, cor = FALSE, scores = TRUE)
 summary(metals.pca) #the summary tells you how much proportional and cumulative variance in the metals dataset each principle component (axis) explains 
-metals.pca$loadings ##the loadings say how much each variable contributes to variance in that "direction""
-#ending here - need to plot
+metals.pca$loadings ##the loadings say how much each variable contributes to variance in that "direction"
+
+#starting to plot
+autoplot(princomp(Log_metals), data=USGS_analyze, color = "SAMPLE_SOURCE")
 
 ```
 
