@@ -203,6 +203,8 @@ Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Hg_ppm))
 Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Ni_ppm))
 Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Pb_ppm))
 
+hist(Main_matrix_metals)
+
 #install.packages("factoextra")
 library("factoextra")
 ##think about - center/scale or log transform before analysis? 
