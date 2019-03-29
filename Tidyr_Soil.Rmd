@@ -217,6 +217,8 @@ summary(metals.pca) #the summary tells you how much proportional and cumulative 
 metals.pca$loadings ##the loadings say how much each variable contributes to variance in that "direction"
 
 #starting to plot
+#plot log transformed and not to see how the points clump differenly, log transformed clusters in corner but not by sample source...not transformed is all over the place
+autoplot(princomp(Main_matrix_metals), data=PCA_matrix, colour = "SAMPLE_SOURCE")
 autoplot(princomp(Log_metals), data=PCA_matrix, colour = "SAMPLE_SOURCE")
 
 ```
