@@ -196,13 +196,14 @@ ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
 Ordination plot? ISSUE - missing values. 
 ```{r}
 ##removing NAs - can't do a PCA w/ NAs
-Main_matrix_metals <- filter(Main_matrix_metals, !is.na(As_ppm))
-Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Cr_ppm))
-Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Hg_ppm))
-Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Ni_ppm))
-Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Pb_ppm))
+PCA_matrix <- filter(USGS_analyze, !is.na(As_ppm))
+PCA_matrix <- filter(PCA_matrix, !is.na(Cr_ppm))
+PCA_matrix <- filter(PCA_matrix, !is.na(Hg_ppm))
+PCA_matrix <- filter(PCA_matrix, !is.na(Ni_ppm))
+PCA_matrix <- filter(PCA_matrix, !is.na(Pb_ppm))
 
-Main_matrix_metals <- select(USGS_analyze, As_ppm, Cr_ppm, Hg_ppm, Ni_ppm, Pb_ppm)
+#now seaprating out just the metals concentrations for PCA
+Main_matrix_metals <- select(PCA_matrix, As_ppm, Cr_ppm, Hg_ppm, Ni_ppm, Pb_ppm)
 
 ##Hg and Pb are very skewed, and the magnitudes (ie "abundances") of the values for metals vary between metal types - log transforming to limit affect of skew/mags on ordination
 Log_metals <- log10(Main_matrix_metals)
@@ -216,7 +217,7 @@ summary(metals.pca) #the summary tells you how much proportional and cumulative 
 metals.pca$loadings ##the loadings say how much each variable contributes to variance in that "direction"
 
 #starting to plot
-autoplot(princomp(Log_metals), data=USGS_analyze, color = "SAMPLE_SOURCE")
+autoplot(princomp(Log_metals), data=PCA_matrix, colour = "SAMPLE_SOURCE")
 
 ```
 
