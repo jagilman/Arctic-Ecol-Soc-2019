@@ -203,14 +203,13 @@ Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Hg_ppm))
 Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Ni_ppm))
 Main_matrix_metals <- filter(Main_matrix_metals, !is.na(Pb_ppm))
 
-hist(Main_matrix_metals)
+##Hg and Pb are very skewed, and the magnitudes (ie "abundances") of the values for metals vary between metal types - log transforming to limit affect of skew/mags on ordination
+Log_metals <- log10(Main_matrix_metals)
 
-#install.packages("factoextra")
-library("factoextra")
-##think about - center/scale or log transform before analysis? 
+#princomp runs the PCA, I am telling it not to center/scale columns by setting cor= FALSA and to generate PCA scores with scores = TREUE. 
 metals.pca <- princomp(Main_matrix_metals, cor = FALSE, scores= TRUE)
-summary(metals.pca)
-metals.pca$loadings
+summary(metals.pca) #the summary tells you how much proportional and cumulative variance in the metals dataset each principle component (axis) explains 
+metals.pca$loadings ##the loadings say how much each variable contributes to variance in that "direction""
 #ending here - need to plot
 
 ```
