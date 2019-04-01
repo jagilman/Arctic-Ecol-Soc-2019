@@ -147,7 +147,7 @@ Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) 
+Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=100, linetype="dashed", size=1.25)
 
 #boxplot(USGS_analyze$Hg_ppm)
 #dotchart(USGS_analyze$Hg_ppm, xlab = "Hg (ppm)", xlim=c(-50,200), ylab = "Order of the data")
@@ -176,7 +176,7 @@ Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) 
+Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25)
 
 #boxplot(USGS_analyze$Pb_ppm)
 #dotchart(USGS_analyze$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000), ylab = "Order of the data") #one data point an order of magnitude higher than others....
@@ -186,12 +186,12 @@ Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072",
 Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) + 
    geom_boxplot() +
   xlab("source") +
-  ylab("Pb (ppm)") +
+  ylab("log [Pb (ppm)]") +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-Pb_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) 
+Pb_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25)
 
 ```
 
