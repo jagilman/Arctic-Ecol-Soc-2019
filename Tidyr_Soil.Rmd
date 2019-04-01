@@ -119,54 +119,61 @@ Things to do for ASIAQ - overlay WHO (or EPA/other country...EU, New York state?
 
 #creating a data matrix of sample sources and HEX codes to have consistent color scheme across plots 
 plot.colors <- data.frame(sample_source=c("forest/scattered timberland", "glacial debris/deposit", "grassland/grazing land/cultivated land", "mine dump/prospect pit", "mine tailings", "permafrost", "shrub covered", "surface", "tundra/alpine tundra"), 
-color_code =c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd"))
+color_code =c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd"))
 
 
-ggplot(USGS_analyze, aes(SAMPLE_SOURCE, As_ppm)) + 
-  geom_boxplot(aes(fill = SAMPLE_SOURCE)) +
-  scale_fill_manual(values = fill_colors) +
+As_plot <- ggplot(USGS_analyze, aes(SAMPLE_SOURCE, As_ppm, fill=SAMPLE_SOURCE)) + 
+   geom_boxplot() +
   xlab("source") +
   ylab("As (ppm)") +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
+As_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) 
+
 #boxplot(USGS_analyze$Cr_ppm)
 #dotchart(USGS_analyze$Cr_ppm, xlab = "Cr (ppm)", xlim=c(-50,400), ylab = "Order of the data")
 #hist(USGS_analyze$Cr_ppm)
 
-ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Cr_ppm)) + 
-  geom_boxplot(aes(col = SAMPLE_SOURCE)) +
+Cr_plot <- ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Cr_ppm, fill=SAMPLE_SOURCE)) + 
+  geom_boxplot() +
   xlab("source") +
   ylab("Cr (ppm)") +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
+Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) 
+
 #boxplot(USGS_analyze$Hg_ppm)
 #dotchart(USGS_analyze$Hg_ppm, xlab = "Hg (ppm)", xlim=c(-50,200), ylab = "Order of the data")
 #hist(USGS_analyze$Hg_ppm) #lots of ones? and cluster of >80
 
 
-ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Hg_ppm)) + 
-  geom_boxplot(aes(col = SAMPLE_SOURCE)) +
+Hg_plot <- ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Hg_ppm, fill=SAMPLE_SOURCE)) + 
+  geom_boxplot() +
   xlab("source") +
   ylab("Hg (ppm)") +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
+Hg_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#80b1d3", "#b3de69", "#fccde5", "#bc80bd"))
+
 #boxplot(USGS_analyze$Ni_ppm)
 #dotchart(USGS_analyze$Ni_ppm, xlab = "Ni (ppm)", xlim=c(-50,400), ylab = "Order of the data")
 #hist(USGS_analyze$Ni_ppm)
 
-ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Ni_ppm)) + 
-  geom_boxplot(aes(col = SAMPLE_SOURCE)) +
+Ni_plot <- ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Ni_ppm, fill=SAMPLE_SOURCE)) + 
+  geom_boxplot() +
   xlab("source") +
   ylab("Ni (ppm)") +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
+
+Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) 
 
 #boxplot(USGS_analyze$Pb_ppm)
 #dotchart(USGS_analyze$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000), ylab = "Order of the data") #one data point an order of magnitude higher than others....
