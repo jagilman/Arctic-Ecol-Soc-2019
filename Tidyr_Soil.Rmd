@@ -107,6 +107,9 @@ USGS_analyze$Ni_ppm<- na_if(USGS_analyze$Ni_ppm, 292)
 is.na(USGS_analyze$Pb_ppm) <- USGS_analyze$Pb_ppm < 0
 #USGS_analyze$Pb_ppm<- na_if(USGS_analyze$Pb_ppm, 3800.0)
 USGS_analyze$Pb_log <- log10(USGS_analyze$Pb_ppm)
+
+#Renaming SAMPLE_SOURCE as "Source" for better lengend title below
+colnames(USGS_analyze)[colnames(USGS_analyze)=="SAMPLE_SOURCE"] <- "Source"
 ```
 
 Looking at distributions of metals data with basic boxplots, Cleveland dot plots, and histograms to look at distrubtions (commented out for now). Then nicers box plots to look at concentration by sample source.
@@ -122,7 +125,7 @@ plot.colors <- data.frame(sample_source=c("forest/scattered timberland", "glacia
 color_code =c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd"))
 
 
-As_plot <- ggplot(USGS_analyze, aes(SAMPLE_SOURCE, As_ppm, fill=SAMPLE_SOURCE)) + 
+As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) + 
    geom_boxplot() +
   xlab("source") +
   ylab("As (ppm)") +
@@ -136,7 +139,7 @@ As_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072",
 #dotchart(USGS_analyze$Cr_ppm, xlab = "Cr (ppm)", xlim=c(-50,400), ylab = "Order of the data")
 #hist(USGS_analyze$Cr_ppm)
 
-Cr_plot <- ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Cr_ppm, fill=SAMPLE_SOURCE)) + 
+Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
   ylab("Cr (ppm)") +
@@ -151,7 +154,7 @@ Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072",
 #hist(USGS_analyze$Hg_ppm) #lots of ones? and cluster of >80
 
 
-Hg_plot <- ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Hg_ppm, fill=SAMPLE_SOURCE)) + 
+Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
   ylab("Hg (ppm)") +
@@ -165,7 +168,7 @@ Hg_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#80b1d3", "#b3de69",
 #dotchart(USGS_analyze$Ni_ppm, xlab = "Ni (ppm)", xlim=c(-50,400), ylab = "Order of the data")
 #hist(USGS_analyze$Ni_ppm)
 
-Ni_plot <- ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Ni_ppm, fill=SAMPLE_SOURCE)) + 
+Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
   ylab("Ni (ppm)") +
@@ -180,7 +183,7 @@ Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072",
 #hist(USGS_analyze$Pb_ppm)
 
 
-Pb_plot <- ggplot(USGS_analyze, aes(SAMPLE_SOURCE, Pb_log, fill=SAMPLE_SOURCE)) + 
+Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) + 
    geom_boxplot() +
   xlab("source") +
   ylab("Pb (ppm)") +
