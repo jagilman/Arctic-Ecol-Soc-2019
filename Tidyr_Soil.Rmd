@@ -151,11 +151,12 @@ plot.colors <- data.frame(sample_source=c("forest/scattered timberland", "glacia
 color_code =c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd"))
 
 #Counts for annotation 
-As_count <- select(USGS_analyze, Source, TOP_CM, As_ppm)
+As_count <- select(USGS_analyze, Source, TOP_CM, Depth, As_ppm)
 As_count<- filter(As_count, !is.na(As_ppm))
 As_count %>% 
   group_by(Source) %>%
   summarise(no_rows = length(Source))
+
 
 ##Arsenic boxplot
 As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) + 
@@ -172,7 +173,7 @@ As_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072",
 
 
 #plot by depth
-As_plot <- ggplot(USGS_analyze, aes(Depth, As_ppm, fill=Depth)) + 
+As_depth <- ggplot(USGS_analyze, aes(Depth, As_ppm, fill=Depth)) + 
    geom_boxplot() +
   xlab("source") +
   ylab("As (ppm)") +
@@ -180,14 +181,19 @@ As_plot <- ggplot(USGS_analyze, aes(Depth, As_ppm, fill=Depth)) +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
-As_plot
 
+As_depth + scale_fill_manual(values=c("#fee0d2", "#fc9272", "#de2d26")) + annotate("text", x = 1:3, y = 325, label = c("843", "160", "78"))
+
+#Getting count by depth for annotating
+As_count %>% 
+  group_by(Depth) %>%
+  summarise(no_rows = length(Depth))
 ```
 
 Boxplots for Cr
 ```{r}
 #Counts for annotation
-Cr_count <- select(USGS_analyze, Source, TOP_CM, Cr_ppm)
+Cr_count <- select(USGS_analyze, Source, TOP_CM, Depth, Cr_ppm)
 Cr_count<- filter(Cr_count, !is.na(Cr_ppm))
 Cr_count %>% 
   group_by(Source) %>%
@@ -206,6 +212,23 @@ Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) +
 #adds correct colors and number of obs. 
 Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 300, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
+
+Cr_depth <- ggplot(USGS_analyze, aes(Depth, Cr_ppm, fill=Depth)) + 
+  geom_boxplot() +
+  xlab("source") +
+  ylab("Cr (ppm)") +
+  theme_classic()+
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+Cr_depth + scale_fill_manual(values=c("#fee6ce", "#fdae6b", "#e6550d")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 300, label = c("843", "160", "78"))
+
+#getting count for Depth
+Cr_count %>% 
+  group_by(Depth) %>%
+  summarise(no_rows = length(Depth))
+
 ```
 
 
