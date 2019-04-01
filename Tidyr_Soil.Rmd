@@ -86,7 +86,7 @@ USGS5 <- filter(USGS5, UNIT %in% c("cm", "in", "ft"))
 Now we need to convert units all to cm using a loop (probably)...work in progress...meanwhile I am going to do it offline so we can move forward. We can fix this part later - CP
 
 ```{r}
-write.csv(USGS5, file = "filtered_USGS.csv")
+#write.csv(USGS5, file = "filtered_USGS.csv")
 
 downloadUSGS <- getURL("https://raw.githubusercontent.com/jagilman/Arctic-Ecol-Soc-2019/master/filtered_USGS.csv")
 USGS_analyze <- read.csv(text=downloadUSGS, header = T, na.strings = "")
@@ -117,6 +117,9 @@ Things to do for ASIAQ - overlay WHO (or EPA/other country...EU, New York state?
 #hist(USGS_analyze$As_ppm)
 #boxplot(USGS_analyze$As_ppm ~ USGS_analyze$SAMPLE_SOURCE)
 
+#creating a data matrix of sample sources and HEX codes to have consistent color scheme across plots 
+plot.colors <- data.frame(sample_source=c("forest/scattered timberland", "glacial debris/deposit", "grassland/grazing land/cultivated land", "mine dump/prospect pit", "mine tailings", "permafrost", "shrub covered", "surface", "tundra/alpine tundra"), 
+color_code =c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#d9d9d9"))
 
 ggplot(USGS_analyze, aes(SAMPLE_SOURCE, As_ppm)) + 
   geom_boxplot(aes(col = SAMPLE_SOURCE)) +
