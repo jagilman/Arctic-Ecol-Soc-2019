@@ -110,6 +110,9 @@ USGS_analyze$Pb_log <- log10(USGS_analyze$Pb_ppm)
 
 #Renaming SAMPLE_SOURCE as "Source" for better lengend title below
 colnames(USGS_analyze)[colnames(USGS_analyze)=="SAMPLE_SOURCE"] <- "Source"
+
+#This tells R to plot the depths in this order, not alphbetically. 
+USGS_analyze$Depth <- factor(USGS_analyze$Depth, levels = c("surface", "mid", "deep"))
 ```
 
 Looking at distributions of metals data with basic boxplots, Cleveland dot plots, and histograms to look at distrubtions (commented out for now). 
@@ -166,6 +169,18 @@ As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) +
 
 #adds correct colors and number of obs.
 As_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + annotate("text", x = 1:9, y = 325, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454"))
+
+
+#plot by depth
+As_plot <- ggplot(USGS_analyze, aes(Depth, As_ppm, fill=Depth)) + 
+   geom_boxplot() +
+  xlab("source") +
+  ylab("As (ppm)") +
+  theme_classic()+
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+As_plot
 
 ```
 
