@@ -112,87 +112,134 @@ USGS_analyze$Pb_log <- log10(USGS_analyze$Pb_ppm)
 colnames(USGS_analyze)[colnames(USGS_analyze)=="SAMPLE_SOURCE"] <- "Source"
 ```
 
-Looking at distributions of metals data with basic boxplots, Cleveland dot plots, and histograms to look at distrubtions (commented out for now). Then nicers box plots to look at concentration by sample source.
-Things to do for ASIAQ - overlay WHO (or EPA/other country...EU, New York state?) standard for soil conc, put n values for sample sources, clean up colors/configuration
+Looking at distributions of metals data with basic boxplots, Cleveland dot plots, and histograms to look at distrubtions (commented out for now). 
+
 ```{r}
 #boxplot(USGS_analyze$As_ppm)
 #dotchart(USGS_analyze$As_ppm, xlab = "As (ppm)", xlim=c(-50,400), ylab = "Order of the data")
 #hist(USGS_analyze$As_ppm)
 #boxplot(USGS_analyze$As_ppm ~ USGS_analyze$SAMPLE_SOURCE)
 
+#boxplot(USGS_analyze$Cr_ppm)
+#dotchart(USGS_analyze$Cr_ppm, xlab = "Cr (ppm)", xlim=c(-50,400), ylab = "Order of the data")
+#hist(USGS_analyze$Cr_ppm)
+
+#boxplot(USGS_analyze$Hg_ppm)
+#dotchart(USGS_analyze$Hg_ppm, xlab = "Hg (ppm)", xlim=c(-50,200), ylab = "Order of the data")
+#hist(USGS_analyze$Hg_ppm) #lots of ones? and cluster of >80
+
+#boxplot(USGS_analyze$Ni_ppm)
+#dotchart(USGS_analyze$Ni_ppm, xlab = "Ni (ppm)", xlim=c(-50,400), ylab = "Order of the data")
+#hist(USGS_analyze$Ni_ppm)
+
+
+#boxplot(USGS_analyze$Pb_ppm)
+#dotchart(USGS_analyze$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000), ylab = "Order of the data") #one data point an order of magnitude higher than others....
+#hist(USGS_analyze$Pb_ppm)
+```
+
+
+Making nicers box plots to look at concentration by sample source.
+Things to do for ASIAQ - overlay WHO (or EPA/other country...EU, New York state?) standard for soil conc, put n values for sample sources, clean up colors/configuration
+```{r}
+
 #creating a data matrix of sample sources and HEX codes to have consistent color scheme across plots 
 plot.colors <- data.frame(sample_source=c("forest/scattered timberland", "glacial debris/deposit", "grassland/grazing land/cultivated land", "mine dump/prospect pit", "mine tailings", "permafrost", "shrub covered", "surface", "tundra/alpine tundra"), 
-color_code =c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd"))
+color_code =c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd"))
 
-
+##Arsenic boxplot
 As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) + 
    geom_boxplot() +
   xlab("source") +
   ylab("As (ppm)") +
+  theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
 As_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) 
 
-#boxplot(USGS_analyze$Cr_ppm)
-#dotchart(USGS_analyze$Cr_ppm, xlab = "Cr (ppm)", xlim=c(-50,400), ylab = "Order of the data")
-#hist(USGS_analyze$Cr_ppm)
+As_count <- select(USGS_analyze, Source, TOP_CM, As_ppm)
+As_count<- filter(As_count, !is.na(As_ppm))
+As_count %>% 
+  group_by(Source) %>%
+  summarise(no_rows = length(Source))
 
+##Chromium boxplot
 Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
   ylab("Cr (ppm)") +
+  theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
 Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=100, linetype="dashed", size=1.25)
+##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
-#boxplot(USGS_analyze$Hg_ppm)
-#dotchart(USGS_analyze$Hg_ppm, xlab = "Hg (ppm)", xlim=c(-50,200), ylab = "Order of the data")
-#hist(USGS_analyze$Hg_ppm) #lots of ones? and cluster of >80
+Cr_count <- select(USGS_analyze, Source, TOP_CM, Cr_ppm)
+Cr_count<- filter(Ni_count, !is.na(Cr_ppm))
+Cr_count %>% 
+  group_by(Source) %>%
+  summarise(no_rows = length(Source))
 
-
+##Mercury boxplot
 Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
   ylab("Hg (ppm)") +
+  theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
 Hg_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#80b1d3", "#b3de69", "#fccde5", "#bc80bd"))
 
-#boxplot(USGS_analyze$Ni_ppm)
-#dotchart(USGS_analyze$Ni_ppm, xlab = "Ni (ppm)", xlim=c(-50,400), ylab = "Order of the data")
-#hist(USGS_analyze$Ni_ppm)
+Hg_count <- select(USGS_analyze, Source, TOP_CM, Hg_ppm)
+Hg_count<- filter(Hg_count, !is.na(Hg_ppm))
+Hg_count %>% 
+  group_by(Source) %>%
+  summarise(no_rows = length(Source))
 
+##Nickel boxplot
 Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
   ylab("Ni (ppm)") +
+  theme_classic()+ 
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
 Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25)
+##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
-#boxplot(USGS_analyze$Pb_ppm)
-#dotchart(USGS_analyze$Pb_ppm, xlab = "Pb (ppm)", xlim=c(-50,4000), ylab = "Order of the data") #one data point an order of magnitude higher than others....
-#hist(USGS_analyze$Pb_ppm)
+Ni_count <- select(USGS_analyze, Source, TOP_CM, Ni_ppm)
+Ni_count<- filter(Ni_count, !is.na(Ni_ppm))
+Ni_count %>% 
+  group_by(Source) %>%
+  summarise(no_rows = length(Source))
 
-
+##Lead boxplot
 Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) + 
    geom_boxplot() +
   xlab("source") +
   ylab("log [Pb (ppm)]") +
+  theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
 Pb_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25)
 
+Pb_count <- select(USGS_analyze, Source, TOP_CM, Pb_ppm, Pb_log)
+Pb_count<- filter(Pb_count, !is.na(Pb_ppm))
+Pb_count %>% 
+  group_by(Source) %>%
+  summarise(no_rows = length(Source))
+
+##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 ```
 
 Now...basic correlation plots of metals + lat/lon and depth
