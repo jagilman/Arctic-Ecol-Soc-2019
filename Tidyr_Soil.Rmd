@@ -182,6 +182,7 @@ As_depth <- ggplot(USGS_analyze, aes(Depth, As_ppm, fill=Depth)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
+#adds colors and labels
 As_depth + scale_fill_manual(values=c("#fee0d2", "#fc9272", "#de2d26")) + annotate("text", x = 1:3, y = 325, label = c("843", "160", "78"))
 
 #Getting count by depth for annotating
@@ -213,6 +214,7 @@ Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) +
 Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 300, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
+#plot by depth
 Cr_depth <- ggplot(USGS_analyze, aes(Depth, Cr_ppm, fill=Depth)) + 
   geom_boxplot() +
   xlab("source") +
@@ -235,7 +237,7 @@ Cr_count %>%
 Boxplots for Hg
 ```{r}
 #Counts for annotation
-Hg_count <- select(USGS_analyze, Source, TOP_CM, Hg_ppm)
+Hg_count <- select(USGS_analyze, Source, Depth, TOP_CM, Hg_ppm)
 Hg_count<- filter(Hg_count, !is.na(Hg_ppm))
 Hg_count %>% 
   group_by(Source) %>%
@@ -253,13 +255,31 @@ Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) +
 
 #adds correct colors and number of obs. 
 Hg_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#80b1d3", "#b3de69", "#fccde5", "#bc80bd")) + annotate("text", x = 1:9, y = 100, label = c("139", "82", " ", " ", "12", "", "14", "172", "426"))
+
+#plot by depth
+Hg_depth <- ggplot(USGS_analyze, aes(Depth, Hg_ppm, fill=Depth)) + 
+  geom_boxplot() +
+  xlab("source") +
+  ylab("Hg (ppm)") +
+  theme_classic()+
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+#adds correct colors and number of obs. 
+Hg_depth + scale_fill_manual(values=c("#e5f5e0", "#a1d99b", "#31a354")) + annotate("text", x = 1:3, y = 100, label = c("628", "159", "58"))
+
+#getting depth counts
+Hg_count %>% 
+  group_by(Depth) %>%
+  summarise(no_rows = length(Depth))
 ```
 
 
 Boxplots for Ni
 ```{r}
 ##gets counts for annotation
-Ni_count <- select(USGS_analyze, Source, TOP_CM, Ni_ppm)
+Ni_count <- select(USGS_analyze, Source, Depth, TOP_CM, Ni_ppm)
 Ni_count<- filter(Ni_count, !is.na(Ni_ppm))
 Ni_count %>% 
   group_by(Source) %>%
@@ -279,13 +299,31 @@ Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) +
 Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 300, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
+#depth plot
+Ni_depth <- ggplot(USGS_analyze, aes(Depth, Ni_ppm, fill=Depth)) + 
+  geom_boxplot() +
+  xlab("source") +
+  ylab("Ni (ppm)") +
+  theme_classic()+ 
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+#adds correct colors and number of obs. 
+Ni_depth + scale_fill_manual(values=c("#deebf7", "#9ecae1","#3182bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 300, label = c("843", "160", "78"))
+
+
+#getting depth count
+Ni_count %>% 
+  group_by(Depth) %>%
+  summarise(no_rows = length(Depth))
 ```
 
 
 Boxplots for Pb
 ```{r}
 ##getting counts for each source type to annotate figure 
-Pb_count <- select(USGS_analyze, Source, TOP_CM, Pb_ppm, Pb_log)
+Pb_count <- select(USGS_analyze, Source, Depth, TOP_CM, Pb_ppm, Pb_log)
 Pb_count<- filter(Pb_count, !is.na(Pb_ppm))
 Pb_count %>% 
   group_by(Source) %>%
@@ -304,6 +342,24 @@ Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) +
 #adds correct colors and number of obs. 
 Pb_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 3.25, label = c("231", "82", "68", "7", "12", "53", "14", "166", "447"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
+
+##By depth
+Pb_depth <- ggplot(USGS_analyze, aes(Depth, Pb_log, fill=Depth)) + 
+   geom_boxplot() +
+  xlab("source") +
+  ylab("log [Pb (ppm)]") +
+  theme_classic()+
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+Pb_depth + scale_fill_manual(values=c("#efedf5", "#bcbddc","#756bb1")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 3.25, label = c("843","159","78"))
+##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
+
+##depth counts
+Pb_count %>% 
+  group_by(Depth) %>%
+  summarise(no_rows = length(Depth))
 ```
 
 
