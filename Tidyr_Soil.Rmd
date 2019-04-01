@@ -139,13 +139,20 @@ Looking at distributions of metals data with basic boxplots, Cleveland dot plots
 ```
 
 
-Making nicers box plots to look at concentration by sample source.
-Things to do for ASIAQ - overlay WHO (or EPA/other country...EU, New York state?) standard for soil conc, put n values for sample sources, clean up colors/configuration
+Making nicers box plots to look at concentration by sample source. Starting w/ As: 
+
 ```{r}
 
-#creating a data matrix of sample sources and HEX codes to have consistent color scheme across plots 
+#creating a reference data matrix of sample sources and HEX codes to have consistent color scheme across plots 
 plot.colors <- data.frame(sample_source=c("forest/scattered timberland", "glacial debris/deposit", "grassland/grazing land/cultivated land", "mine dump/prospect pit", "mine tailings", "permafrost", "shrub covered", "surface", "tundra/alpine tundra"), 
 color_code =c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd"))
+
+#Counts for annotation 
+As_count <- select(USGS_analyze, Source, TOP_CM, As_ppm)
+As_count<- filter(As_count, !is.na(As_ppm))
+As_count %>% 
+  group_by(Source) %>%
+  summarise(no_rows = length(Source))
 
 ##Arsenic boxplot
 As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) + 
@@ -157,15 +164,21 @@ As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-As_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) 
+#adds correct colors and number of obs.
+As_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + annotate("text", x = 1:9, y = 325, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454"))
 
-As_count <- select(USGS_analyze, Source, TOP_CM, As_ppm)
-As_count<- filter(As_count, !is.na(As_ppm))
-As_count %>% 
+```
+
+Boxplots for Cr
+```{r}
+#Counts for annotation
+Cr_count <- select(USGS_analyze, Source, TOP_CM, Cr_ppm)
+Cr_count<- filter(Cr_count, !is.na(Cr_ppm))
+Cr_count %>% 
   group_by(Source) %>%
   summarise(no_rows = length(Source))
 
-##Chromium boxplot
+##Chromium by source boxplot
 Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
@@ -175,16 +188,22 @@ Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=100, linetype="dashed", size=1.25)
+#adds correct colors and number of obs. 
+Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 300, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
+```
 
-Cr_count <- select(USGS_analyze, Source, TOP_CM, Cr_ppm)
-Cr_count<- filter(Ni_count, !is.na(Cr_ppm))
-Cr_count %>% 
+
+Boxplots for Hg
+```{r}
+#Counts for annotation
+Hg_count <- select(USGS_analyze, Source, TOP_CM, Hg_ppm)
+Hg_count<- filter(Hg_count, !is.na(Hg_ppm))
+Hg_count %>% 
   group_by(Source) %>%
   summarise(no_rows = length(Source))
 
-##Mercury boxplot
+##Mercury by source boxplot
 Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
@@ -194,15 +213,21 @@ Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-Hg_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#80b1d3", "#b3de69", "#fccde5", "#bc80bd"))
+#adds correct colors and number of obs. 
+Hg_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#80b1d3", "#b3de69", "#fccde5", "#bc80bd")) + annotate("text", x = 1:9, y = 100, label = c("139", "82", " ", " ", "12", "", "14", "172", "426"))
+```
 
-Hg_count <- select(USGS_analyze, Source, TOP_CM, Hg_ppm)
-Hg_count<- filter(Hg_count, !is.na(Hg_ppm))
-Hg_count %>% 
+
+Boxplots for Ni
+```{r}
+##gets counts for annotation
+Ni_count <- select(USGS_analyze, Source, TOP_CM, Ni_ppm)
+Ni_count<- filter(Ni_count, !is.na(Ni_ppm))
+Ni_count %>% 
   group_by(Source) %>%
   summarise(no_rows = length(Source))
 
-##Nickel boxplot
+##Nickel by source boxplot
 Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
@@ -212,16 +237,23 @@ Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25)
+#adds correct colors and number of obs. 
+Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 300, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
-Ni_count <- select(USGS_analyze, Source, TOP_CM, Ni_ppm)
-Ni_count<- filter(Ni_count, !is.na(Ni_ppm))
-Ni_count %>% 
+```
+
+
+Boxplots for Pb
+```{r}
+##getting counts for each source type to annotate figure 
+Pb_count <- select(USGS_analyze, Source, TOP_CM, Pb_ppm, Pb_log)
+Pb_count<- filter(Pb_count, !is.na(Pb_ppm))
+Pb_count %>% 
   group_by(Source) %>%
   summarise(no_rows = length(Source))
 
-##Lead boxplot
+##Lead by source boxplot
 Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) + 
    geom_boxplot() +
   xlab("source") +
@@ -231,16 +263,13 @@ Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-Pb_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25)
-
-Pb_count <- select(USGS_analyze, Source, TOP_CM, Pb_ppm, Pb_log)
-Pb_count<- filter(Pb_count, !is.na(Pb_ppm))
-Pb_count %>% 
-  group_by(Source) %>%
-  summarise(no_rows = length(Source))
-
+#adds correct colors and number of obs. 
+Pb_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 3.25, label = c("231", "82", "68", "7", "12", "53", "14", "166", "447"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 ```
+
+
+
 
 Now...basic correlation plots of metals + lat/lon and depth
 ```{r}
