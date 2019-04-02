@@ -162,7 +162,7 @@ As_count %>%
 As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) + 
    geom_boxplot() +
   xlab("source") +
-  ylab("As (ppm)") +
+  ylab("As (mg/kg)") +
   theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -177,7 +177,7 @@ As_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3",
 As_depth <- ggplot(USGS_analyze, aes(Depth, As_ppm, fill=Depth)) + 
    geom_boxplot() +
   xlab("source") +
-  ylab("As (ppm)") +
+  ylab("As (mg/kg)") +
   theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -205,7 +205,7 @@ Cr_count %>%
 Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
-  ylab("Cr (ppm)") +
+  ylab("Cr (mg/kg)") +
   theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -219,7 +219,7 @@ Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3",
 Cr_depth <- ggplot(USGS_analyze, aes(Depth, Cr_ppm, fill=Depth)) + 
   geom_boxplot() +
   xlab("source") +
-  ylab("Cr (ppm)") +
+  ylab("Cr (mg/kg)") +
   theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -248,7 +248,7 @@ Hg_count %>%
 Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
-  ylab("Hg (ppm)") +
+  ylab("Hg (mg/kg)") +
   theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -261,7 +261,7 @@ Hg_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#80b1d3", "#b3de69",
 Hg_depth <- ggplot(USGS_analyze, aes(Depth, Hg_ppm, fill=Depth)) + 
   geom_boxplot() +
   xlab("source") +
-  ylab("Hg (ppm)") +
+  ylab("Hg (mg/kg)") +
   theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -290,7 +290,7 @@ Ni_count %>%
 Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
-  ylab("Ni (ppm)") +
+  ylab("Ni (mg/kg)") +
   theme_classic()+ 
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -304,7 +304,7 @@ Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3",
 Ni_depth <- ggplot(USGS_analyze, aes(Depth, Ni_ppm, fill=Depth)) + 
   geom_boxplot() +
   xlab("source") +
-  ylab("Ni (ppm)") +
+  ylab("Ni (mg/kg)") +
   theme_classic()+ 
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -334,7 +334,7 @@ Pb_count %>%
 Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) + 
    geom_boxplot() +
   xlab("source") +
-  ylab("log [Pb (ppm)]") +
+  ylab("log [Pb (mg/kg)]") +
   theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -348,7 +348,7 @@ Pb_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072",
 Pb_depth <- ggplot(USGS_analyze, aes(Depth, Pb_log, fill=Depth)) + 
    geom_boxplot() +
   xlab("source") +
-  ylab("log [Pb (ppm)]") +
+  ylab("log [Pb (mg/kg)]") +
   theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
