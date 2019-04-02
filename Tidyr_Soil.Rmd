@@ -363,9 +363,6 @@ Pb_count %>%
   summarise(no_rows = length(Depth))
 ```
 
-
-
-
 Now...basic correlation plots of metals + lat/lon and depth
 ```{r}
 USGS_numeric <- select(USGS_analyze,TOP_CM, LATITUDE, LONGITUDE, As_ppm, Cr_ppm, Hg_ppm, Ni_ppm, Pb_ppm) 
