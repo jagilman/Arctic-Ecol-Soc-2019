@@ -170,7 +170,7 @@ As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) +
 As_plot
 
 #adds correct colors and number of obs.
-As_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + annotate("text", x = 1:9, y = 325, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454"))
+As_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + annotate("text", x = 1:9, y = 325, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454"))  + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey")
 
 
 #plot by depth
@@ -184,7 +184,7 @@ As_depth <- ggplot(USGS_analyze, aes(Depth, As_ppm, fill=Depth)) +
         axis.ticks.x=element_blank())
 
 #adds colors and labels
-As_depth + scale_fill_manual(values=c("#fee0d2", "#fc9272", "#de2d26")) + annotate("text", x = 1:3, y = 325, label = c("843", "160", "78"))
+As_depth + scale_fill_manual(values=c("#fee0d2", "#fc9272", "#de2d26")) + annotate("text", x = 1:3, y = 325, label = c("843", "160", "78")) + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey")
 
 #Getting count by depth for annotating
 As_count %>% 
@@ -212,7 +212,7 @@ Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) +
         axis.ticks.x=element_blank())
 
 #adds correct colors and number of obs. 
-Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 300, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454"))
+Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 300, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454")) + geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey")
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
 #plot by depth
@@ -225,7 +225,7 @@ Cr_depth <- ggplot(USGS_analyze, aes(Depth, Cr_ppm, fill=Depth)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-Cr_depth + scale_fill_manual(values=c("#fee6ce", "#fdae6b", "#e6550d")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 300, label = c("843", "160", "78"))
+Cr_depth + scale_fill_manual(values=c("#fee6ce", "#fdae6b", "#e6550d")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 300, label = c("843", "160", "78"))+ geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey")
 
 #getting count for Depth
 Cr_count %>% 
@@ -297,7 +297,7 @@ Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) +
         axis.ticks.x=element_blank())
 
 #adds correct colors and number of obs. 
-Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 300, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454"))
+Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 300, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454")) + geom_hline(yintercept=40, linetype="dashed", size=1.25, color="darkgrey")
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
 #depth plot
@@ -311,7 +311,7 @@ Ni_depth <- ggplot(USGS_analyze, aes(Depth, Ni_ppm, fill=Depth)) +
         axis.ticks.x=element_blank())
 
 #adds correct colors and number of obs. 
-Ni_depth + scale_fill_manual(values=c("#deebf7", "#9ecae1","#3182bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 300, label = c("843", "160", "78"))
+Ni_depth + scale_fill_manual(values=c("#deebf7", "#9ecae1","#3182bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 300, label = c("843", "160", "78"))  + geom_hline(yintercept=40, linetype="dashed", size=1.25, color="darkgrey")
 
 
 #getting depth count
@@ -341,7 +341,7 @@ Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) +
         axis.ticks.x=element_blank())
 
 #adds correct colors and number of obs. 
-Pb_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 3.25, label = c("231", "82", "68", "7", "12", "53", "14", "166", "447"))
+Pb_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 3.25, label = c("231", "82", "68", "7", "12", "53", "14", "166", "447"))  + geom_hline(yintercept=1.477, linetype="dashed", size=1.25, color="darkgrey")
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
 ##By depth
@@ -354,7 +354,7 @@ Pb_depth <- ggplot(USGS_analyze, aes(Depth, Pb_log, fill=Depth)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-Pb_depth + scale_fill_manual(values=c("#efedf5", "#bcbddc","#756bb1")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 3.25, label = c("843","159","78"))
+Pb_depth + scale_fill_manual(values=c("#efedf5", "#bcbddc","#756bb1")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 3.25, label = c("843","159","78"))  + geom_hline(yintercept=1.477, linetype="dashed", size=1.25, color="darkgrey")
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
 ##depth counts
