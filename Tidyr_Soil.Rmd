@@ -179,10 +179,9 @@ As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
-As_plot
 
 #adds correct colors and number of obs.
-As_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + annotate("text", x = 1:9, y = 325, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454"))  + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey")
+As_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = 325, label = c("277", "82", "531", "19", "172"))  + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey")
 
 
 #plot by depth
@@ -224,7 +223,7 @@ Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) +
         axis.ticks.x=element_blank())
 
 #adds correct colors and number of obs. 
-Cr_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 300, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454")) + geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey")
+Cr_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = 300, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey")
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
 #plot by depth
@@ -267,7 +266,7 @@ Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) +
         axis.ticks.x=element_blank())
 
 #adds correct colors and number of obs. 
-Hg_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#80b1d3", "#b3de69", "#fccde5", "#bc80bd")) + annotate("text", x = 1:9, y = 100, label = c("139", "82", " ", " ", "12", "", "14", "172", "426"))
+Hg_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = 100, label = c("139", "82", "440", "12", "172"))
 
 #plot by depth
 Hg_depth <- ggplot(USGS_analyze, aes(Depth, Hg_ppm, fill=Depth)) + 
@@ -309,7 +308,7 @@ Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) +
         axis.ticks.x=element_blank())
 
 #adds correct colors and number of obs. 
-Ni_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 300, label = c("277", "82", " ", "7", "12", "63", "14", "172", "454")) + geom_hline(yintercept=40, linetype="dashed", size=1.25, color="darkgrey")
+Ni_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=35, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = 300, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=40, linetype="dashed", size=1.25, color="darkgrey")
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
 #depth plot
