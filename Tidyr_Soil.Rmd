@@ -121,7 +121,7 @@ USGS_analyze$Source <- recode(USGS_analyze$Source, "shrub covered"  = "tundra")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "grassland/grazing land/cultivated land"  = "tundra")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "tundra/alpine tundra"  = "tundra")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "glacial debris/deposit"  = "glacial deposit")
-USGS_analyze$Source <- recode(USGS_analyze$Source, "surface"  = "sedge/grassland")
+USGS_analyze$Source <- recode(USGS_analyze$Source, "surface"  = "sedge/moss/shrub wetland")
 
 #This tells R to plot the depths in this order, not alphbetically. 
 USGS_analyze$Depth <- factor(USGS_analyze$Depth, levels = c("surface", "mid", "deep"))
@@ -352,8 +352,10 @@ Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
+Pb_plot
+
 #adds correct colors and number of obs. 
-Pb_plot + scale_fill_manual(values=c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:9, y = 3.25, label = c("231", "82", "68", "7", "12", "53", "14", "166", "447"))  + geom_hline(yintercept=1.477, linetype="dashed", size=1.25, color="darkgrey")
+Pb_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = 3.25, label = c("231", "82", "582", "19", "166"))  + geom_hline(yintercept=1.477, linetype="dashed", size=1.25, color="darkgrey")
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
 ##By depth
