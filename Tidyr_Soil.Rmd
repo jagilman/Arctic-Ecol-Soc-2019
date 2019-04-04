@@ -121,7 +121,7 @@ USGS_analyze$Source <- recode(USGS_analyze$Source, "shrub covered"  = "tundra")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "grassland/grazing land/cultivated land"  = "tundra")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "tundra/alpine tundra"  = "tundra")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "glacial debris/deposit"  = "glacial deposit")
-
+USGS_analyze$Source <- recode(USGS_analyze$Source, "surface"  = "sedge/grassland")
 
 #This tells R to plot the depths in this order, not alphbetically. 
 USGS_analyze$Depth <- factor(USGS_analyze$Depth, levels = c("surface", "mid", "deep"))
