@@ -125,6 +125,8 @@ USGS_analyze$Source <- recode(USGS_analyze$Source, "surface"  = "sedge/moss/shru
 
 #This tells R to plot the depths in this order, not alphbetically. 
 USGS_analyze$Depth <- factor(USGS_analyze$Depth, levels = c("surface", "mid", "deep"))
+
+#source_depth_map <- write.csv(USGS_analyze, file="Map_data_5April2019")
 ```
 
 Looking at distributions of metals data with basic boxplots, Cleveland dot plots, and histograms to look at distrubtions (commented out for now). 
@@ -159,8 +161,6 @@ Making nicers box plots to look at concentration by sample source. Starting w/ A
 ```{r}
 
 #creating a reference data matrix of sample sources and HEX codes to have consistent color scheme across plots 
-plot.colors <- data.frame(sample_source=c("forest/scattered timberland", "glacial debris/deposit", "grassland/grazing land/cultivated land", "mine dump/prospect pit", "mine tailings", "permafrost", "shrub covered", "surface", "tundra/alpine tundra"), 
-color_code =c("#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462", "#b3de69", "#fccde5", "#bc80bd"))
 
 #Counts for annotation 
 As_count <- select(USGS_analyze, Source, TOP_CM, Depth, As_ppm)
