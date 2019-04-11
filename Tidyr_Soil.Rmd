@@ -189,7 +189,12 @@ bartlett.test(As_ppm~Source, data=USGS_analyze) #tests for homogeneity of varian
 #using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
 As_bySource <- kruskal(USGS_analyze$As_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
 As_bySource #Chi-sq = 51.8, Df = 4, p < 0.001
-#forested groups out as lower (group B) than the others (group A)
+#mine-impacted                            a
+#sedge/moss/shrub wetland                 a
+#glacial deposit                          a
+#tundra                                   a
+#forested                                 b
+
 
 
 #plot by depth
@@ -234,6 +239,19 @@ Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) +
 Cr_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = 300, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white")
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
+shapiro.test(USGS_analyze$Cr_ppm) #tests for normality, p < 0.001
+bartlett.test(Cr_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
+
+#using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
+Cr_bySource <- kruskal(USGS_analyze$Cr_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
+Cr_bySource #Chi-sq = 42.9, Df = 4, p < 0.001
+#glacial deposit                           a
+#sedge/moss/shrub wetland                  a
+#mine-impacted                             ab
+#forested                                  ab
+#tundra                                    b
+
+
 #plot by depth
 Cr_depth <- ggplot(USGS_analyze, aes(Depth, Cr_ppm, fill=Depth)) + 
   geom_boxplot() +
@@ -275,6 +293,19 @@ Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) +
 
 #adds correct colors and number of obs. 
 Hg_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = 100, label = c("139", "82", "440", "12", "172")) + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white")
+
+shapiro.test(USGS_analyze$Hg_ppm) #tests for normality, p < 0.001
+bartlett.test(Hg_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
+
+#using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
+Hg_bySource <- kruskal(USGS_analyze$Hg_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
+Hg_bySource #Chi-sq = 82.8, Df = 4, p < 0.001
+#mine-impacted                             a
+#glacial deposit                           b
+#sedge/moss/shrub wetland                  c
+#tundra                                    c
+#forested                                  d
+
 
 #plot by depth
 Hg_depth <- ggplot(USGS_analyze, aes(Depth, Hg_ppm, fill=Depth)) + 
