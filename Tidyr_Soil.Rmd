@@ -23,7 +23,7 @@ library(dplyr)
 library(RCurl)
 library(ggplot2)
 library(reshape2)
-
+library(agricolae)
 
 
 ```
@@ -182,6 +182,14 @@ As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) +
 
 #adds correct colors and number of obs.
 As_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = 325, label = c("277", "82", "531", "19", "172"))  + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white")
+
+shapiro.test(USGS_analyze$As_ppm) #tests for normality, p < 0.001
+bartlett.test(As_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p = 0.89
+
+#using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
+As_bySource <- kruskal(USGS_analyze$As_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
+As_bySource #Chi-sq = 51.8, Df = 4, p < 0.001
+#forested groups out as lower (group B) than the others (group A)
 
 
 #plot by depth
