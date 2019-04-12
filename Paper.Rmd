@@ -51,6 +51,63 @@ highlights: |
 #Note that Loiko et al is from Siberia
 ```
   
+##Methods 
+
+Data set(s) must contain: 
+
+Depth, method, year, (location), and at least one each of the following metals 
+
+As, Cd, Pb, Hg, Ni, Tl, Cr 
+
+ 
+Places searched for data: USGS and Arctic Data Center 
+
+Nothing found in Arctic Data Center 
+
+All downloads done on 2/21/2019 
+
+
+Data filtering methods:  
+
+Loaded Dataset: USGS Alaskan Geochemical Soil Database -> “BestValue_Soil.xlxs” on 2/21/2019.  Converted to .csv file for loading into R studio version 3.5.2, Eggshell Igloo. 
+
+Loaded tidyverse, dplyr, RCurl, ggplot2, reshape2 and agricolae packages (add version numbers?)
+
+Set script to read in csv files from github repository = https://raw.githubusercontent.com/jagilman/Arctic-Ecol-Soc-2019/master/BestValue_Soil.csv 
+
+Read in csv, took out first 4 rows that were blank, indicted there was a header, set all missing values to “NA” 
+
+Filtered out columns that were redundant chemical concentration and analytical method info using “ends_with” command (columns reduced from 326 to 229) 
+
+Selected columns of desired chemistry data and sample info using select(data, matches())  
+
+Kept chemistry columns that start with As_, Cd_, Pb_, Hg_, Ni_, Cr_, and Tl_ to get both concentration and analytical methods 
+
+Kept lab ID, field ID, data collected/submitted, latitude/longitude, quad, spheroid, datum, sample source, depth, primary class, location description, sample comment, sample zone, horizon, organics, drainage, and prep columns to capture relevant sample, sampling, and processing information 
+
+Columns reduced from 229 to 34 
+
+Filtered out samples that had missing latitude, longitude, depth, and sample source information 
+
+Rows reduced from 6869 to 4449 
+
+All samples have lat/lon, depth, and sample source and concentration information
+
+Filtering everything out that had no info on depth and sample source
+
+Then narrowed down columns.  
+
+We need to wrangle the depths.... 
+
+
+
+
+
+
+
+
+  
+  
 ```{r}
 #General discussion on how heavy metals impact human health (Nicole)
     #Sources of heavy metals are food and water supply
