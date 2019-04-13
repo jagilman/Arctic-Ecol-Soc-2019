@@ -98,13 +98,28 @@ Filtering everything out that had no info on depth and sample source
 Then narrowed down columns.  
 
 We need to wrangle the depths.... 
+Recoded depths to get all into a similar format, for example surface (0-25cm) became 0-25 cm. Then filtered depths matching categorical variables: unknown, by horizon, various, A horizon, B horizon, C horizon, surface, Various, loess, loess ?.  Depth units were converted to all have a consistent format, for example inches became in and feet became ft.  The depth column was separated into two columns, depth and units.  Depth column was then sepearated unto upper and low units.  Rows that could not be split and/or parsed correctly were removed.  Database was then filtered to keep only rows that contained units.  
+
+Now we need to convert units all to cm using a loop (probably)...work in progress...meanwhile I am going to do it offline so we can move forward. We can fix this part later - CP
+
+Created .csv file and uploated to github repository.  Pulled filtered_USGS.csv file from repository into R Studio.  Sources that had only one sample were removed (there were only two of these).  Some analytical methods and sampling sites had identical values for As, Cr, Pb, and Ni, these data were deemed erronous and removed.  Samples with negative Pb values were removed.  
+
+Sample source column was renamed to source for a better legend title.  The nine sources were then combined into broader categories.  Instead of having two categories, one for mine tailings and one for mine dump/prospect pit, these became one group called mine impacted.  Forest scattered/timberland became forested.  The permafrost, shrub covered, tundra/alpine tundra, grassland/grazing, land/cultivated land sources were all grouped as tundra.  Glacial debris/deposit became glacial deposit and surface became sedge/moss/shrub wetland.  
+
+Boxplots were created for each heavy metal based on depth.  In addition, boxplots for each heavy metal by concentration relative to the updated source categories.  These plots also include the number of samples per source, the World Heath Organization (WHO) permissible limits, the US Average for soils from the Agency for Toxic Substances and Disease Registry and/or the UK Environment Agency soil concentration limits were added based on available information.  
+
+The Shapiro test was used to check for normality.  The Bartlett test was used to check for homogeneity of variance.  Kruskal-Wallis was used in lieu of ANOVA due to lack of normality for all heavy metals in this dataset.  
+
+bonferroni????
+
+Now...basic correlation plots of metals + lat/lon and depth
 
 
+```{r}
 
+```
 
-
-
-
+##Results
 
   
   
@@ -114,7 +129,9 @@ We need to wrangle the depths....
     #Point out that many heavy metals sources are anthropogenic (industrial activity)
     #These sources will be elevated by permafrost thaw
 ```
-  
+
+##Discussion
+
    Heavy metals and other toxins have been identified in arctic soils, waters (Landers et al. 1995) wildlife (Trust et al. 2000), indigenous foods (Burger et al. 2007), and people (Boucher et al. 2012, and Valera et al. 2012).  The majority of these toxins originate outside the Arctic region from anthropogenic sources like industrial and agricultural activity (Landers et al. 1995 and Suk et al. 2004). Arctic indigenous peoples still rely heavily on traditional foods and are therefore Arctic peoples can ingest heavy metals and toxins through their food. Indigenous people are especially at risk because they consume local higher trophic level animals which have been found to contain arsenic, mercury, cadmium, lead, and selenium (Burger et al, 2007, Suk et al. 2004), which all have detrimental effects on human health. Arsenic, which can accumulate within the body and is a known carcinogenic (Liu et al. 2007), was found in concentration 14 times higher than the threshold deemed safe by some regulation in some commonly consumed Alaskan fish (Burger et al. 2007). One study of indigenous children in the Canadian Arctic found their median blood mercury levels to be 81.5 nmoL/L (Valera et al. 2012) which is ~1.8 times higher than the upper limit of normal blood mercury levels (MAYO CLINIC). Both lead and mercury have been found to decrease early processing of visual information in children and lead exposure has been linked to increased risk of ADHD (Curren et al. 2018, Eubig et al. 2010). The effects of climate change in the Arctic threaten to increase the release and transport of heavy metals which could potentially further elevate indigenous people's risk of consuming them. The extent and magnitude of this threat, however, is not well studied.
 
 ```{r}
@@ -129,7 +146,5 @@ We need to wrangle the depths....
 
   The objectives of this study are (1) to identify the distribution and density of soil sampling sites across the Alaskan arctic that quantify As, Cd, Pb, Hg, Ni and Cr presence, (2) determine the heterogeneity of heavy metal concentrations in soil profiles across the Alaskan arctic, and (3) quantify the proximity of soil sampling sites and potential heavy metal hotspots to local communities to identify potential gaps in available data and threats to arctic communities.  
 
-##Methods
-##Results
-##Discustion 
+
 ##Conclustion 
