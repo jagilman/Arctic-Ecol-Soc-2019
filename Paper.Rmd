@@ -114,6 +114,10 @@ bonferroni????
 
 Now...basic correlation plots of metals + lat/lon and depth
 
+Attempted oridination plot, however, missing valuees had to be removed.  Log transformed clusters all in one corner where as w/o log transform, points are scattered with no clear grouping/separating out by source.
+
+Stopped at loading US Geochem database as we are no longer using anything below this point. 
+
 
 ```{r}
 
