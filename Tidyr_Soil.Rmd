@@ -208,22 +208,22 @@ As_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072",
 
 
 #plot by depth
-As_depth <- ggplot(USGS_analyze, aes(Depth, As_ppm, fill=Depth)) + 
-   geom_boxplot() +
-  xlab("source") +
-  ylab("As (mg/kg)") +
-  theme_classic()+
-   theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
+#As_depth <- ggplot(USGS_analyze, aes(Depth, As_ppm, fill=Depth)) + 
+   #geom_boxplot() +
+  #xlab("source") +
+  #ylab("As (mg/kg)") +
+  #theme_classic()+
+   #theme(axis.title.x=element_blank(),
+    #    axis.text.x=element_blank(),
+     #   axis.ticks.x=element_blank())
 
 #adds colors and labels
-As_depth + scale_fill_manual(values=c("#fee0d2", "#fc9272", "#de2d26")) + geom_hline(yintercept=32, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 325, label = c("843", "160", "78")) + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey")
+#As_depth + scale_fill_manual(values=c("#fee0d2", "#fc9272", "#de2d26")) + geom_hline(yintercept=32, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 325, label = c("843", "160", "78")) + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey")
 
 #Getting count by depth for annotating
-As_count %>% 
-  group_by(Depth) %>%
-  summarise(no_rows = length(Depth))
+#As_count %>% 
+  #group_by(Depth) %>%
+  #summarise(no_rows = length(Depth))
 ```
 
 Boxplots for Cr
@@ -269,21 +269,21 @@ Cr_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072",
 
 
 #plot by depth
-Cr_depth <- ggplot(USGS_analyze, aes(Depth, Cr_ppm, fill=Depth)) + 
-  geom_boxplot() +
-  xlab("source") +
-  ylab("Cr (mg/kg)") +
-  theme_classic()+
-   theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
+#Cr_depth <- ggplot(USGS_analyze, aes(Depth, Cr_ppm, fill=Depth)) + 
+ # geom_boxplot() +
+  #xlab("source") +
+  #ylab("Cr (mg/kg)") +
+  #theme_classic()+
+   #theme(axis.title.x=element_blank(),
+    #    axis.text.x=element_blank(),
+     #   axis.ticks.x=element_blank())
 
-Cr_depth + scale_fill_manual(values=c("#fee6ce", "#fdae6b", "#e6550d")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 300, label = c("843", "160", "78"))+ geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey")
+#Cr_depth + scale_fill_manual(values=c("#fee6ce", "#fdae6b", "#e6550d")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 300, label = c("843", "160", "78"))+ geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey")
 
 #getting count for Depth
-Cr_count %>% 
-  group_by(Depth) %>%
-  summarise(no_rows = length(Depth))
+#Cr_count %>% 
+ # group_by(Depth) %>%
+  #summarise(no_rows = length(Depth))
 
 ```
 
@@ -344,22 +344,22 @@ Hg_plot.log + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb80
 
 
 #plot by depth
-Hg_depth <- ggplot(USGS_analyze, aes(Depth, Hg_ppm, fill=Depth)) + 
-  geom_boxplot() +
-  xlab("source") +
-  ylab("Hg (mg/kg)") +
-  theme_classic()+
-   theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
+#Hg_depth <- ggplot(USGS_analyze, aes(Depth, Hg_ppm, fill=Depth)) + 
+ # geom_boxplot() +
+  #xlab("source") +
+  #ylab("Hg (mg/kg)") +
+  #theme_classic()+
+   #theme(axis.title.x=element_blank(),
+    #    axis.text.x=element_blank(),
+     #   axis.ticks.x=element_blank())
 
 #adds correct colors and number of obs. 
-Hg_depth + scale_fill_manual(values=c("#e5f5e0", "#a1d99b", "#31a354")) + annotate("text", x = 1:3, y = 100, label = c("628", "159", "58"))
+#Hg_depth + scale_fill_manual(values=c("#e5f5e0", "#a1d99b", "#31a354")) + annotate("text", x = 1:3, y = 100, label = c("628", "159", "58"))
 
 #getting depth counts
-Hg_count %>% 
-  group_by(Depth) %>%
-  summarise(no_rows = length(Depth))
+#Hg_count %>% 
+ # group_by(Depth) %>%
+  #summarise(no_rows = length(Depth))
 ```
 
 
@@ -405,23 +405,23 @@ Ni_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072",
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
 #depth plot
-Ni_depth <- ggplot(USGS_analyze, aes(Depth, Ni_ppm, fill=Depth)) + 
-  geom_boxplot() +
-  xlab("source") +
-  ylab("Ni (mg/kg)") +
-  theme_classic()+ 
-   theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
+#Ni_depth <- ggplot(USGS_analyze, aes(Depth, Ni_ppm, fill=Depth)) + 
+ # geom_boxplot() +
+  #xlab("source") +
+  #ylab("Ni (mg/kg)") +
+  #theme_classic()+ 
+  # theme(axis.title.x=element_blank(),
+   #     axis.text.x=element_blank(),
+    #    axis.ticks.x=element_blank())
 
 #adds correct colors and number of obs. 
-Ni_depth + scale_fill_manual(values=c("#deebf7", "#9ecae1","#3182bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 300, label = c("843", "160", "78"))  + geom_hline(yintercept=40, linetype="dashed", size=1.25, color="darkgrey")
+#Ni_depth + scale_fill_manual(values=c("#deebf7", "#9ecae1","#3182bd")) + geom_hline(yintercept=35, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 300, label = c("843", "160", "78"))  + geom_hline(yintercept=40, linetype="dashed", size=1.25, color="darkgrey")
 
 
 #getting depth count
-Ni_count %>% 
-  group_by(Depth) %>%
-  summarise(no_rows = length(Depth))
+#Ni_count %>% 
+ # group_by(Depth) %>%
+  #summarise(no_rows = length(Depth))
 ```
 
 
@@ -468,22 +468,22 @@ Pb_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072",
 
 
 ##By depth
-Pb_depth <- ggplot(USGS_analyze, aes(Depth, Pb_log, fill=Depth)) + 
-   geom_boxplot() +
-  xlab("source") +
-  ylab("log [Pb (mg/kg)]") +
-  theme_classic()+
-   theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
+#Pb_depth <- ggplot(USGS_analyze, aes(Depth, Pb_log, fill=Depth)) + 
+ #  geom_boxplot() +
+  #xlab("source") +
+  #ylab("log [Pb (mg/kg)]") +
+  #theme_classic()+
+  # theme(axis.title.x=element_blank(),
+   #     axis.text.x=element_blank(),
+    #    axis.ticks.x=element_blank())
 
-Pb_depth + scale_fill_manual(values=c("#efedf5", "#bcbddc","#756bb1")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 3.25, label = c("843","159","78"))  + geom_hline(yintercept=1.477, linetype="dashed", size=1.25, color="darkgrey")
+#Pb_depth + scale_fill_manual(values=c("#efedf5", "#bcbddc","#756bb1")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 3.25, label = c("843","159","78"))  + geom_hline(yintercept=1.477, linetype="dashed", size=1.25, color="darkgrey")
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
 ##depth counts
-Pb_count %>% 
-  group_by(Depth) %>%
-  summarise(no_rows = length(Depth))
+#Pb_count %>% 
+ # group_by(Depth) %>%
+  #summarise(no_rows = length(Depth))
 ```
 
 Now...basic correlation plots of metals + lat/lon and depth
@@ -503,36 +503,7 @@ ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) +
   geom_tile()
 ```
 
-Ordination plot? ISSUE - missing values. 
-```{r}
-##removing NAs - can't do a PCA w/ NAs
-PCA_matrix <- filter(USGS_analyze, !is.na(As_ppm))
-PCA_matrix <- filter(PCA_matrix, !is.na(Cr_ppm))
-PCA_matrix <- filter(PCA_matrix, !is.na(Hg_ppm))
-PCA_matrix <- filter(PCA_matrix, !is.na(Ni_ppm))
-PCA_matrix <- filter(PCA_matrix, !is.na(Pb_ppm))
-
-#now seaprating out just the metals concentrations for PCA
-Main_matrix_metals <- select(PCA_matrix, As_ppm, Cr_ppm, Hg_ppm, Ni_ppm, Pb_ppm)
-
-##Hg and Pb are very skewed, and the magnitudes (ie "abundances") of the values for metals vary between metal types - log transforming to limit affect of skew/mags on ordination
-Log_metals <- log10(Main_matrix_metals)
-
-#princomp runs the PCA, I am telling it not to center/scale columns by setting scale = FALSE. Need ggfortify package to plot using autoplot()
-#install.packages("ggfortify")
-library("ggfortify")
-
-metals.pca <- princomp(Main_matrix_metals, cor = TRUE, scores = TRUE)
-summary(metals.pca) #the summary tells you how much proportional and cumulative variance in the metals dataset each principle component (axis) explains 
-metals.pca$loadings ##the loadings say how much each variable contributes to variance in that "direction"
-
-#starting to plot
-#plot log transformed and not to see how the points clump differenly, log transformed clusters in corner but not by sample source...not transformed is all over the place
-autoplot(princomp(Main_matrix_metals), data=PCA_matrix, colour = "Source")
-autoplot(princomp(Log_metals), data=PCA_matrix, colour = "Depth")
-
-```
-
+Depth loop...still in process. 
 
 ```{r}
 #Can't get this to work yet...I think something is wrong with the UPPER column? It says it's numeric...but it won't perform any mathematical operations on the column. 
