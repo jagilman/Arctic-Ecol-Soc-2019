@@ -386,6 +386,13 @@ Hg_plot.log + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb80
 
 Boxplots for Ni
 ```{r}
+#get summary statistics for Hg concentrations
+summary(USGS_analyze$Ni_ppm, na.rm=TRUE)
+  #Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+    #1.0    77.0   141.0   138.2   195.0   291.0      68  
+sd(USGS_analyze$Ni_ppm, na.rm=TRUE)
+#stavard deviation is 75.32
+
 ##Nickel by source boxplot
 Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) + 
   geom_boxplot() +
@@ -448,6 +455,13 @@ Ni_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072",
 
 Boxplots for Pb
 ```{r}
+#get summary statistics for Hg concentrations
+summary(USGS_analyze$Pb_ppm, na.rm=TRUE)
+    #Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+   #2.00    9.00   13.00   24.55   19.00 3800.00      69 
+sd(USGS_analyze$Pb_ppm, na.rm=TRUE)
+#stavard deviation is 122.13
+
 ##Lead by source boxplot
 Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) + 
    geom_boxplot() +
