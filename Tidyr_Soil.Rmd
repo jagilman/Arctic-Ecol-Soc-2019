@@ -173,6 +173,13 @@ summary(USGS_analyze$As_ppm, na.rm=TRUE)
 sd(USGS_analyze$As_ppm, na.rm=TRUE)
 #stavard deviation is 100.4346
 
+#Calculates the proportion of values greater than the UK Envi Agency As in soil limit (32 mg/kg)
+mean(USGS_analyze$As_ppm > 32, na.rm=TRUE)
+# returns 0.78
+#Calculates the proportion of values greater than the US avg for As in soil from the Toxic Substances and Disease Registry (32 mg/kg)
+mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE)
+# returns 0.885
+
 ##Arsenic boxplot
 As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) + 
    geom_boxplot() +
