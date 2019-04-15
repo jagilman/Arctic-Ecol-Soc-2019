@@ -166,6 +166,13 @@ Looking at distributions of metals data with basic boxplots, Cleveland dot plots
 Making nicers box plots to look at concentration by sample source. Starting w/ As: 
 
 ```{r}
+#get summary statistics for As concentrations
+summary(USGS_analyze$As_ppm, na.rm=TRUE)
+   #Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+    #1.0    35.0   131.0   136.2   228.0   309.0      68 
+sd(USGS_analyze$As_ppm, na.rm=TRUE)
+#stavard deviation is 100.4346
+
 ##Arsenic boxplot
 As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) + 
    geom_boxplot() +
@@ -228,6 +235,13 @@ As_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072",
 
 Boxplots for Cr
 ```{r}
+#get summary statistics for Cr concentrations
+summary(USGS_analyze$Cr_ppm, na.rm=TRUE)
+  #Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+    #1.0    87.0   135.0   133.2   187.0   265.0      68  
+sd(USGS_analyze$Cr_ppm, na.rm=TRUE)
+#stavard deviation is 67.29
+
 ##Chromium by source boxplot
 Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) + 
   geom_boxplot() +
@@ -290,6 +304,13 @@ Cr_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072",
 
 Boxplots for Hg
 ```{r}
+#get summary statistics for Hg concentrations
+summary(USGS_analyze$Hg_ppm, na.rm=TRUE)
+   #Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+   #1.00    5.00    7.00   10.83    9.00   86.00     304  
+sd(USGS_analyze$Hg_ppm, na.rm=TRUE)
+#stavard deviation is 14.19
+
 ##Mercury by source boxplot
 Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) + 
   geom_boxplot() +
