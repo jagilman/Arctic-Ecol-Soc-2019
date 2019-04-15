@@ -191,10 +191,16 @@ As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) +
 As_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -7, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=32, linetype="dashed", size=1.25) + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") +ylim(-10,320) + annotate("text", x = 1:5, y = 320, label = c("b", "a", "a", "a", "a"))
 ##Added a "limit" line in Black from the UK Environmental Agency (2009)
 
+#Checking distribution for stats
 shapiro.test(USGS_analyze$As_ppm) #tests for normality, p < 0.001
 bartlett.test(As_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p = 0.89
 
-#using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
+#Does log transforming help meet assumptions for ANOVA?
+USGS_analyze$As_log <- log(USGS_analyze$As_ppm)
+shapiro.test(USGS_analyze$As_log) #no, p < 0.001
+bartlett.test(As_log~Source, data=USGS_analyze)#no, p  < 0.001
+
+#using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality - this has a built in post hoc test using the criterium Fisher's least significant difference
 As_bySource <- kruskal(USGS_analyze$As_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
 As_bySource #Chi-sq = 51.8, Df = 4, p < 0.001
 #mine-impacted                            a
@@ -247,8 +253,14 @@ Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) +
 Cr_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = -10, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-10,300) + annotate("text", x = 1:5, y = 300, label = c("ab", "a", "b", "ab", "a"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
+#Checking distribution for stats
 shapiro.test(USGS_analyze$Cr_ppm) #tests for normality, p < 0.001
 bartlett.test(Cr_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
+
+#Does log transforming help meet assumptions for ANOVA?
+USGS_analyze$Cr_log <- log(USGS_analyze$Cr_ppm)
+shapiro.test(USGS_analyze$Cr_log) #no, p < 0.001
+bartlett.test(Cr_log~Source, data=USGS_analyze)#no, p  < 0.001
 
 #using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
 Cr_bySource <- kruskal(USGS_analyze$Cr_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
@@ -302,8 +314,15 @@ Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) +
 #adds correct colors and number of obs. 
 Hg_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -10, label = c("139", "82", "440", "12", "172")) + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-10,100) + annotate("text", x = 1:5, y = 100, label = c("d", "b", "c", "a", "c"))
 
+#Checking distribution
 shapiro.test(USGS_analyze$Hg_ppm) #tests for normality, p < 0.001
 bartlett.test(Hg_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
+
+#Does log transforming help meet assumptions for ANOVA?
+USGS_analyze$Hg_log <- log(USGS_analyze$Hg_ppm)
+shapiro.test(USGS_analyze$Hg_log) #no, p < 0.001
+bartlett.test(Hg_log~Source, data=USGS_analyze)#no, p  < 0.001
+
 
 #using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
 Hg_bySource <- kruskal(USGS_analyze$Hg_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
@@ -373,8 +392,14 @@ Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) +
 Ni_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=35, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = -10, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=40, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-10,300) + annotate("text", x = 1:5, y = 300, label = c("bc", "d", "b", "a", "c"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
+#Checking distribution
 shapiro.test(USGS_analyze$Ni_ppm) #tests for normality, p < 0.001
 bartlett.test(Ni_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p < 0.0002
+
+#Does log transforming help meet assumptions for ANOVA?
+USGS_analyze$Ni_log <- log(USGS_analyze$Ni_ppm)
+shapiro.test(USGS_analyze$Ni_log) #no, p < 0.001
+bartlett.test(Ni_log~Source, data=USGS_analyze)#no, p  < 0.001
 
 #using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
 Ni_bySource <- kruskal(USGS_analyze$Ni_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
@@ -429,8 +454,14 @@ Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) +
 Pb_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = 0, label = c("231", "82", "582", "19", "166"))  + geom_hline(yintercept=1.477, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(0,3.25) + annotate("text", x = 1:5, y = 3.25, label = c("b", "b", "b", "a", "c"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
+#Checking distrubition
 shapiro.test(USGS_analyze$Pb_ppm) #tests for normality, p < 0.001
 bartlett.test(Pb_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
+
+#Does log transforming help meet assumptions for ANOVA?
+USGS_analyze$Pb_log <- log(USGS_analyze$Pb_ppm)
+shapiro.test(USGS_analyze$Pb_log) #no, p < 0.001
+bartlett.test(Pb_log~Source, data=USGS_analyze)#no, p  < 0.001
 
 #using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
 Pb_bySource <- kruskal(USGS_analyze$Pb_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
