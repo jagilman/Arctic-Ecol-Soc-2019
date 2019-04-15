@@ -166,17 +166,6 @@ Looking at distributions of metals data with basic boxplots, Cleveland dot plots
 Making nicers box plots to look at concentration by sample source. Starting w/ As: 
 
 ```{r}
-
-#creating a reference data matrix of sample sources and HEX codes to have consistent color scheme across plots 
-
-#Counts for annotation 
-As_count <- select(USGS_analyze, Source, TOP_CM, Depth, As_ppm)
-As_count<- filter(As_count, !is.na(As_ppm))
-As_count %>% 
-  group_by(Source) %>%
-  summarise(no_rows = length(Source))
-
-
 ##Arsenic boxplot
 As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) + 
    geom_boxplot() +
@@ -186,10 +175,6 @@ As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
-
-#adds correct colors and number of obs.
-As_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -7, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=32, linetype="dashed", size=1.25) + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") +ylim(-10,320) + annotate("text", x = 1:5, y = 320, label = c("b", "a", "a", "a", "a"))
-##Added a "limit" line in Black from the UK Environmental Agency (2009)
 
 #Checking distribution for stats
 shapiro.test(USGS_analyze$As_ppm) #tests for normality, p < 0.001
@@ -209,6 +194,17 @@ As_bySource #Chi-sq = 51.8, Df = 4, p < 0.001
 #tundra                                   a
 #forested                                 b
 
+#Counts for annotation 
+As_count <- select(USGS_analyze, Source, TOP_CM, Depth, As_ppm)
+As_count<- filter(As_count, !is.na(As_ppm))
+As_count %>% 
+  group_by(Source) %>%
+  summarise(no_rows = length(Source))
+
+
+#adds correct colors, number of obs., lines for UK EA limit/US avg, and post-hoc groups
+As_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -7, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=32, linetype="dashed", size=1.25) + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") +ylim(-10,320) + annotate("text", x = 1:5, y = 320, label = c("b", "a", "a", "a", "a"))
+##Added a "limit" line in Black from the UK Environmental Agency (2009)
 
 
 #plot by depth
@@ -232,13 +228,6 @@ As_count %>%
 
 Boxplots for Cr
 ```{r}
-#Counts for annotation
-Cr_count <- select(USGS_analyze, Source, TOP_CM, Depth, Cr_ppm)
-Cr_count<- filter(Cr_count, !is.na(Cr_ppm))
-Cr_count %>% 
-  group_by(Source) %>%
-  summarise(no_rows = length(Source))
-
 ##Chromium by source boxplot
 Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) + 
   geom_boxplot() +
@@ -248,10 +237,6 @@ Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
-
-#adds correct colors and number of obs. 
-Cr_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = -10, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-10,300) + annotate("text", x = 1:5, y = 300, label = c("ab", "a", "b", "ab", "a"))
-##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
 #Checking distribution for stats
 shapiro.test(USGS_analyze$Cr_ppm) #tests for normality, p < 0.001
@@ -270,6 +255,17 @@ Cr_bySource #Chi-sq = 42.9, Df = 4, p < 0.001
 #mine-impacted                             ab
 #forested                                  ab
 #tundra                                    b
+
+#Counts for annotation
+Cr_count <- select(USGS_analyze, Source, TOP_CM, Depth, Cr_ppm)
+Cr_count<- filter(Cr_count, !is.na(Cr_ppm))
+Cr_count %>% 
+  group_by(Source) %>%
+  summarise(no_rows = length(Source))
+
+#adds correct colors, number of obs., lines for WHO limit/US avg, and post-hoc groups
+Cr_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = -10, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-10,300) + annotate("text", x = 1:5, y = 300, label = c("ab", "a", "b", "ab", "a"))
+##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
 
 #plot by depth
@@ -294,13 +290,6 @@ Cr_count %>%
 
 Boxplots for Hg
 ```{r}
-#Counts for annotation
-Hg_count <- select(USGS_analyze, Source, Depth, TOP_CM, Hg_ppm)
-Hg_count<- filter(Hg_count, !is.na(Hg_ppm))
-Hg_count %>% 
-  group_by(Source) %>%
-  summarise(no_rows = length(Source))
-
 ##Mercury by source boxplot
 Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) + 
   geom_boxplot() +
@@ -310,9 +299,6 @@ Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) +
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
-
-#adds correct colors and number of obs. 
-Hg_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -10, label = c("139", "82", "440", "12", "172")) + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-10,100) + annotate("text", x = 1:5, y = 100, label = c("d", "b", "c", "a", "c"))
 
 #Checking distribution
 shapiro.test(USGS_analyze$Hg_ppm) #tests for normality, p < 0.001
@@ -333,8 +319,16 @@ Hg_bySource #Chi-sq = 82.8, Df = 4, p < 0.001
 #tundra                                    c
 #forested                                  d
 
-##Displaying data as log-transformed to see spread better
-USGS_analyze$Hg_log <- log(USGS_analyze$Hg_ppm)
+#Counts for annotation
+Hg_count <- select(USGS_analyze, Source, Depth, TOP_CM, Hg_ppm)
+Hg_count<- filter(Hg_count, !is.na(Hg_ppm))
+Hg_count %>% 
+  group_by(Source) %>%
+  summarise(no_rows = length(Source))
+
+#adds correct colors, number of obs., and post-hoc groups
+Hg_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -10, label = c("139", "82", "440", "12", "172")) + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-10,100) + annotate("text", x = 1:5, y = 100, label = c("d", "b", "c", "a", "c"))
+
 
 Hg_plot.log <- ggplot(USGS_analyze, aes(Source, Hg_log, fill=Source)) + 
   geom_boxplot() +
@@ -345,7 +339,7 @@ Hg_plot.log <- ggplot(USGS_analyze, aes(Source, Hg_log, fill=Source)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-#adds correct colors and number of obs. 
+#adds correct colors, number of obs., and post-hoc groups
 Hg_plot.log + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -0.2, label = c("139", "82", "440", "12", "172")) + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-.25,5) + annotate("text", x = 1:5, y = 5, label = c("d", "b", "c", "a", "c"))
 
 
