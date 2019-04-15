@@ -176,7 +176,7 @@ sd(USGS_analyze$As_ppm, na.rm=TRUE)
 #Calculates the proportion of values greater than the UK Envi Agency As in soil limit (32 mg/kg)
 mean(USGS_analyze$As_ppm > 32, na.rm=TRUE)
 # returns 0.78
-#Calculates the proportion of values greater than the US avg for As in soil from the Toxic Substances and Disease Registry (32 mg/kg)
+#Calculates the proportion of values greater than the US avg for As in soil from the Toxic Substances and Disease Registry (7.2 mg/kg)
 mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE)
 # returns 0.885
 
@@ -248,6 +248,13 @@ summary(USGS_analyze$Cr_ppm, na.rm=TRUE)
     #1.0    87.0   135.0   133.2   187.0   265.0      68  
 sd(USGS_analyze$Cr_ppm, na.rm=TRUE)
 #stavard deviation is 67.29
+
+#Calculates the proportion of values greater than the WHO Cr in soil limit (100 mg/kg)
+mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE)
+# returns 0.6799
+#Calculates the proportion of values greater than the US avg for Cr in soil from the Toxic Substances and Disease Registry (37 mg/kg)
+mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE)
+# returns 0.879
 
 ##Chromium by source boxplot
 Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) + 
@@ -393,12 +400,19 @@ Hg_plot.log + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb80
 
 Boxplots for Ni
 ```{r}
-#get summary statistics for Hg concentrations
+#get summary statistics for Ni concentrations
 summary(USGS_analyze$Ni_ppm, na.rm=TRUE)
   #Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
     #1.0    77.0   141.0   138.2   195.0   291.0      68  
 sd(USGS_analyze$Ni_ppm, na.rm=TRUE)
 #stavard deviation is 75.32
+
+#Calculates the proportion of values greater than the WHO Ni in soil limit (35 mg/kg)
+mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE)
+# returns 0.897
+#Calculates the proportion of values greater than the US avg for Ni in soil from the Toxic Substances and Disease Registry (40 mg/kg)
+mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE)
+# returns 0.876
 
 ##Nickel by source boxplot
 Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) + 
@@ -468,6 +482,13 @@ summary(USGS_analyze$Pb_ppm, na.rm=TRUE)
    #2.00    9.00   13.00   24.55   19.00 3800.00      69 
 sd(USGS_analyze$Pb_ppm, na.rm=TRUE)
 #stavard deviation is 122.13
+
+#Calculates the proportion of values greater than the WHO Pb in soil limit (85 mg/kg)
+mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE)
+# returns 0.029
+#Calculates the proportion of values greater than the US avg for Pb in soil from the Toxic Substances and Disease Registry (30 mg/kg)
+mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE)
+# returns 0.1009
 
 ##Lead by source boxplot
 Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) + 
