@@ -180,6 +180,7 @@ mean(USGS_analyze$As_ppm > 32, na.rm=TRUE)
 mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE)
 # returns 0.885
 
+
 ##Arsenic boxplot
 As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) + 
    geom_boxplot() +
