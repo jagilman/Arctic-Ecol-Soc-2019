@@ -311,7 +311,6 @@ Cr_count %>%
 Cr_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = -10, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-10,300) + annotate("text", x = 1:5, y = 300, label = c("ab", "a", "b", "ab", "a"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
-
 #Checking distribution for stats
 shapiro.test(USGS_analyze$Cr_ppm) #tests for normality, p < 0.001
 bartlett.test(Cr_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p = 0.004
@@ -408,6 +407,21 @@ Hg_plot.log <- ggplot(USGS_analyze, aes(Source, Hg_log, fill=Source)) +
 
 #adds correct colors, number of obs., and post-hoc groups
 Hg_plot.log + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -0.2, label = c("139", "82", "440", "12", "172")) + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-.25,5) + annotate("text", x = 1:5, y = 5, label = c("d", "b", "c", "a", "c"))
+
+#Checking distribution for stats
+shapiro.test(USGS_analyze$Hg_ppm) #tests for normality, p < 0.001
+bartlett.test(Hg_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
+
+#Does log transforming help meet assumptions for ANOVA?
+shapiro.test(USGS_analyze$Hg_log) #no, p < 0.001
+bartlett.test(Hg_log~Depth, data=USGS_analyze)#no, p  < 0.001
+
+#using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality - this has a built in post hoc test using the criterium Fisher's least significant difference
+Hg_byDepth <- kruskal(USGS_analyze$Hg_ppm, USGS_analyze$Depth, group=TRUE, p.adj = "bonferroni")
+Hg_byDepth #Chi-sq = 5.13, Df = 2, p = 0.0766
+#deep       a
+#mid        a
+#surface    a
 
 
 #plot by depth
