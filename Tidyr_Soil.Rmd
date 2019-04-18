@@ -173,14 +173,6 @@ summary(USGS_analyze$As_ppm, na.rm=TRUE)
 sd(USGS_analyze$As_ppm, na.rm=TRUE)
 #stavard deviation is 100.4346
 
-#Calculates the proportion of values greater than the UK Envi Agency As in soil limit (32 mg/kg)
-mean(USGS_analyze$As_ppm > 32, na.rm=TRUE)
-# returns 0.78
-#Calculates the proportion of values greater than the US avg for As in soil from the Toxic Substances and Disease Registry (7.2 mg/kg)
-mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE)
-# returns 0.885
-
-
 ##Arsenic boxplot
 As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) + 
    geom_boxplot() +
@@ -266,13 +258,6 @@ summary(USGS_analyze$Cr_ppm, na.rm=TRUE)
     #1.0    87.0   135.0   133.2   187.0   265.0      68  
 sd(USGS_analyze$Cr_ppm, na.rm=TRUE)
 #stavard deviation is 67.29
-
-#Calculates the proportion of values greater than the WHO Cr in soil limit (100 mg/kg)
-mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE)
-# returns 0.6799
-#Calculates the proportion of values greater than the US avg for Cr in soil from the Toxic Substances and Disease Registry (37 mg/kg)
-mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE)
-# returns 0.879
 
 ##Chromium by source boxplot
 Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) + 
@@ -436,7 +421,7 @@ Hg_count %>%
 Hg_depth <- ggplot(USGS_analyze, aes(Depth, Hg_log, fill=Depth)) + 
  geom_boxplot() +
 xlab("source") +
-  ylab("Hg (mg/kg)") +
+  ylab("log [Hg (mg/kg)]") +
   theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -457,13 +442,6 @@ summary(USGS_analyze$Ni_ppm, na.rm=TRUE)
     #1.0    77.0   141.0   138.2   195.0   291.0      68  
 sd(USGS_analyze$Ni_ppm, na.rm=TRUE)
 #stavard deviation is 75.32
-
-#Calculates the proportion of values greater than the WHO Ni in soil limit (35 mg/kg)
-mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE)
-# returns 0.897
-#Calculates the proportion of values greater than the US avg for Ni in soil from the Toxic Substances and Disease Registry (40 mg/kg)
-mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE)
-# returns 0.876
 
 ##Nickel by source boxplot
 Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_ppm, fill=Source)) + 
@@ -549,12 +527,6 @@ summary(USGS_analyze$Pb_ppm, na.rm=TRUE)
 sd(USGS_analyze$Pb_ppm, na.rm=TRUE)
 #stavard deviation is 122.13
 
-#Calculates the proportion of values greater than the WHO Pb in soil limit (85 mg/kg)
-mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE)
-# returns 0.029
-#Calculates the proportion of values greater than the US avg for Pb in soil from the Toxic Substances and Disease Registry (30 mg/kg)
-mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE)
-# returns 0.1009
 
 ##Lead by source boxplot
 Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) + 
@@ -625,10 +597,64 @@ Pb_depth <- ggplot(USGS_analyze, aes(Depth, Pb_log, fill=Depth)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
+Pb_depth
+
 Pb_depth + scale_fill_manual(values=c("#efedf5", "#bcbddc","#756bb1")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 0, label = c("843","159","78"))  + geom_hline(yintercept=1.477, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(0,7) + annotate("text", x = 1:3, y = 7, label = c("b", "a", "b"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
 ```
+Making figure for % over limits: 
+```{r}
+
+#Calculates the proportion of values greater than the UK Envi Agency As in soil limit (32 mg/kg)
+mean(USGS_analyze$As_ppm > 32, na.rm=TRUE)
+# returns 0.78
+#Calculates the proportion of values greater than the US avg for As in soil from the Toxic Substances and Disease Registry (7.2 mg/kg)
+mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE)
+# returns 0.885
+
+#Calculates the proportion of values greater than the WHO Cr in soil limit (100 mg/kg)
+mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE)
+# returns 0.6799
+#Calculates the proportion of values greater than the US avg for Cr in soil from the Toxic Substances and Disease Registry (37 mg/kg)
+mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE)
+# returns 0.879
+
+#Calculates the proportion of values greater than the WHO Ni in soil limit (35 mg/kg)
+mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE)
+# returns 0.897
+#Calculates the proportion of values greater than the US avg for Ni in soil from the Toxic Substances and Disease Registry (40 mg/kg)
+mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE)
+# returns 0.876
+
+#Calculates the proportion of values greater than the WHO Pb in soil limit (85 mg/kg)
+mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE)
+# returns 0.029
+#Calculates the proportion of values greater than the US avg for Pb in soil from the Toxic Substances and Disease Registry (30 mg/kg)
+mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE)
+# returns 0.1009
+
+#making a plot
+#creates a vector of the % of samples above health limits
+limits <- c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE))
+
+#making a dataframe to add metals names
+limits <- as.data.frame(limits)
+limits$metals <- c("Arsenic", "Chromium", "Nickel", "Lead")
+barplot(limits$limits)
+
+#start working on plot here! 
+ggplot(limits, aes(metals, limits)) +
+  geom_linerange(
+    aes(x = metals, ymin = 0, ymax = limits), 
+    color = "lightgray", size = 1.5
+    )+
+  geom_point(aes(color = metals), size = 2)+
+  ggpubr::color_palette("jco")+ theme_classic()
+
+```
+
+
 
 Now...basic correlation plots of metals + lat/lon and depth
 ```{r}
@@ -668,70 +694,6 @@ converted <- mutate(USGS5, TOP =
 USGS5$TOP <- ifelse(USGS5$UNIT %in% "in", USGS5$UPPER*2.54, USGS5$UPPER*1, 
 ifelse(USGS5$UNIT %in% "ft", USGS5$UPPER*30.48, USGS5$UPPER*1))
 
-
-```
-
-
-
-
-Loading the whole US geochem file from Git -- national geochemical survey data base
-
-And filtering for just alaska (by latitude > 52 deg north) and for just soil data
-
-```{r load_us_geochem}
-downloadUSgeochem <- getURL("https://raw.githubusercontent.com/jagilman/Arctic-Ecol-Soc-2019/master/geochem.csv")
-usgeochem <- read.csv(text=downloadUSgeochem, header = T, na.strings = "")
-
-AKgeochem <- filter(usgeochem, LATITUDE > 52.000 & TYPEDESC == "SOIL")
-
-
-```
-
-
-All previous filtering of Nat. GeoChem Survery below - tabled this dataset on 21 Marhc 2019
-
-```{r chemfilter}
-
-
-# Cleaner code - also fixing typo in varname
-AKgeochem_2 <- select(AKgeochem,REC_NO,LABNO,LABNO2,FLDNAM,COLL_DATE,FLDNAM_AN,DESCRIPT,SOIL_HORIZ,SETTING,DATUM,LATITUDE,LONGITUDE,CONTAMSOU,CONTAMPOT,CONTAMDEGR,VEG,ANAL_NOTES,QUAD24CODE,FIPS,CATEGORY,TYPEDESC, matches('HG_|PB_|NI_|AS_|CD_|CR_|TL_'))
-
-# we lose the variables PREV_LABNO & VEG_DENS, but I don't think they are wanted anyway
-
-
-# Getting rid of NURE variables
-
-AKgeochem_3 <- select(AKgeochem_2, -c(AS_NURE, CD_NURE, CR_NURE, HG_NURE, NI_NURE, PB_NURE))
-##need to remove rows from DESCRIPT that lack depths
-
-AKgeochem_4 <- filter(AKgeochem_3, DESCRIPT != "no sheet") #removes samples lacking info
-AKgeochem_5 <-separate(AKgeochem_4, col="DESCRIPT", into=c("DEPTH", "DESCRIPT"), sep=";") #separates depth and description
-AKgeochem_6 <- filter(AKgeochem_5, is.na(DESCRIPT) == FALSE) #removes *most* samples without depths, since their descriptions went into the DEPTH col when split
-AKgeochem_7 <- slice(AKgeochem_6, c(1:17, 19:57, 59:149, 151:174, 176:181)) #remove rest of rows lacking depths that did not split correctly above
-
-#filtering down to shared columns
-AKgeochem_8 <- select(AKgeochem_7,FLDNAM,COLL_DATE,DEPTH,DESCRIPT,SOIL_HORIZ,DATUM,LATITUDE,LONGITUDE,VEG, AS_ICP40, AS_AA, AS_INAA, CD_ICP40, CR_ICP40, CR_INAA, NI_ICP40, NI_INAA, PB_ICP40)
-##NOT Elegant but works! Here we are creating empty columns and filling them with analytical methods to match the USGS format
-AKgeochem_9 <- separate(AKgeochem_8, col=c("AS_ICP40"), into=c("AS1", "AS_ICP"), sep=" ") 
-AKgeochem_9$AS_ICP <- "AES_HF"
-AKgeochem_9 <- separate(AKgeochem_9, col=c("AS_AA"), into=c("AS2", "AS_AA"), sep=" ")
-AKgeochem_9$AS_AA <- "AA_HG_ST"
-AKgeochem_9 <- separate(AKgeochem_9, col=c("AS_INAA"), into=c("AS3", "AS_INAA"), sep=" ") 
-AKgeochem_9$AS_INAA <- "INAA"
-AKgeochem_9 <- separate(AKgeochem_9, col=c("CD_ICP40"), into=c("CD", "CD_ICP"), sep=" ") 
-AKgeochem_9$CD_ICP <- "AES_HF"
-AKgeochem_9 <- separate(AKgeochem_9, col=c("CR_ICP40"), into=c("CR1", "CR_ICP"), sep=" ") 
-AKgeochem_9$CR_ICP <- "AES_HF"
-AKgeochem_9 <- separate(AKgeochem_9, col=c("CR_INAA"), into=c("CR2", "CR_INAA"), sep=" ") 
-AKgeochem_9$CR_INAA <- "INAA"
-AKgeochem_9 <- separate(AKgeochem_9, col=c("NI_ICP40"), into=c("NI", "NI_ICP"), sep=" ") 
-AKgeochem_9$NI_ICP <- "AES_HF"
-AKgeochem_9 <- separate(AKgeochem_9, col=c("NI_INAA"), into=c("NI2", "NI_INAA"), sep=" ") 
-AKgeochem_9$NI_INAA <- "INAA"
-AKgeochem_9 <- separate(AKgeochem_9, col=c("PB_ICP40"), into=c("PB", "PB_ICP"), sep=" ") 
-AKgeochem_9$PB_ICP <- "AES_HF"
-
-##now we need to use gather() to get a summary column of the concentrations and analytical methods for each element -- i.e. AS1, AS2, and AS3 become As_ppmm and AS_ICP, AS_AA, and AS_INAA become As_AM 
 
 ```
 
