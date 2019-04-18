@@ -30,9 +30,9 @@ highlights: |
     #Warming fastest --> feedback loops, melting permafrost
 ```
 
-  The role of the Arctic in global climate, while still not fully understood, is recognized for its importance to global ocean circulation and mid-latitude weather impacts (SWIPA, 2017).  The Arctic has long been a heat sink for the northernhemisphere (SWIPA, 2017).  The current global warming trend and resulting effects of climate change, which are more pervasive at higher latitudes, are causing significant spatial and temporal changes within the Arctic.  While the warming rate in theArctic over the past 50 years has been twice that of the global rate, the past five years (2011 –2015), has seen the Arctic warmer than any time since 1900 (SWIPA, 2017).  Numerous ecological and cryospheric impacts result when the temperature in the subarctic crosses the 0°C mean annual threshold (Callaghan et al.,2010).  Decreasing sea ice extent and duration allows for increased carbon dioxide (CO2) absorption into the ocean contributing to increased ocean acidification impacting marine food webs and ecosystems (SWIPA, 2017).  Coastal flooding and erosion affect freshwater drinking sources and damage existing infrastructure (Callaghan et al.,2010, SWIPA, 2017).  As hydrology is altered by thawing permafrost (Callaghan et al.,2010, SWIPA, 2017) increased wildfire frequency and/or severity will impact the toxicity and contaminant cycling within the Arctic (SWIPA, 2017).    
+  The role of the Arctic in global climate, while still not fully understood, is recognized for its importance to global ocean circulation and mid-latitude weather impacts (SWIPA, 2017).  The Arctic has long been a heat sink for the northern hemisphere (SWIPA, 2017).  The current global warming trend and resulting effects of climate change, which are more pervasive at higher latitudes, are causing significant spatial and temporal changes within the Arctic.  While the warming rate in the Arctic over the past 50 years has been twice that of the global rate, the past five years (2011 –2015), has seen the Arctic warmer than any time since 1900 (SWIPA, 2017).  Numerous ecological and cryospheric impacts result when the temperature in the subarctic crosses the 0°C mean annual threshold (Callaghan et al.,2010).  Decreasing sea ice extent and duration allows for increased carbon dioxide (CO2) absorption into the ocean contributing to increased ocean acidification impacting marine food webs and ecosystems (SWIPA, 2017).  Coastal flooding and erosion affect freshwater drinking sources and damage existing infrastructure (Callaghan et al.,2010, SWIPA, 2017).  As hydrology is altered by thawing permafrost (Callaghan et al.,2010, SWIPA, 2017) increased wildfire frequency and/or severity will impact the toxicity and contaminant cycling within the Arctic (SWIPA, 2017).    
  
-  Increasing temperatures and resulting permafrost thaw are exposing not only larger amounts of these previously frozen soils and bodies of water to the atmosphere, but the amount of time they remain exposed is also increasing.  Due to low decomposition rates from this region the area has long acted as sink for carbon (C).  As the area is subjected to warmer temperatures and increased hydrological activity it is expected that the chemical, biological and physical characteristics of the Arctic will change as previously sequestered C is released.  This C, in the form of dissolved organic matter (DOM) becomes available, for hydrological export as dissolved organic carbon (DOC) or particulate organic carbon (POC) and for microbial decomposition and mineralization (Olefeldt et al., 2012, Marschner and Kalbitz, 2003). Increased DOM availability leads to increased micronutrient availability and pollution transport by influencing the solubility and mobility of organic matter and metals (Marschner and Kalbitz, 2003). 
+  Increasing temperatures and resulting permafrost thaw are exposing not only larger amounts of these previously frozen soils and bodies of water to the atmosphere, but the amount of time they remain exposed is also increasing.  Due to low decomposition rates from this region the area has long acted as sink for carbon (C).  As the area is subjected to warmer temperatures and increased hydrological activity it is expected that the chemical, biological and physical characteristics of the Arctic will change as previously sequestered C is released.  This C, in the form of dissolved organic matter (DOM) becomes available, for hydrological export as dissolved organic carbon (DOC) or particulate organic carbon (POC) and for microbial decomposition and generalization (Olefeldt et al., 2012, Marschner and Kalbitz, 2003). Increased DOM availability leads to increased micronutrient availability and pollution transport by influencing the solubility and mobility of organic matter and metals (Marschner and Kalbitz, 2003). 
 ```{r}
 #NOTE:  paper says this ("Increased DOM availability leads to increased micronutrient availability and pollution transport by influencing the solubility and mobility of organic matter and metals (Marschner and Kalbitz, 2003)") is commonly acknowledged, but cites 4 papers from the 1990’s....do we need more citations?
 ```
@@ -53,69 +53,39 @@ highlights: |
   
 ##Methods 
 
-Data set(s) must contain: 
-
-Depth, method, year, (location), and at least one each of the following metals 
-
-As, Cd, Pb, Hg, Ni, Tl, Cr 
-
+Intial search for data set(s) with the following criteria:  depth, analysis method, year, location.  In addition the data set also had to contain at least one each of the following heavy metals: arsenic (As), cadmium (Cd), chromium (Cr), lead (Pb), mercury (Hg), nickel (Ni), and thallium (Tl).  Data repositories searched were the Arctic Data Center and the United States Geological Survey (USGS).  There was no data withn the ARctic Data Center that met the search critera.  The USGS Alaskan Geochemical Soil Database -> “BestValue_Soil.xlxs” was downloaded on 2/21/2019.  Of the other possible databases also listed in the USGS repository ere superceded by the the "BestValue_Soil" data set.  
  
-Places searched for data: USGS and Arctic Data Center 
 
-Nothing found in Arctic Data Center 
+The BestValue_Soil file was converted to a csv file and uploaded to github.  RStudio (ver 3.5.2, Eggshell Igloo) was configured to read in the csv file from the github repository ( https://raw.githubusercontent.com/jagilman/Arctic-Ecol-Soc-2019/master/BestValue_Soil.csv ) for data processing and analysis.  R libraries used in the analysis: tidyverse (ver. 1.2.1), dplyer (ver. 0.7.8), RCurl (ver. 1.95.4.11), ggplot2 (ver. 3.1.0), reshape2 (ver. 1.4.3), and agricolae (ver. 1.3.0).
 
-All downloads done on 2/21/2019 
+R script was configured to remove the first 4 rows (blank), header set to true and all missing values set to "NA".  Columns that had redundant chemical concentrations and analytical method info were removed using “ends_with” command.  Columns containing desired chemistry data and sample info were selected using select(data, matches()).  Chemistry and anaytical method columns whose names started with As, Cd, Pb, Hg, Ni, Cr, and Tl where also kept.   
 
+Other columns kept were lab ID, field ID, data collected/submitted, latitude/longitude, quad, spheroid, datum, sample source, depth, primary class, location description, sample comment, sample zone, horizon, organics, drainage, and prep columns to capture relevant sample, sampling, and processing information.  Samples missing  latitude, longitude, depth, and sample source information were removed.  The final data set contains the selected heavy metal concentrations, 
+lattitude / longitude, depth, analytica method and sample source information.
 
-Data filtering methods:  
-
-Loaded Dataset: USGS Alaskan Geochemical Soil Database -> “BestValue_Soil.xlxs” on 2/21/2019.  Converted to .csv file for loading into R studio version 3.5.2, Eggshell Igloo. 
-
-Loaded tidyverse, dplyr, RCurl, ggplot2, reshape2 and agricolae packages (add version numbers?)
-
-Set script to read in csv files from github repository = https://raw.githubusercontent.com/jagilman/Arctic-Ecol-Soc-2019/master/BestValue_Soil.csv 
-
-Read in csv, took out first 4 rows that were blank, indicted there was a header, set all missing values to “NA” 
-
-Filtered out columns that were redundant chemical concentration and analytical method info using “ends_with” command (columns reduced from 326 to 229) 
-
-Selected columns of desired chemistry data and sample info using select(data, matches())  
-
-Kept chemistry columns that start with As_, Cd_, Pb_, Hg_, Ni_, Cr_, and Tl_ to get both concentration and analytical methods 
-
-Kept lab ID, field ID, data collected/submitted, latitude/longitude, quad, spheroid, datum, sample source, depth, primary class, location description, sample comment, sample zone, horizon, organics, drainage, and prep columns to capture relevant sample, sampling, and processing information 
-
-Columns reduced from 229 to 34 
-
-Filtered out samples that had missing latitude, longitude, depth, and sample source information 
-
-Rows reduced from 6869 to 4449 
-
-All samples have lat/lon, depth, and sample source and concentration information
-
-Filtering everything out that had no info on depth and sample source
+CONTINUE FROM HERE!!!!!
 
 Then narrowed down columns.  
 
 We need to wrangle the depths.... 
-Recoded depths to get all into a similar format, for example surface (0-25cm) became 0-25 cm. Then filtered depths matching categorical variables: unknown, by horizon, various, A horizon, B horizon, C horizon, surface, Various, loess, loess ?.  Depth units were converted to all have a consistent format, for example inches became in and feet became ft.  The depth column was separated into two columns, depth and units.  Depth column was then sepearated unto upper and low units.  Rows that could not be split and/or parsed correctly were removed.  Database was then filtered to keep only rows that contained units.  
+Recoded depths to get all into a similar format, for example surface (0-25cm) became 0-25 cm. Then filtered depths matching categorical variables: unknown, by horizon, various, A horizon, B horizon, C horizon, surface, Various, loess, loess ?.  Depth units were converted to all have a consistent format, for example inches became in and feet became ft.  The depth column was separated into two columns, depth and units.  Depth column was then separated unto upper and low units.  Rows that could not be split and/or parsed correctly were removed.  Database was then filtered to keep only rows that contained units.  
 
 Now we need to convert units all to cm using a loop (probably)...work in progress...meanwhile I am going to do it offline so we can move forward. We can fix this part later - CP
 
-Created .csv file and uploated to github repository.  Pulled filtered_USGS.csv file from repository into R Studio.  Sources that had only one sample were removed (there were only two of these).  Some analytical methods and sampling sites had identical values for As, Cr, Pb, and Ni, these data were deemed erronous and removed.  Samples with negative Pb values were removed.  
+Created .csv file and uploaded to github repository.  Pulled filtered_USGS.csv file from repository into R Studio.  Sources that had only one sample were removed (there were only two of these).  Some analytical methods and sampling sites had identical values for As, Cr, Pb, and Ni, these data were deemed erroneous and removed.  Samples with negative Pb values were removed.  
 
 Sample source column was renamed to source for a better legend title.  The nine sources were then combined into broader categories.  Instead of having two categories, one for mine tailings and one for mine dump/prospect pit, these became one group called mine impacted.  Forest scattered/timberland became forested.  The permafrost, shrub covered, tundra/alpine tundra, grassland/grazing, land/cultivated land sources were all grouped as tundra.  Glacial debris/deposit became glacial deposit and surface became sedge/moss/shrub wetland.  
 
-Boxplots were created for each heavy metal based on depth.  In addition, boxplots for each heavy metal by concentration relative to the updated source categories.  These plots also include the number of samples per source, the World Heath Organization (WHO) permissible limits, the US Average for soils from the Agency for Toxic Substances and Disease Registry and/or the UK Environment Agency soil concentration limits were added based on available information.
+Box plots were created for each heavy metal based on depth.  In addition, box plots for each heavy metal by concentration relative to the updated source categories.  These plots also include the number of samples per source, the World Heath Organization (WHO) permissible limits, the US Average for soils from the Agency for Toxic Substances and Disease Registry and/or the UK Environment Agency soil concentration limits were added based on available information.
 
 Calculated the proportion of heavy metal concentrations whose values were greater than the published standards for human health.    
 
 
-The Shapiro test was used to check for normality.  The Bartlett test was used to check for homogeneity of variance.  Kruskal-Wallis was used in lieu of ANOVA due to lack of normality for all heavy metals in this dataset.  Bonferroni was then used as a p-value adjustment method to make the significant of differences more concervative.  
+The Shapiro test was used to check for normality.  The Bartlett test was used to check for homogeneity of variance.  Kruskal-Wallis was used in lieu of ANOVA due to lack of normality for all heavy metals in this data set.  Bonferroni was then used as a p-value adjustment method to make the significant of differences more conservative.  
 
 Now...basic correlation plots of metals + lat/lon and depth (probably be removed - did not use and doesn't provide any useful info.)
 
-Attempted oridination plot, however, missing valuees had to be removed.  Log transformed clusters all in one corner where as w/o log transform, points are scattered with no clear grouping/separating out by source. ()
+Attempted ordination plot, however, missing valuers had to be removed.  Log transformed clusters all in one corner where as w/o log transform, points are scattered with no clear grouping/separating out by source. ()
 
 Stopped at loading US Geochem database as we are no longer using anything below this point. 
 
@@ -149,7 +119,7 @@ Stopped at loading US Geochem database as we are no longer using anything below 
 
 ```
 
-  The objectives of this study are (1) to identify the distribution and density of soil sampling sites across the Alaskan arctic that quantify As, Cd, Pb, Hg, Ni and Cr presence, (2) determine the heterogeneity of heavy metal concentrations in soil profiles across the Alaskan arctic, and (3) quantify the proximity of soil sampling sites and potential heavy metal hotspots to local communities to identify potential gaps in available data and threats to arctic communities.  
+  The objectives of this study are (1) to identify the distribution and density of soil sampling sites across the Alaskan arctic that quantify As, Cd, Pb, Hg, Ni and Cr presence, (2) determine the heterogeneity of heavy metal concentrations in soil profiles across the Alaskan arctic, and (3) quantify the proximity of soil sampling sites and potential heavy metal hot spots to local communities to identify potential gaps in available data and threats to arctic communities.  
 
 
 ##Conclustion 
