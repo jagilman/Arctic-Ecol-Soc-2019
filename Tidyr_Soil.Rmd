@@ -223,14 +223,26 @@ As_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072",
 
 
 #plot by depth
-#As_depth <- ggplot(USGS_analyze, aes(Depth, As_ppm, fill=Depth)) + 
-   #geom_boxplot() +
-  #xlab("source") +
-  #ylab("As (mg/kg)") +
-  #theme_classic()+
-   #theme(axis.title.x=element_blank(),
-    #    axis.text.x=element_blank(),
-     #   axis.ticks.x=element_blank())
+As_depth <- ggplot(USGS_analyze, aes(Depth, As_ppm, fill=Depth)) + 
+   geom_boxplot() +
+  xlab("source") +
+  ylab("As (mg/kg)") +
+  theme_classic()+
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+#Checking distribution for stats
+shapiro.test(USGS_analyze$As_ppm) #tests for normality, p < 0.001
+bartlett.test(As_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p = 0.46
+
+#Does log transforming help meet assumptions for ANOVA?
+shapiro.test(USGS_analyze$As_log) #no, p < 0.001
+bartlett.test(As_log~Depth, data=USGS_analyze)#no, p  < 0.001
+
+#using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality - this has a built in post hoc test using the criterium Fisher's least significant difference
+As_byDepth <- kruskal(USGS_analyze$As_ppm, USGS_analyze$Depth, group=TRUE, p.adj = "bonferroni")
+As_byDepth #Chi-sq = 11.01, Df = 2, p = 0.004
 
 #adds colors and labels
 #As_depth + scale_fill_manual(values=c("#fee0d2", "#fc9272", "#de2d26")) + geom_hline(yintercept=32, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 325, label = c("843", "160", "78")) + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey")
