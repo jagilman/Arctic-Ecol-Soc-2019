@@ -106,15 +106,16 @@ Created .csv file and uploated to github repository.  Pulled filtered_USGS.csv f
 
 Sample source column was renamed to source for a better legend title.  The nine sources were then combined into broader categories.  Instead of having two categories, one for mine tailings and one for mine dump/prospect pit, these became one group called mine impacted.  Forest scattered/timberland became forested.  The permafrost, shrub covered, tundra/alpine tundra, grassland/grazing, land/cultivated land sources were all grouped as tundra.  Glacial debris/deposit became glacial deposit and surface became sedge/moss/shrub wetland.  
 
-Boxplots were created for each heavy metal based on depth.  In addition, boxplots for each heavy metal by concentration relative to the updated source categories.  These plots also include the number of samples per source, the World Heath Organization (WHO) permissible limits, the US Average for soils from the Agency for Toxic Substances and Disease Registry and/or the UK Environment Agency soil concentration limits were added based on available information.  
+Boxplots were created for each heavy metal based on depth.  In addition, boxplots for each heavy metal by concentration relative to the updated source categories.  These plots also include the number of samples per source, the World Heath Organization (WHO) permissible limits, the US Average for soils from the Agency for Toxic Substances and Disease Registry and/or the UK Environment Agency soil concentration limits were added based on available information.
 
-The Shapiro test was used to check for normality.  The Bartlett test was used to check for homogeneity of variance.  Kruskal-Wallis was used in lieu of ANOVA due to lack of normality for all heavy metals in this dataset.  
+Calculated the proportion of heavy metal concentrations whose values were greater than the published standards for human health.    
 
-bonferroni????
 
-Now...basic correlation plots of metals + lat/lon and depth
+The Shapiro test was used to check for normality.  The Bartlett test was used to check for homogeneity of variance.  Kruskal-Wallis was used in lieu of ANOVA due to lack of normality for all heavy metals in this dataset.  Bonferroni was then used as a p-value adjustment method to make the significant of differences more concervative.  
 
-Attempted oridination plot, however, missing valuees had to be removed.  Log transformed clusters all in one corner where as w/o log transform, points are scattered with no clear grouping/separating out by source.
+Now...basic correlation plots of metals + lat/lon and depth (probably be removed - did not use and doesn't provide any useful info.)
+
+Attempted oridination plot, however, missing valuees had to be removed.  Log transformed clusters all in one corner where as w/o log transform, points are scattered with no clear grouping/separating out by source. ()
 
 Stopped at loading US Geochem database as we are no longer using anything below this point. 
 
