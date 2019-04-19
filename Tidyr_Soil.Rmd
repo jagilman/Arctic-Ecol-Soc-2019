@@ -620,6 +620,10 @@ mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE)
 mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE)
 # returns 0.879
 
+#Calculates the proportion of values greater than the Canadian Council of Ministers of the Environment Hg in soil limit (6.6 mg/kg)
+mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE)
+#returns 0.5479
+
 #Calculates the proportion of values greater than the WHO Ni in soil limit (35 mg/kg)
 mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE)
 # returns 0.897
