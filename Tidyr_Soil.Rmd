@@ -636,21 +636,21 @@ mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE)
 
 #making a plot
 #creates a vector of the % of samples above health limits
-limits <- c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE))
+limits <- c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE))
 
 #making a dataframe to add metals names
 limits <- as.data.frame(limits)
-limits$metals <- c("Arsenic", "Chromium", "Nickel", "Lead")
+limits$metals <- c("As", "Cr", "Hg", "Ni", "Pb")
 barplot(limits$limits)
 
 #start working on plot here! 
-ggplot(limits, aes(metals, limits)) +
-  geom_linerange(
-    aes(x = metals, ymin = 0, ymax = limits), 
-    color = "lightgray", size = 1.5
-    )+
-  geom_point(aes(color = metals), size = 2)+
-  ggpubr::color_palette("jco")+ theme_classic()
+ggplot(limits, aes(metals, limits, fill=metals)) +
+  geom_col(
+    aes(x = metals, ymin = 0, ymax = limits))+ ylim(0,1.0)+
+    xlab("") +
+  ylab("Proprtion Over Human Health Standard") +
+  scale_fill_manual(values=c("#de2d26", "#e6550d","#31a354", "#3182bd","#756bb1"))+
+  theme_classic()
 
 ```
 
