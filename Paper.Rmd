@@ -20,6 +20,9 @@ highlights: |
   These are the highlights. 
 ---
 
+
+Docment was moved to google docs on 4/25/19
+
 ##Introduction 
 ```{r}
 #	General introduction to artic warming (Apryl)
