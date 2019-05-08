@@ -648,13 +648,22 @@ limits <- as.data.frame(limits)
 limits$metals <- c("As", "Cr", "Hg", "Ni", "Pb")
 barplot(limits$limits)
 
-#start working on plot here! 
+#barplot of % over limit - color version for presentations
 ggplot(limits, aes(metals, limits, fill=metals)) +
   geom_col(
     aes(x = metals, ymin = 0, ymax = limits))+ ylim(0,1.0)+
     xlab("") +
   ylab("Proprtion Over Human Health Standard") +
   scale_fill_manual(values=c("#de2d26", "#e6550d","#31a354", "#3182bd","#756bb1"))+
+  theme_classic()
+
+#greyscale version for manuscript
+ggplot(limits, aes(metals, limits, fill=metals)) +
+  geom_col(
+    aes(x = metals, ymin = 0, ymax = limits))+ ylim(0,1.0)+
+    xlab("") +
+  ylab("Proprtion Over Human Health Standard") +
+  scale_fill_manual(values=c("#d9d9d9", "#bdbdbd","#969696", "#737373","#525252"))+
   theme_classic()
 
 ```
