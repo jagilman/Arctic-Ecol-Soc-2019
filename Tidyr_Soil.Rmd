@@ -93,29 +93,27 @@ USGS5 <- filter(USGS5, UNIT %in% c("cm", "in", "ft"))
 Now we need to convert units all to cm using a loop (probably)...work in progress...meanwhile I am going to do it offline so we can move forward. We can fix this part later - CP
 
 ```{r}
-#write.csv(USGS5, file = "filtered_USGS.csv")
+##From CP - JE's comment about the high Hg values had me digging through to see if there were processing errors (units? order of mag errors?) - I found discrepancies between the copy of the filtered data on github and my local copy, so I reproccesed the data and created a new local copy. Working my new local copy of the filtered data right now instead of from git (hence some commented out code). 
 
-downloadUSGS <- getURL("https://raw.githubusercontent.com/jagilman/Arctic-Ecol-Soc-2019/master/filtered_USGS.csv")
-USGS_analyze <- read.csv(text=downloadUSGS, header = T, na.strings = "")
-USGS_analyze$As_ppm <- as.numeric(USGS_analyze$As_ppm)
-USGS_analyze$Cr_ppm <- as.numeric(USGS_analyze$Cr_ppm)
-USGS_analyze$Ni_ppm <- as.numeric(USGS_analyze$Ni_ppm)
-USGS_analyze$Hg_ppm <- as.numeric(USGS_analyze$Hg_ppm)
+write.csv(USGS5, file = "filtered_USGS.csv")
+USGS_analyze <- read.csv(file.choose())
+#downloadUSGS <- getURL("https://raw.githubusercontent.com/jagilman/Arctic-Ecol-Soc-2019/master/filtered_USGS.csv")
+#USGS_analyze <- read.csv(text=downloadUSGS, header = T, na.strings = "")
+#USGS_analyze$As_ppm <- as.numeric(USGS_analyze$As_ppm)
+#USGS_analyze$Cr_ppm <- as.numeric(USGS_analyze$Cr_ppm)
+#USGS_analyze$Ni_ppm <- as.numeric(USGS_analyze$Ni_ppm)
+#USGS_analyze$Hg_ppm <- as.numeric(USGS_analyze$Hg_ppm)
 
 
-#taking out sources with only 1 sample
-USGS_analyze <- filter(USGS_analyze, SAMPLE_SOURCE !="float" ) #only one sample with this source
-USGS_analyze <- filter(USGS_analyze, SAMPLE_SOURCE !="wetland/swamp/marsh/bog/fen" ) #only one sample with this source
+#replaced filtering/cleaning below with new version that's more efficient
 
-#this removed values that are all the same within the same analytical method/sampling site
-USGS_analyze$As_ppm<- na_if(USGS_analyze$As_ppm, 310)
-USGS_analyze$Cr_ppm<- na_if(USGS_analyze$Cr_ppm, 266)
-USGS_analyze$Hg_ppm<- na_if(USGS_analyze$Hg_ppm, 87)
-USGS_analyze$Ni_ppm<- na_if(USGS_analyze$Ni_ppm, 292)
-##Remove negative values from Pb column
+#taking out values < 0
+is.na(USGS_analyze$As_ppm) <- USGS_analyze$As_ppm < 0
+is.na(USGS_analyze$Cr_ppm) <- USGS_analyze$Cr_ppm < 0
+is.na(USGS_analyze$Hg_ppm) <- USGS_analyze$Hg_ppm < 0
+is.na(USGS_analyze$Ni_ppm) <- USGS_analyze$Ni_ppm < 0
 is.na(USGS_analyze$Pb_ppm) <- USGS_analyze$Pb_ppm < 0
-#USGS_analyze$Pb_ppm<- na_if(USGS_analyze$Pb_ppm, 3800.0)
-USGS_analyze$Pb_log <- log10(USGS_analyze$Pb_ppm)
+
 
 #Renaming SAMPLE_SOURCE as "Source" for better lengend title below
 colnames(USGS_analyze)[colnames(USGS_analyze)=="SAMPLE_SOURCE"] <- "Source"
@@ -128,13 +126,22 @@ USGS_analyze$Source <- recode(USGS_analyze$Source, "permafrost"  = "tundra")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "shrub covered"  = "tundra")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "grassland/grazing land/cultivated land"  = "tundra")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "tundra/alpine tundra"  = "tundra")
+USGS_analyze$Source <- recode(USGS_analyze$Source, "float"  = "glacial deposit")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "glacial debris/deposit"  = "glacial deposit")
+USGS_analyze$Source <- recode(USGS_analyze$Source, "wetland/swamp/marsh/bog/fen"  = "sedge/moss/shrub wetland")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "surface"  = "sedge/moss/shrub wetland")
+
+levels(USGS_analyze$Source)
+
+#this removed values that are all the same within the same analytical method/sampling site
+USGS_analyze$As_ppm<- na_if(USGS_analyze$As_ppm, 310)
+USGS_analyze$Cr_ppm<- na_if(USGS_analyze$Cr_ppm, 266)
+USGS_analyze$Hg_ppm<- na_if(USGS_analyze$Hg_ppm, 87)
+USGS_analyze$Ni_ppm<- na_if(USGS_analyze$Ni_ppm, 292)
 
 #This tells R to plot the depths in this order, not alphbetically. 
 USGS_analyze$Depth <- factor(USGS_analyze$Depth, levels = c("surface", "mid", "deep"))
 
-#source_depth_map <- write.csv(USGS_analyze, file="Map_data_5April2019")
 ```
 
 Looking at distributions of metals data with basic boxplots, Cleveland dot plots, and histograms to look at distrubtions (commented out for now). 
