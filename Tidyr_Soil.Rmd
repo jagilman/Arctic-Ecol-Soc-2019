@@ -546,10 +546,34 @@ Boxplots for Pb
 #get summary statistics for Hg concentrations
 summary(USGS_analyze$Pb_ppm, na.rm=TRUE)
     #Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-   #2.00    9.00   13.00   24.55   19.00 3800.00      69 
+   #2.00    9.00   13.00   21.06   19.00  720.00      70 
 sd(USGS_analyze$Pb_ppm, na.rm=TRUE)
-#stavard deviation is 122.13
+#stavard deviation is 41.14311
 
+
+#Checking distrubition
+shapiro.test(USGS_analyze$Pb_ppm) #tests for normality, p < 0.001
+bartlett.test(Pb_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
+
+#Does log transforming help meet assumptions for ANOVA?
+shapiro.test(USGS_analyze$Pb_log) #no, p < 0.001
+bartlett.test(Pb_log~Source, data=USGS_analyze)#no, p  < 0.001
+
+#using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
+Pb_bySource <- kruskal(USGS_analyze$Pb_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
+Pb_bySource #Chi-sq = 119.91, Df = 4, p < 0.001
+#mine-impacted                       885.1579      a
+#forested                            580.6905      b
+#glacial deposit                     575.9699      b
+#tundra                              573.2651      b
+#sedge/moss/shrub wetland            317.3114      c
+
+##getting counts for each source type to annotate figure 
+Pb_count <- select(USGS_analyze, Source, Depth, upper.cm, Pb_ppm, Pb_log)
+Pb_count<- filter(Pb_count, !is.na(Pb_ppm))
+Pb_count %>% 
+  group_by(Source) %>%
+  summarise(no_rows = length(Source))
 
 ##Lead by source boxplot
 Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) + 
@@ -561,34 +585,10 @@ Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-#Checking distrubition
-shapiro.test(USGS_analyze$Pb_ppm) #tests for normality, p < 0.001
-bartlett.test(Pb_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
-
-#Does log transforming help meet assumptions for ANOVA?
-USGS_analyze$Pb_log <- log(USGS_analyze$Pb_ppm)
-shapiro.test(USGS_analyze$Pb_log) #no, p < 0.001
-bartlett.test(Pb_log~Source, data=USGS_analyze)#no, p  < 0.001
-
-#using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
-Pb_bySource <- kruskal(USGS_analyze$Pb_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
-Pb_bySource #Chi-sq = 122.58, Df = 4, p < 0.001
-#mine-impacted                             a
-#forested                                  b
-#tundra                                    b
-#glacial deposit                           b
-#sedge/moss/shrub wetland                  c
-
-##getting counts for each source type to annotate figure 
-Pb_count <- select(USGS_analyze, Source, Depth, TOP_CM, Pb_ppm, Pb_log)
-Pb_count<- filter(Pb_count, !is.na(Pb_ppm))
-Pb_count %>% 
-  group_by(Source) %>%
-  summarise(no_rows = length(Source))
-
 #adds correct colors, number of obs., lines for WHO limit/US avg, and post-hoc groups 
-Pb_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = 0, label = c("231", "82", "582", "19", "166"))  + geom_hline(yintercept=1.477, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(0,3.25) + annotate("text", x = 1:5, y = 3.25, label = c("b", "b", "b", "a", "c"))
+Pb_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=4.4426, linetype="dashed", size=0.75) + annotate("text", x = 1:5, y = -0.5, label = c("83", "231", "581", "19", "167"))  + geom_hline(yintercept=3.401, linetype="dotted", size=0.75) + ylim(-0.5,10) + annotate("text", x = 1:5, y = 10, label = c("b", "b", "b", "a", "c"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
+#+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") 
 
 #Checking distribution for stats
 shapiro.test(USGS_analyze$Pb_ppm) #tests for normality, p < 0.001
