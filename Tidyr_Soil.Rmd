@@ -625,7 +625,7 @@ Pb_depth + scale_fill_manual(values=c("#efedf5", "#bcbddc","#756bb1")) + geom_hl
 ```
 Making figure for % over limits: 
 ```{r}
-write.csv(USGS_analyze, file ="filteredData_forMaps")
+#write.csv(USGS_analyze, file ="filteredData_forMaps")
 #Calculates the proportion of values greater than the UK Envi Agency As in soil limit (32 mg/kg)
 mean(USGS_analyze$As_ppm > 32, na.rm=TRUE)
 # returns 0.78 (OLD)
@@ -641,29 +641,36 @@ mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE)
 # NEW: 0.09235075
 #Calculates the proportion of values greater than the US avg for Cr in soil from the Toxic Substances and Disease Registry (37 mg/kg)
 mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE)
-# returns 0.879
+# returns 0.879 (OLD)
 #NEW: 0.7014925
 
 #Calculates the proportion of values greater than the Canadian Council of Ministers of the Environment Hg in soil limit (6.6 mg/kg)
 mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE)
-#returns 0.5479
+#returns 0.5479 (OLD)
 # NEW: 0.0375
+#Calculates the proportion of values greater than the median value for soils in the Western United States (1.08 mg/kg; from Obrist et al., 2016)
+mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE)
+# returns 0.935
 
 #Calculates the proportion of values greater than the WHO Ni in soil limit (35 mg/kg)
 mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE)
-# returns 0.897
+# returns 0.897 (OLD)
+# NEW: 0.3522833
 #Calculates the proportion of values greater than the US avg for Ni in soil from the Toxic Substances and Disease Registry (40 mg/kg)
 mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE)
-# returns 0.876
+# returns 0.876 (OLD)
+# NEW: 0.2646785
 
 #Calculates the proportion of values greater than the WHO Pb in soil limit (85 mg/kg)
 mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE)
-# returns 0.029
+# returns 0.029 (OLD)
+# NEW: 0.02867715
 #Calculates the proportion of values greater than the US avg for Pb in soil from the Toxic Substances and Disease Registry (30 mg/kg)
 mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE)
 # returns 0.1009
+# NEW: 0.1008326
 
-#making a plot
+#making a plot of values above health limits: 
 #creates a vector of the % of samples above health limits
 limits <- c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE))
 
@@ -690,26 +697,40 @@ ggplot(limits, aes(metals, limits, fill=metals)) +
   scale_fill_manual(values=c("#d9d9d9", "#bdbdbd","#969696", "#737373","#525252"))+
   theme_classic()
 
+
+#making a plot of values above US averages: 
+#creates a vector of the % of samples above averages
+averages <- c(mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE))
+
+#making a dataframe to add metals names
+averages <- as.data.frame(averages)
+averages$metals <- c("As", "Cr", "Hg", "Ni", "Pb")
+barplot(averages$averages)
+
+#barplot of % over limit - color version for presentations
+ggplot(averages, aes(metals, averages, fill=metals)) +
+  geom_col(
+    aes(x = metals, ymin = 0, ymax = averages))+ ylim(0,1.0)+
+    xlab("") +
+  ylab("Proprtion Over Human Health Standard") +
+  scale_fill_manual(values=c("#de2d26", "#e6550d","#31a354", "#3182bd","#756bb1"))+
+  theme_classic()
+
+#greyscale version for manuscript
+ggplot(averages, aes(metals, averages, fill=metals)) +
+  geom_col(
+    aes(x = metals, ymin = 0, ymax = averages))+ ylim(0,1.0)+
+    xlab("") +
+  ylab("Proprtion Over Human Health Standard") +
+  scale_fill_manual(values=c("#d9d9d9", "#bdbdbd","#969696", "#737373","#525252"))+
+  theme_classic()
+
+
+
 ```
 
 
 
-Now...basic correlation plots of metals + lat/lon and depth
-```{r}
-USGS_numeric <- select(USGS_analyze,TOP_CM, LATITUDE, LONGITUDE, As_ppm, Cr_ppm, Hg_ppm, Ni_ppm, Pb_ppm) 
-
-#creating a correlation matrix
-cormat <- round(cor(USGS_numeric),2)
-cormat
-
-#"melting" the matrix (make longform)
-melted_cormat <- melt(cormat)
-head(melted_cormat)
-
-#plot heatmap of correlation matrix
-ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) + 
-  geom_tile()
-```
 
 Depth loop...still in process. 
 
