@@ -241,7 +241,7 @@ As_plot <- ggplot(USGS_analyze, aes(Source, As_log, fill=Source)) +
 As_plot
 
 #adds correct colors, number of obs., lines for UK EA limit/US avg, and post-hoc groups
-As_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -0.5, label = c("83", "188", "499", "18", "173")) + geom_hline(yintercept=3.4657, linetype="dashed", size=0.75) + geom_hline(yintercept=1.974, linetype="dotted", size=0.75, color="black")  + annotate("text", x = 1:5, y = 10, label = c("b", "b", "b", "a", "c"))
+As_plot + scale_fill_manual(values=c("#80b1d3", "#b3de69", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -0.5, label = c("83", "188", "499", "18", "173")) + geom_hline(yintercept=3.4657, linetype="dashed", size=0.75) + geom_hline(yintercept=1.974, linetype="dotted", size=0.75, color="black")  + annotate("text", x = 1:5, y = 10, label = c("b", "b", "b", "a", "c"))
 ##Added a "limit" line in Black from the UK Environmental Agency (2009)
 # + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") +ylim(-0.5,10)
 
@@ -329,7 +329,7 @@ Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_log, fill=Source)) +
 Cr_plot
 
 #adds correct colors, number of obs., lines for WHO limit/US avg, and post-hoc groups
-Cr_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=4.605, linetype="dashed", size=0.75) + annotate("text", x = 1:5, y = -0.5, label = c("83", "273", "524", "19", "173")) + geom_hline(yintercept=3.611, linetype="dotted", size=0.75, color="black") + ylim(-0.5,10) + annotate("text", x = 1:5, y = 10, label = c("bc", "b", "c", "a", "bc"))
+Cr_plot + scale_fill_manual(values=c("#80b1d3", "#b3de69", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=4.605, linetype="dashed", size=0.75) + annotate("text", x = 1:5, y = -0.5, label = c("83", "273", "524", "19", "173")) + geom_hline(yintercept=3.611, linetype="dotted", size=0.75, color="black") + ylim(-0.5,10) + annotate("text", x = 1:5, y = 10, label = c("bc", "b", "c", "a", "bc"))
 #+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") 
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 
@@ -416,7 +416,7 @@ Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_log, fill=Source)) +
         axis.ticks.x=element_blank())
 
 #adds correct colors, number of obs., and post-hoc groups
-Hg_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -6, label = c("83", "124", "411", "12", "170")) + ylim(-6,10) + annotate("text", x = 1:5, y = 10, label = c("b", "d", "c", "a", "c")) + geom_hline(yintercept=1.887, linetype="dashed", size=0.75)
+Hg_plot + scale_fill_manual(values=c("#80b1d3", "#b3de69", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -6, label = c("83", "124", "411", "12", "170")) + ylim(-6,10) + annotate("text", x = 1:5, y = 10, label = c("b", "d", "c", "a", "c")) + geom_hline(yintercept=1.887, linetype="dashed", size=0.75)
 #Standard from the Canadian Council of Ministers of the Environment
 #+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white")
 
@@ -502,7 +502,7 @@ Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_log, fill=Source)) +
         axis.ticks.x=element_blank())
 
 #adds correct colors, number of obs., lines for WHO limit/US avg, and post-hoc groups 
-Ni_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=3.555, linetype="dashed", size=0.75) + annotate("text", x = 1:5, y = -10, label = c("83", "273", "531", "19", "167")) + geom_hline(yintercept=3.6888, linetype="dotted", size=0.75, color="black")  + ylim(-0.5,10) + annotate("text", x = 1:5, y = 10, label = c("d", "a", "b", "a", "c"))
+Ni_plot + scale_fill_manual(values=c("#80b1d3", "#b3de69", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=3.555, linetype="dashed", size=0.75) + annotate("text", x = 1:5, y = -10, label = c("83", "273", "531", "19", "167")) + geom_hline(yintercept=3.6888, linetype="dotted", size=0.75, color="black")  + ylim(-0.5,10) + annotate("text", x = 1:5, y = 10, label = c("d", "a", "b", "a", "c"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 #+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white")
 
@@ -586,24 +586,22 @@ Pb_plot <- ggplot(USGS_analyze, aes(Source, Pb_log, fill=Source)) +
         axis.ticks.x=element_blank())
 
 #adds correct colors, number of obs., lines for WHO limit/US avg, and post-hoc groups 
-Pb_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=4.4426, linetype="dashed", size=0.75) + annotate("text", x = 1:5, y = -0.5, label = c("83", "231", "581", "19", "167"))  + geom_hline(yintercept=3.401, linetype="dotted", size=0.75) + ylim(-0.5,10) + annotate("text", x = 1:5, y = 10, label = c("b", "b", "b", "a", "c"))
+Pb_plot + scale_fill_manual(values=c("#80b1d3", "#b3de69", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=4.4426, linetype="dashed", size=0.75) + annotate("text", x = 1:5, y = -0.5, label = c("83", "231", "581", "19", "167"))  + geom_hline(yintercept=3.401, linetype="dotted", size=0.75) + ylim(-0.5,10) + annotate("text", x = 1:5, y = 10, label = c("b", "b", "b", "a", "c"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
 #+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") 
 
-#Checking distribution for stats
-shapiro.test(USGS_analyze$Pb_ppm) #tests for normality, p < 0.001
+#Checking distribution for stats for depth
 bartlett.test(Pb_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
 
 #Does log transforming help meet assumptions for ANOVA?
-shapiro.test(USGS_analyze$Pb_log) #no, p < 0.001
 bartlett.test(Pb_log~Depth, data=USGS_analyze) #no, p < 0.001
 
 #using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality - this has a built in post hoc test using the criterium Fisher's least significant difference
 Pb_byDepth <- kruskal(USGS_analyze$Pb_ppm, USGS_analyze$Depth, group=TRUE, p.adj = "bonferroni")
-Pb_byDepth #Chi-sq = 11.38, Df = 2, p = 0.003
-#mid                a
-#surface            b
-#deep               b
+Pb_byDepth #Chi-sq = 11.385, Df = 2, p = 0.0034
+#mid                620.0822      a
+#surface            528.1214      b
+#deep               527.4588      b
 
 #depth counts
 Pb_count %>% 
@@ -611,7 +609,7 @@ Pb_count %>%
   summarise(no_rows = length(Depth))
 
 #By depth
-Pb_depth <- ggplot(USGS_analyze, aes(Depth, Pb_log, fill=Depth)) + 
+Pb_depth <- ggplot(USGS_analyze, aes(depth, Pb_log, fill=depth)) + 
    geom_boxplot() +
   xlab("source") +
   ylab("log [Pb (mg/kg)]") +
@@ -620,10 +618,9 @@ Pb_depth <- ggplot(USGS_analyze, aes(Depth, Pb_log, fill=Depth)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-Pb_depth
-
-Pb_depth + scale_fill_manual(values=c("#efedf5", "#bcbddc","#756bb1")) + geom_hline(yintercept=1.9294, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = 0, label = c("843","159","78"))  + geom_hline(yintercept=1.477, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(0,7) + annotate("text", x = 1:3, y = 7, label = c("b", "a", "b"))
+Pb_depth + scale_fill_manual(values=c("#efedf5", "#bcbddc","#756bb1")) + geom_hline(yintercept=4.4426, linetype="dashed", size=0.75) + annotate("text", x = 1:3, y = -0.5, label = c("844","152","85"))  + geom_hline(yintercept=3.401, linetype="dotted", size=0.75) + ylim(-0.5,10) + annotate("text", x = 1:3, y = 10, label = c("b", "a", "b"))
 ##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
+#+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") 
 
 ```
 Making figure for % over limits: 
