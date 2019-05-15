@@ -266,7 +266,7 @@ As_count %>%
 As_depth <- ggplot(USGS_analyze, aes(Depth, As_log, fill=Depth)) + 
    geom_boxplot() +
   xlab("source") +
-  ylab("log[As (mg/kg)]") +
+  ylab("log [As (mg/kg)]") +
   theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -284,74 +284,73 @@ Boxplots for Cr
 #get summary statistics for Cr concentrations
 summary(USGS_analyze$Cr_ppm, na.rm=TRUE)
   #Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-    #1.0    87.0   135.0   133.2   187.0   265.0      68  
+    #1.00   33.30   56.00   59.24   78.00  350.00      79  
 sd(USGS_analyze$Cr_ppm, na.rm=TRUE)
-#stavard deviation is 67.29
-
-##Chromium by source boxplot
-Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_ppm, fill=Source)) + 
-  geom_boxplot() +
-  xlab("source") +
-  ylab("Cr (mg/kg)") +
-  theme_classic()+
-   theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
+#stavard deviation is 38.04351
 
 #Checking distribution for stats
 shapiro.test(USGS_analyze$Cr_ppm) #tests for normality, p < 0.001
 bartlett.test(Cr_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
 
 #Does log transforming help meet assumptions for ANOVA?
-USGS_analyze$Cr_log <- log(USGS_analyze$Cr_ppm)
 shapiro.test(USGS_analyze$Cr_log) #no, p < 0.001
 bartlett.test(Cr_log~Source, data=USGS_analyze)#no, p  < 0.001
 
 #using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
 Cr_bySource <- kruskal(USGS_analyze$Cr_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
-Cr_bySource #Chi-sq = 42.9, Df = 4, p < 0.001
-#glacial deposit                           a
-#sedge/moss/shrub wetland                  a
-#mine-impacted                             ab
-#forested                                  ab
-#tundra                                    b
+Cr_bySource #Chi-sq = 36.008, Df = 4, p < 0.001
+#mine-impacted                       863.7895      a
+#forested                            585.8810      b
+#glacial deposit                     539.7711     bc
+#sedge/moss/shrub wetland            535.5665     bc
+#tundra                              498.6956      c
 
 #Counts for annotation
-Cr_count <- select(USGS_analyze, Source, TOP_CM, Depth, Cr_ppm)
+Cr_count <- select(USGS_analyze, Source, upper.cm, Depth, Cr_ppm)
 Cr_count<- filter(Cr_count, !is.na(Cr_ppm))
 Cr_count %>% 
   group_by(Source) %>%
   summarise(no_rows = length(Source))
 
-#adds correct colors, number of obs., lines for WHO limit/US avg, and post-hoc groups
-Cr_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = -10, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-10,300) + annotate("text", x = 1:5, y = 300, label = c("ab", "a", "b", "ab", "a"))
-##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
-
-
-#plot by depth
-Cr_depth <- ggplot(USGS_analyze, aes(Depth, Cr_ppm, fill=Depth)) + 
- geom_boxplot() +
+##Chromium by source boxplot
+Cr_plot <- ggplot(USGS_analyze, aes(Source, Cr_log, fill=Source)) + 
+  geom_boxplot() +
   xlab("source") +
-  ylab("Cr (mg/kg)") +
+  ylab("log [Cr (mg/kg)]") +
   theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-#Checking distribution for stats
-shapiro.test(USGS_analyze$Cr_ppm) #tests for normality, p < 0.001
-bartlett.test(Cr_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p = 0.004
+Cr_plot
+
+#adds correct colors, number of obs., lines for WHO limit/US avg, and post-hoc groups
+Cr_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + geom_hline(yintercept=2, linetype="dashed", size=1.25) + annotate("text", x = 1:5, y = -0.5, label = c("83", "273", "524", "19", "173")) + geom_hline(yintercept=1.5682, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-0.5,10) + annotate("text", x = 1:5, y = 10, label = c("bc", "b", "c", "a", "bc"))
+##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
+
+
+#plot by depth
+Cr_depth <- ggplot(USGS_analyze, aes(Depth, Cr_log, fill=Depth)) + 
+ geom_boxplot() +
+  xlab("source") +
+  ylab("log [Cr (mg/kg)]") +
+  theme_classic()+
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+#Checking distribution for stats on depth
+bartlett.test(Cr_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p = 0.0003218
 
 #Does log transforming help meet assumptions for ANOVA?
-shapiro.test(USGS_analyze$Cr_log) #no, p < 0.001
 bartlett.test(Cr_log~Depth, data=USGS_analyze)#no, p  < 0.001
 
 #using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality - this has a built in post hoc test using the criterium Fisher's least significant difference
 Cr_byDepth <- kruskal(USGS_analyze$Cr_ppm, USGS_analyze$Depth, group=TRUE, p.adj = "bonferroni")
-Cr_byDepth #Chi-sq = 40.1, Df = 2, p <0.001
-#mid        a
-#surface    b
-#deep       c
+Cr_byDepth #Chi-sq = 47, Df = 2, p <0.001
+#mid                632.9935      a
+#surface            537.5304      b
+#deep               338.6646      c
 
 
 #getting count for Depth
@@ -359,7 +358,7 @@ Cr_count %>%
  group_by(Depth) %>%
   summarise(no_rows = length(Depth))
 
-Cr_depth + scale_fill_manual(values=c("#fee6ce", "#fdae6b", "#e6550d")) + geom_hline(yintercept=100, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = -10, label = c("843", "160", "78"))+ geom_hline(yintercept=37, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-10,300) + annotate("text", x = 1:3, y = 300, label = c("ab", "a", "b"))
+Cr_depth + scale_fill_manual(values=c("#fee6ce", "#fdae6b", "#e6550d")) + geom_hline(yintercept=2, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = -0.5, label = c("840", "153", "79"))+ geom_hline(yintercept=1.5682, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-0.5,10) + annotate("text", x = 1:3, y = 10, label = c("b", "a", "c"))
 
 
 ```
