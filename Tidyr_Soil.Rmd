@@ -369,51 +369,38 @@ Boxplots for Hg
 #get summary statistics for Hg concentrations
 summary(USGS_analyze$Hg_ppm, na.rm=TRUE)
    #Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-   #1.00    5.00    7.00   10.83    9.00   86.00     304  
+   # 0.01    0.04    0.06   30.44    0.09 6090.00     351  
 sd(USGS_analyze$Hg_ppm, na.rm=TRUE)
-#stavard deviation is 14.19
-
-##Mercury by source boxplot
-Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_ppm, fill=Source)) + 
-  geom_boxplot() +
-  xlab("source") +
-  ylab("Hg (mg/kg)") +
-  theme_classic()+
-   theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
+#sd is 277.0058
 
 #Checking distribution
 shapiro.test(USGS_analyze$Hg_ppm) #tests for normality, p < 0.001
 bartlett.test(Hg_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
 
 #Does log transforming help meet assumptions for ANOVA?
-USGS_analyze$Hg_log <- log(USGS_analyze$Hg_ppm)
 shapiro.test(USGS_analyze$Hg_log) #no, p < 0.001
 bartlett.test(Hg_log~Source, data=USGS_analyze)#no, p  < 0.001
 
 
 #using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality
 Hg_bySource <- kruskal(USGS_analyze$Hg_ppm, USGS_analyze$Source, group=TRUE, p.adj = "bonferroni")
-Hg_bySource #Chi-sq = 82.8, Df = 4, p < 0.001
-#mine-impacted                             a
-#glacial deposit                           b
-#sedge/moss/shrub wetland                  c
-#tundra                                    c
-#forested                                  d
+Hg_bySource #Chi-sq = 72.28, Df = 4, p < 0.001
+#mine-impacted                       791.3333      a
+#glacial deposit                     489.8313      b
+#tundra                              403.1229      c
+#sedge/moss/shrub wetland            398.0912      c
+#forested                            297.4919      d
 
 #Counts for annotation
-Hg_count <- select(USGS_analyze, Source, Depth, TOP_CM, Hg_ppm)
+Hg_count <- select(USGS_analyze, Source, Depth, upper.cm, Hg_ppm)
 Hg_count<- filter(Hg_count, !is.na(Hg_ppm))
 Hg_count %>% 
   group_by(Source) %>%
   summarise(no_rows = length(Source))
 
-#adds correct colors, number of obs., and post-hoc groups
-Hg_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -10, label = c("139", "82", "440", "12", "172")) + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-10,100) + annotate("text", x = 1:5, y = 100, label = c("d", "b", "c", "a", "c")) + geom_hline(yintercept=6.6, linetype="dashed", size=1.25)
-#Standard from the Canadian Council of Ministers of the Environment
 
-Hg_plot.log <- ggplot(USGS_analyze, aes(Source, Hg_log, fill=Source)) + 
+##Mercury by source boxplot
+Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_log, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
   ylab("log [Hg (mg/kg)]") +
@@ -423,15 +410,14 @@ Hg_plot.log <- ggplot(USGS_analyze, aes(Source, Hg_log, fill=Source)) +
         axis.ticks.x=element_blank())
 
 #adds correct colors, number of obs., and post-hoc groups
-Hg_plot.log + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -0.2, label = c("139", "82", "440", "12", "172")) + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-.25,5) + annotate("text", x = 1:5, y = 5, label = c("d", "b", "c", "a", "c")) + geom_hline(yintercept=0.8195, linetype="dashed", size=1.25)
+Hg_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = 10, label = c("83", "124", "411", "12", "170")) + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-6,10) + annotate("text", x = 1:5, y = -6, label = c("b", "d", "c", "a", "c")) + geom_hline(yintercept=0.81954, linetype="dashed", size=1.25)
 #Standard from the Canadian Council of Ministers of the Environment
 
-#Checking distribution for stats
-shapiro.test(USGS_analyze$Hg_ppm) #tests for normality, p < 0.001
+
+#Checking distribution for stats for depth
 bartlett.test(Hg_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
 
 #Does log transforming help meet assumptions for ANOVA?
-shapiro.test(USGS_analyze$Hg_log) #no, p < 0.001
 bartlett.test(Hg_log~Depth, data=USGS_analyze)#no, p  < 0.001
 
 #using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality - this has a built in post hoc test using the criterium Fisher's least significant difference
