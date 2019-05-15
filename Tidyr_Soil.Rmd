@@ -219,7 +219,7 @@ As_bySource #Chi-sq = 99.76, Df = 4, p < 0.001
 #sedge/moss/shrub wetland            339.5202      c
 
 #Counts for annotation 
-As_count <- select(USGS_analyze, Source, TOP_CM, Depth, As_ppm)
+As_count <- select(USGS_analyze, Source, upper.cm, Depth, As_ppm)
 As_count<- filter(As_count, !is.na(As_ppm))
 As_count %>% 
   group_by(Source) %>%
@@ -227,44 +227,34 @@ As_count %>%
 
 
 ##Arsenic boxplot
-As_plot <- ggplot(USGS_analyze, aes(Source, As_ppm, fill=Source)) + 
+As_plot <- ggplot(USGS_analyze, aes(Source, As_log, fill=Source)) + 
    geom_boxplot() +
   xlab("source") +
-  ylab("As (mg/kg)") +
+  ylab("log [As (mg/kg)]") +
   theme_classic()+
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
+As_plot
+
 #adds correct colors, number of obs., lines for UK EA limit/US avg, and post-hoc groups
-As_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -7, label = c("277", "82", "531", "19", "172")) + geom_hline(yintercept=32, linetype="dashed", size=1.25) + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") +ylim(-10,320) + annotate("text", x = 1:5, y = 320, label = c("b", "a", "a", "a", "a"))
+As_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = -0.5, label = c("83", "188", "499", "18", "173")) + geom_hline(yintercept=1.505, linetype="dashed", size=1.25) + geom_hline(yintercept=0.8573, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") +ylim(-0.5,10) + annotate("text", x = 1:5, y = 10, label = c("b", "b", "b", "a", "c"))
 ##Added a "limit" line in Black from the UK Environmental Agency (2009)
 
 
-#plot by depth
-As_depth <- ggplot(USGS_analyze, aes(Depth, As_ppm, fill=Depth)) + 
-   geom_boxplot() +
-  xlab("source") +
-  ylab("As (mg/kg)") +
-  theme_classic()+
-   theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
-
-#Checking distribution for stats
-shapiro.test(USGS_analyze$As_ppm) #tests for normality, p < 0.001
-bartlett.test(As_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p = 0.46
+#Checking distribution of depths for stats
+bartlett.test(As_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
 
 #Does log transforming help meet assumptions for ANOVA?
-shapiro.test(USGS_analyze$As_log) #no, p < 0.001
 bartlett.test(As_log~Depth, data=USGS_analyze)#no, p  < 0.001
 
 #using Kruskal-Wallis test in lieu of an ANOVA because of the lack of normality - this has a built in post hoc test using the criterium Fisher's least significant difference
 As_byDepth <- kruskal(USGS_analyze$As_ppm, USGS_analyze$Depth, group=TRUE, p.adj = "bonferroni")
-As_byDepth #Chi-sq = 11.01, Df = 2, p = 0.004
-#mid         a
-#surface     b
-#deep        b
+As_byDepth #Chi-sq = 5.996, Df = 2, p = 0.04986
+#mid                531.0915      a
+#surface            472.3721      a
+#deep               463.8210      a
 
 
 #Getting count by depth for annotating
@@ -272,8 +262,20 @@ As_count %>%
   group_by(Depth) %>%
   summarise(no_rows = length(Depth))
 
+#plot by depth
+As_depth <- ggplot(USGS_analyze, aes(Depth, As_log, fill=Depth)) + 
+   geom_boxplot() +
+  xlab("source") +
+  ylab("log[As (mg/kg)]") +
+  theme_classic()+
+   theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+As_depth
+
 #adds colors and labels
-As_depth + scale_fill_manual(values=c("#fee0d2", "#fc9272", "#de2d26")) + geom_hline(yintercept=32, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = -7, label = c("843", "160", "78")) + geom_hline(yintercept=7.2, linetype="dashed", size=1.25, color="darkgrey") + geom_hline(yintercept=32, linetype="dashed", size=1.25) + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") +ylim(-10,320) + annotate("text", x = 1:3, y = 320, label = c("b", "a", "b"))
+As_depth + scale_fill_manual(values=c("#fee0d2", "#fc9272", "#de2d26")) + geom_hline(yintercept=1.505, linetype="dashed", size=1.25) + annotate("text", x = 1:3, y = -0.5, label = c("727", "153", "81")) + geom_hline(yintercept=0.8573, linetype="dashed", size=1.25, color="darkgrey") + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") +ylim(-0.5,10) + annotate("text", x = 1:3, y = 10, label = c("b", "a", "b"))
 
 ```
 
