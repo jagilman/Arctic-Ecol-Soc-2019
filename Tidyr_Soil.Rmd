@@ -87,6 +87,7 @@ USGS5 <- filter(USGS5, UNIT !="channel" )
 #keep only rows with units
 USGS5 <- filter(USGS5, UNIT %in% c("cm", "in", "ft"))
 
+write.csv(USGS5, file = "filtered_USGS.csv")
 
 ```
 
@@ -95,7 +96,7 @@ Now we need to convert units all to cm using a loop (probably)...work in progres
 ```{r}
 ##From CP - JE's comment about the high Hg values had me digging through to see if there were processing errors (units? order of mag errors?) - I found discrepancies between the copy of the filtered data on github and my local copy, so I reproccesed the data and created a new local copy. Working my new local copy of the filtered data right now instead of from git (hence some commented out code). 
 
-write.csv(USGS5, file = "filtered_USGS.csv")
+
 USGS_analyze <- read.csv(file.choose())
 #downloadUSGS <- getURL("https://raw.githubusercontent.com/jagilman/Arctic-Ecol-Soc-2019/master/filtered_USGS.csv")
 #USGS_analyze <- read.csv(text=downloadUSGS, header = T, na.strings = "")
@@ -134,10 +135,11 @@ USGS_analyze$Source <- recode(USGS_analyze$Source, "surface"  = "sedge/moss/shru
 levels(USGS_analyze$Source)
 
 #this removed values that are all the same within the same analytical method/sampling site
-USGS_analyze$As_ppm<- na_if(USGS_analyze$As_ppm, 310)
-USGS_analyze$Cr_ppm<- na_if(USGS_analyze$Cr_ppm, 266)
-USGS_analyze$Hg_ppm<- na_if(USGS_analyze$Hg_ppm, 87)
-USGS_analyze$Ni_ppm<- na_if(USGS_analyze$Ni_ppm, 292)
+#15 May 2019 - CP: as I'm redoing the data processing I'm not seeing the concering repeat values we did previously...commenting these out
+#USGS_analyze$As_ppm<- na_if(USGS_analyze$As_ppm, 310)
+#USGS_analyze$Cr_ppm<- na_if(USGS_analyze$Cr_ppm, 266)
+#USGS_analyze$Hg_ppm<- na_if(USGS_analyze$Hg_ppm, 87)
+#USGS_analyze$Ni_ppm<- na_if(USGS_analyze$Ni_ppm, 292)
 
 #This tells R to plot the depths in this order, not alphbetically. 
 USGS_analyze$Depth <- factor(USGS_analyze$Depth, levels = c("surface", "mid", "deep"))
