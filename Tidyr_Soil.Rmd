@@ -413,6 +413,7 @@ Hg_plot <- ggplot(USGS_analyze, aes(Source, Hg_log, fill=Source)) +
 Hg_plot + scale_fill_manual(values=c("#b3de69", "#80b1d3", "#fdb462", "#fb8072", "#bebada")) + annotate("text", x = 1:5, y = 10, label = c("83", "124", "411", "12", "170")) + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") + ylim(-6,10) + annotate("text", x = 1:5, y = -6, label = c("b", "d", "c", "a", "c")) + geom_hline(yintercept=0.81954, linetype="dashed", size=1.25)
 #Standard from the Canadian Council of Ministers of the Environment
 
+###START HERE WHEN YOU RESUME ON 15 MAY
 
 #Checking distribution for stats for depth
 bartlett.test(Hg_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
