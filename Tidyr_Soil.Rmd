@@ -807,9 +807,6 @@ ggplot(averages, aes(metals, averages, fill=metals)) +
 
 ```
 
-
-
-
 Depth loop...still in process. 
 
 ```{r}
