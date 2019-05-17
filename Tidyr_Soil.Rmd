@@ -649,7 +649,7 @@ mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE)
 mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE)
 #returns 0.5479 (OLD)
 # NEW: 0.0375
-#Calculates the proportion of values greater than the median value for soils in the Western United States (1.08 mg/kg; from Obrist et al., 2016)
+#Calculates the proportion of values greater than the median value for soils in the Western United States (0.029 mg/kg; from Obrist et al., 2016)
 mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE)
 # returns 0.935
 
