@@ -721,7 +721,9 @@ Pb_depth +
 ```
 Making figure for % over limits: 
 ```{r}
-#write.csv(USGS_analyze, file ="filteredData_forMaps")
+#Making a dataframe with no mine-impacted soil to compare % levels
+no_mine <- filter(USGS_analyze, Source != "mine-impacted")
+
 #Calculates the proportion of values greater than the UK Envi Agency As in soil limit (32 mg/kg)
 mean(USGS_analyze$As_ppm > 32, na.rm=TRUE)
 # returns 0.78 (OLD)
@@ -824,6 +826,7 @@ ggplot(averages, aes(metals, averages, fill=metals)) +
 
 
 ```
+
 
 Depth loop...still in process. 
 
