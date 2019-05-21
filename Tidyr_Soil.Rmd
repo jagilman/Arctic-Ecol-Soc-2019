@@ -726,47 +726,58 @@ no_mine <- filter(USGS_analyze, Source != "mine-impacted")
 
 #Calculates the proportion of values greater than the UK Envi Agency As in soil limit (32 mg/kg)
 mean(USGS_analyze$As_ppm > 32, na.rm=TRUE)
-# returns 0.78 (OLD)
-# NEW: 0.1425
+# with mines: 0.1425
+mean(no_mine$As_ppm > 32, na.rm=TRUE)
+# without mines = 0.1262
 #Calculates the proportion of values greater than the US avg for As in soil from the Toxic Substances and Disease Registry (7.2 mg/kg)
 mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE)
-# returns 0.885 (OLD)
-# NEW: 0.7211
+# with mines: 0.7211
+mean(no_mine$As_ppm > 7.2, na.rm=TRUE)
+# without mines = 0.7158
 
 #Calculates the proportion of values greater than the WHO Cr in soil limit (100 mg/kg)
 mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE)
-# returns 0.6799 (OLD)
-# NEW: 0.09235075
+# with mines: 0.09235075
+mean(no_mine$Cr_ppm > 100, na.rm=TRUE)
+# without mines: 0.08641975
 #Calculates the proportion of values greater than the US avg for Cr in soil from the Toxic Substances and Disease Registry (37 mg/kg)
 mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE)
-# returns 0.879 (OLD)
-#NEW: 0.7014925
+# with mines: 0.7014925
+mean(no_mine$Cr_ppm > 37, na.rm=TRUE)
+# without mines: 0.697056
 
 #Calculates the proportion of values greater than the Canadian Council of Ministers of the Environment Hg in soil limit (6.6 mg/kg)
 mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE)
-#returns 0.5479 (OLD)
-# NEW: 0.0375
+# with mines: 0.0375
+mean(no_mine$Hg_ppm > 6.6, na.rm=TRUE)
+# without mines: 0.02284264
 #Calculates the proportion of values greater than the median value for soils in the Western United States (0.029 mg/kg; from Obrist et al., 2016)
 mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE)
-# returns 0.935
+# with mines 0.935
+mean(no_mine$Hg_ppm > 0.029, na.rm=TRUE)
+# without mines: 0.934
 
 #Calculates the proportion of values greater than the WHO Ni in soil limit (35 mg/kg)
 mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE)
-# returns 0.897 (OLD)
-# NEW: 0.3522833
+# with mines: 0.3522833
+mean(no_mine$Ni_ppm > 35, na.rm=TRUE)
+# without mines: 0.3425047
 #Calculates the proportion of values greater than the US avg for Ni in soil from the Toxic Substances and Disease Registry (40 mg/kg)
 mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE)
-# returns 0.876 (OLD)
-# NEW: 0.2646785
+# with mines: 0.2646785
+mean(no_mine$Ni_ppm > 40, na.rm=TRUE)
+# without mines: 0.2542694
 
 #Calculates the proportion of values greater than the WHO Pb in soil limit (85 mg/kg)
 mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE)
-# returns 0.029 (OLD)
-# NEW: 0.02867715
+# with mine: 0.02867715
+mean(no_mine$Pb_ppm > 85, na.rm=TRUE)
+# without mines: 0.02730697
 #Calculates the proportion of values greater than the US avg for Pb in soil from the Toxic Substances and Disease Registry (30 mg/kg)
 mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE)
-# returns 0.1009
-# NEW: 0.1008326
+# with mines: 0.1008326
+mean(no_mine$Pb_ppm > 30, na.rm=TRUE)
+# without mines: 0.09510358
 
 #making a plot of values above health limits: 
 #creates a vector of the % of samples above health limits
