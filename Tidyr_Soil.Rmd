@@ -785,20 +785,20 @@ mean(no_mine$Pb_ppm > 30, na.rm=TRUE)
 
 #making dataframes for plots
 #df1 - has perecent over health limits for sites with/without mines
-df1 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
-                  mines= rep(c("with", "without"), each = 5),
-                  percent = c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE), mean(no_mine$As_ppm > 32, na.rm=TRUE), mean(no_mine$Cr_ppm > 100, na.rm=TRUE), mean(no_mine$Hg_ppm > 6.6, na.rm=TRUE), mean(no_mine$Ni_ppm > 35, na.rm=TRUE), mean(no_mine$Pb_ppm > 85, na.rm=TRUE)))
-
-ggplot(data=df1, aes(x=metal, y=percent, fill=mines)) +
-geom_bar(stat="identity", position=position_dodge()) + ylim(0,1.0) + theme_classic()
-
-#df12 - has perecent over US averages for sites with/without mines
-df2 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
-                  mines= rep(c("with", "without"), each = 5),
-                  percent = c(mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE), mean(no_mine$As_ppm > 7.2, na.rm=TRUE), mean(no_mine$Cr_ppm > 37, na.rm=TRUE), mean(no_mine$Hg_ppm > 0.029, na.rm=TRUE), mean(no_mine$Ni_ppm > 40, na.rm=TRUE), mean(no_mine$Pb_ppm > 37, na.rm=TRUE)))
-
-ggplot(data=df2, aes(x=metal, y=percent, fill=mines)) +
-geom_bar(stat="identity", position=position_dodge()) + ylim(0,1.0) + theme_classic()
+# df1 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
+#                   mines= rep(c("with", "without"), each = 5),
+#                   percent = c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE), mean(no_mine$As_ppm > 32, na.rm=TRUE), mean(no_mine$Cr_ppm > 100, na.rm=TRUE), mean(no_mine$Hg_ppm > 6.6, na.rm=TRUE), mean(no_mine$Ni_ppm > 35, na.rm=TRUE), mean(no_mine$Pb_ppm > 85, na.rm=TRUE)))
+# 
+# ggplot(data=df1, aes(x=metal, y=percent, fill=mines)) +
+# geom_bar(stat="identity", position=position_dodge()) + ylim(0,1.0) + theme_classic()
+# 
+# #df12 - has perecent over US averages for sites with/without mines
+# df2 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
+#                   mines= rep(c("with", "without"), each = 5),
+#                   percent = c(mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE), mean(no_mine$As_ppm > 7.2, na.rm=TRUE), mean(no_mine$Cr_ppm > 37, na.rm=TRUE), mean(no_mine$Hg_ppm > 0.029, na.rm=TRUE), mean(no_mine$Ni_ppm > 40, na.rm=TRUE), mean(no_mine$Pb_ppm > 37, na.rm=TRUE)))
+# 
+# ggplot(data=df2, aes(x=metal, y=percent, fill=mines)) +
+# geom_bar(stat="identity", position=position_dodge()) + ylim(0,1.0) + theme_classic()
 
 
 #df3 - has percent over health limits/over averages for whole dataset
