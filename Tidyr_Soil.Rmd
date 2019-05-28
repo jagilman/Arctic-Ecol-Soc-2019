@@ -803,20 +803,24 @@ geom_bar(stat="identity", position=position_dodge()) + ylim(0,1.0) + theme_class
 
 #df3 - has percent over health limits/over averages for whole dataset
 df3 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
-                  limit = rep(c("health", "US average"), each = 5),
+                  limit=rep(c("health limit","US average"),each = 5),
                   percent = c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE), mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE)))
 
 ggplot(data=df3, aes(x=metal, y=percent, fill=limit)) +
-  geom_bar(stat="identity", position=position_dodge()) + ylim(0,1.0) +
+  geom_bar(stat="identity", color="black", position=position_dodge()) + ylim(0,1.0) +
   geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
   position = position_dodge(0.9), size = 3) +
+  scale_fill_manual(values=c("#d9d9d9", "#737373"))+
   theme_classic() +
   theme(axis.title.x=element_blank(),
         axis.title.y=element_blank(),
         axis.text.x = element_text(size = 10),
-        axis.text.y = element_text(size = 10))
+        axis.text.y = element_text(size = 10),
+        legend.title=element_blank())
+```
 
-##OLD VERSION OF DATAFRAME AND PLOT CREATION HERE: 
+OLD VERSION OF DATAFRAME AND PLOT CREATION for % over limits and averages: 
+```{r}
 #making a plot of values above health limits: 
 #creates a vector of the % of samples above health limits
 limits <- c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE))
@@ -824,7 +828,6 @@ limits <- c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm
 #making a dataframe to add metals names
 limits <- as.data.frame(limits)
 limits$metals <- c("As", "Cr", "Hg", "Ni", "Pb")
-barplot(limits$limits)
 
 #barplot of % over limit - color version for presentations
 ggplot(limits, aes(metals, limits, fill=metals)) +
@@ -852,7 +855,6 @@ averages <- c(mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_
 #making a dataframe to add metals names
 averages <- as.data.frame(averages)
 averages$metals <- c("As", "Cr", "Hg", "Ni", "Pb")
-barplot(averages$averages)
 
 #barplot of % over limit - color version for presentations
 ggplot(averages, aes(metals, averages, fill=metals)) +
@@ -871,9 +873,6 @@ ggplot(averages, aes(metals, averages, fill=metals)) +
   ylab("Proprtion Above US Averages") +
   scale_fill_manual(values=c("#d9d9d9", "#bdbdbd","#969696", "#737373","#525252"))+
   theme_classic()
-
-
-
 ```
 
 
