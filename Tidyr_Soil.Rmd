@@ -767,10 +767,10 @@ mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE)
 mean(no_mine$Ni_ppm > 35, na.rm=TRUE)
 # without mines: 0.3425047
 #Calculates the proportion of values greater than the US avg for Ni in soil from the Toxic Substances and Disease Registry (40 mg/kg)
-mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE)
-# with mines: 0.2646785
-mean(no_mine$Ni_ppm > 40, na.rm=TRUE)
-# without mines: 0.2542694
+mean(USGS_analyze$Ni_ppm > 13, na.rm=TRUE)
+# with mines: 0.8583411
+mean(no_mine$Ni_ppm > 13, na.rm=TRUE)
+# without mines: 0.8567362
 
 #Calculates the proportion of values greater than the WHO Pb in soil limit (85 mg/kg)
 mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE)
@@ -795,7 +795,7 @@ mean(no_mine$Pb_ppm > 30, na.rm=TRUE)
 # #df12 - has perecent over US averages for sites with/without mines
 # df2 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
 #                   mines= rep(c("with", "without"), each = 5),
-#                   percent = c(mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE), mean(no_mine$As_ppm > 7.2, na.rm=TRUE), mean(no_mine$Cr_ppm > 37, na.rm=TRUE), mean(no_mine$Hg_ppm > 0.029, na.rm=TRUE), mean(no_mine$Ni_ppm > 40, na.rm=TRUE), mean(no_mine$Pb_ppm > 37, na.rm=TRUE)))
+#                   percent = c(mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 13, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE), mean(no_mine$As_ppm > 7.2, na.rm=TRUE), mean(no_mine$Cr_ppm > 37, na.rm=TRUE), mean(no_mine$Hg_ppm > 0.029, na.rm=TRUE), mean(no_mine$Ni_ppm > 13, na.rm=TRUE), mean(no_mine$Pb_ppm > 37, na.rm=TRUE)))
 # 
 # ggplot(data=df2, aes(x=metal, y=percent, fill=mines)) +
 # geom_bar(stat="identity", position=position_dodge()) + ylim(0,1.0) + theme_classic()
@@ -804,7 +804,7 @@ mean(no_mine$Pb_ppm > 30, na.rm=TRUE)
 #df3 - has percent over health limits/over averages for whole dataset
 df3 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
                   limit=rep(c("health limit","US average"),each = 5),
-                  percent = c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE), mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE)))
+                  percent = c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE), mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 13, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE)))
 
 ggplot(data=df3, aes(x=metal, y=percent, fill=limit)) +
   geom_bar(stat="identity", color="black", position=position_dodge()) + ylim(0,1.0) +
@@ -850,7 +850,7 @@ ggplot(limits, aes(metals, limits, fill=metals)) +
 
 #making a plot of values above US averages: 
 #creates a vector of the % of samples above averages
-averages <- c(mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 40, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE))
+averages <- c(mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 13, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE))
 
 #making a dataframe to add metals names
 averages <- as.data.frame(averages)
