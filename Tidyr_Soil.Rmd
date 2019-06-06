@@ -789,16 +789,16 @@ mean(no_mine$Pb_ppm > 30, na.rm=TRUE)
 #df3 - has percent over health limits/over averages for whole dataset
 df3 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
                   limit=rep(c("health limit","US average"),each = 5),
-                  percent = c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE), mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 13, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE)))
+                  percent = c(mean((USGS_analyze$As_ppm > 32)*100, na.rm=TRUE), mean((USGS_analyze$Cr_ppm > 100)*100, na.rm=TRUE), mean((USGS_analyze$Hg_ppm > 6.6)*100, na.rm=TRUE), mean((USGS_analyze$Ni_ppm > 35)*100, na.rm=TRUE), mean((USGS_analyze$Pb_ppm > 85)*100, na.rm=TRUE), mean((USGS_analyze$As_ppm > 7.2)*100, na.rm=TRUE), mean((USGS_analyze$Cr_ppm > 37)*100, na.rm=TRUE), mean((USGS_analyze$Hg_ppm > 0.029)*100, na.rm=TRUE), mean((USGS_analyze$Ni_ppm > 13)*100, na.rm=TRUE), mean((USGS_analyze$Pb_ppm > 30)*100, na.rm=TRUE)))
 
 ggplot(data=df3, aes(x=metal, y=percent, fill=limit)) +
-  geom_bar(stat="identity", color="black", position=position_dodge()) + ylim(0,1.0) +
+  geom_bar(stat="identity", position=position_dodge()) + ylim(0,100) +
   geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
   position = position_dodge(0.9), size = 3) +
-  scale_fill_manual(values=c("#d9d9d9", "#737373"))+
+  scale_fill_manual(values=c("#bdbdbd", "#737373"))+
+  ylab("Percent over limit ")+
   theme_classic() +
   theme(axis.title.x=element_blank(),
-        axis.title.y=element_blank(),
         axis.text.x = element_text(size = 10),
         axis.text.y = element_text(size = 10),
         legend.title=element_blank())
