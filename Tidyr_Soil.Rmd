@@ -204,9 +204,6 @@ summary(USGS_analyze$As_ppm, na.rm=TRUE)
 sd(USGS_analyze$As_ppm, na.rm=TRUE)
 #stavard deviation is 1120.736
 
-#calculates 95% CI for the median of As values
-conf.interval(USGS_analyze$As_ppm, alpha=0.95)
-
 #Checking distribution for stats
 shapiro.test(USGS_analyze$As_ppm) #tests for normality, p < 0.001
 bartlett.test(As_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
@@ -311,11 +308,6 @@ summary(USGS_analyze$Cr_ppm, na.rm=TRUE)
 sd(USGS_analyze$Cr_ppm, na.rm=TRUE)
 #stavard deviation is 38.04351
 
-#calculates 95% CI for the median of Cr values
-conf.interval(USGS_analyze$Cr_ppm, alpha=0.95)
-
-
-
 #Checking distribution for stats
 shapiro.test(USGS_analyze$Cr_ppm) #tests for normality, p < 0.001
 bartlett.test(Cr_ppm~Source, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
@@ -418,8 +410,6 @@ summary(USGS_analyze$Hg_ppm, na.rm=TRUE)
 sd(USGS_analyze$Hg_ppm, na.rm=TRUE)
 #sd is 0.058
 
-#calculates 95% CI for the median of Hg values
-conf.interval(USGS_analyze$Hg_ppm, alpha=0.95)
 
 #Checking distribution
 shapiro.test(USGS_analyze$Hg_ppm) #tests for normality, p < 0.001
@@ -522,10 +512,7 @@ summary(USGS_analyze$Ni_ppm, na.rm=TRUE)
   #Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
     #2.00   19.00   28.30   44.55   41.60  702.00      78
 sd(USGS_analyze$Ni_ppm, na.rm=TRUE)
-#stavard deviation is 60.97551
 
-#caluclates 95% CI for the median of Ni values
-conf.interval(USGS_analyze$Ni_ppm, alpha=0.95)
 
 #Checking distribution
 shapiro.test(USGS_analyze$Ni_ppm) #tests for normality, p < 0.001
@@ -627,8 +614,6 @@ summary(USGS_analyze$Pb_ppm, na.rm=TRUE)
 sd(USGS_analyze$Pb_ppm, na.rm=TRUE)
 #stavard deviation is 41.14311
 
-#calculates 95% CI for the median of Pb values
-conf.interval(USGS_analyze$Pb_ppm, alpha=0.95)
 
 
 #Checking distrubition
