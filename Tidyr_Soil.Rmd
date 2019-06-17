@@ -706,6 +706,10 @@ Pb_depth +
 ```
 Making figure for % over limits: 
 ```{r}
+#Calculates the % of samples in the dataset that were collected between 0-10cm depth
+mean(USGS_analyze$upper.cm < 10, na.rm = TRUE)
+#Returns 0.735
+
 #Making a dataframe with no mine-impacted soil to compare % levels
 no_mine <- filter(USGS_analyze, Source != "mine-impacted")
 
