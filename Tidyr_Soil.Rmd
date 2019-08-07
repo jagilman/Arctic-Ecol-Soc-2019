@@ -24,7 +24,6 @@ library(RCurl) #version 1.95.4.11
 library(ggplot2) #version 3.1.0
 library(reshape2) #version 1.4.3
 library(agricolae) #this package runs the Kruskal-Wallis and post-hoc
-library(MedOr) #this package calcuates 95% CI of medians
 
 
 #gets version numbers for packages installed in namespace, can reference to above version info for each package for reproducibility
@@ -800,7 +799,7 @@ ggplot(data=df3, aes(x=metal, y=percent, fill=limit)) +
   geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
   position = position_dodge(0.9), size = 3) +
   scale_fill_manual(values=c("#bdbdbd", "#737373"))+
-  ylab("Percent over limit ")+
+  ylab("Percent of sample locations over limit")+
   theme_classic() +
   theme(axis.title.x=element_blank(),
         axis.text.x = element_text(size = 10),
