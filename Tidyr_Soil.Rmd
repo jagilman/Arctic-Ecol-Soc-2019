@@ -797,13 +797,15 @@ df3 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
 ggplot(data=df3, aes(x=metal, y=percent, fill=limit)) +
   geom_bar(stat="identity", position=position_dodge()) + ylim(0,100) +
   geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
-  position = position_dodge(0.9), size = 3.25, face = "bold") +
+  position = position_dodge(0.9), size = 3.25, fontface = "bold") +
   scale_fill_manual(values=c("#bdbdbd", "#737373"))+
   ylab("Percent of sample locations over limit")+
   theme_classic() +
   theme(axis.title.x=element_blank(),
+        axis.title.y=element_text(face="bold"),
         axis.text.x = element_text(size = 10, face = "bold"),
         axis.text.y = element_text(size = 10, face = "bold"),
+        legend.text=element_text(face="bold"),
         legend.title=element_blank())
 ```
 
