@@ -754,7 +754,7 @@ mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE)
 # with mines: 0.3522833
 mean(no_mine$Ni_ppm > 35, na.rm=TRUE)
 # without mines: 0.3425047
-#Calculates the proportion of values greater than the US avg for Ni in soil from the Toxic Substances and Disease Registry (40 mg/kg)
+#Calculates the proportion of values greater than the US avg for Ni in soil from the Toxic Substances and Disease Registry (13 mg/kg)
 mean(USGS_analyze$Ni_ppm > 13, na.rm=TRUE)
 # with mines: 0.8583411
 mean(no_mine$Ni_ppm > 13, na.rm=TRUE)
