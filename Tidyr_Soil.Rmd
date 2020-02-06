@@ -67,7 +67,7 @@ USGS4 <- select(USGS3,FIELD_ID, DATE_COLLECT, DEPTH, LOCATE_DESC, HORIZON, DATUM
 
 ```
 
-We need to wrangle the depths.... 
+Cleaning data to get depth data in consistent formats and writing out file to manually code depth.  
 ```{r}
 #Recoding a chunk of depths to separate them correctly, removing non-numeric depths
 USGS4$DEPTH <- recode(USGS4$DEPTH, "surface (0-25cm)"  = "0-25 cm")
@@ -155,7 +155,7 @@ dotchart(USGS_analyze$As_ppm, xlab = "As (ppm)", ylab = "Order of the data")
 hist(USGS_analyze$As_ppm)
 boxplot(USGS_analyze$As_ppm ~ USGS_analyze$Source)
 USGS_analyze$As_ppm<- na_if(USGS_analyze$As_ppm, 92000.0) 
-#value of 92000.0 ppm is order of mag higher than others... 
+#value of 92000.0 ppm is order of mag higher than others
 
 boxplot(USGS_analyze$Cr_ppm)
 dotchart(USGS_analyze$Cr_ppm, xlab = "Cr (ppm)",  ylab = "Order of the data")
@@ -167,7 +167,7 @@ dotchart(USGS_analyze$Hg_ppm, xlab = "Hg (ppm)", ylab = "Order of the data")
 hist(USGS_analyze$Hg_ppm) 
 boxplot(USGS_analyze$Hg_ppm ~ USGS_analyze$Source)
 USGS_analyze$Hg_ppm<- na_if(USGS_analyze$Hg_ppm, 46400.00) 
-#value of 46400.00 ppm is order of mag higher than others... 
+#value of 46400.00 ppm is order of mag higher than others
 
 boxplot(USGS_analyze$Ni_ppm)
 dotchart(USGS_analyze$Ni_ppm, xlab = "Ni (ppm)",ylab = "Order of the data")
@@ -179,7 +179,7 @@ dotchart(USGS_analyze$Pb_ppm, xlab = "Pb (ppm)", ylab = "Order of the data")
 hist(USGS_analyze$Pb_ppm)
 boxplot(USGS_analyze$Pb_ppm ~ USGS_analyze$Source)
 USGS_analyze$Pb_ppm<- na_if(USGS_analyze$Pb_ppm, 3800.0) 
-#value of 3800.0 ppm is order of mag higher than others...
+#value of 3800.0 ppm is order of mag higher than others
 
 
 #log (natural log) tranforming all metals data for display
@@ -244,13 +244,6 @@ As_plot +
   scale_fill_manual(values=c("#80b1d3", "#b3de69", "#fdb462", "#fb8072", "#bebada")) + 
   annotate("text", x = 1:5, y = -0.5, label = c("83", "188", "499", "18", "173")) +
   annotate("text", x = 1:5, y = 10, label = c("b", "b", "b", "a", "c"))
-#Adds a health limit line in Black from the UK Environmental Agency (2009)
-# + geom_hline(yintercept=3.4657, linetype="dashed", size=0.75)
-#Adds a US average from the Toxic Substances and Disease Registry
-# + geom_hline(yintercept=1.974, linetype="dotted", size=0.75, color="black")
-# adds group means onto plot
-# + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") +ylim(-0.5,10)
-
 
 #Checking distribution of depths for stats
 bartlett.test(As_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
@@ -281,20 +274,12 @@ As_depth <- ggplot(USGS_analyze, aes(depth, As_log, fill=depth)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 
-
-
 #adds colors and labels
 As_depth + 
   scale_fill_manual(values=c("#fee0d2", "#fc9272", "#de2d26"))+
   annotate("text", x = 1:3, y = -0.5, label = c("727", "153", "81"))+
   ylim(-0.5,10) + 
   annotate("text", x = 1:3, y = 10, label = c("a", "a", "a"))
-#Adds a health limit line in Black from the UK Environmental Agency (2009)
-# + geom_hline(yintercept=3.4657, linetype="dashed", size=0.75) 
-#Adds a US average from the Toxic Substances and Disease Registry
-#  + geom_hline(yintercept=1.974, linetype="dotted", size=0.75, color="black")
-#Adds group means onto plot
-#+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white")
 
 ```
 
@@ -347,13 +332,6 @@ Cr_plot +
   annotate("text", x = 1:5, y = -0.5, label = c("83", "273", "524", "19", "173")) + 
   ylim(-0.5,10) + 
   annotate("text", x = 1:5, y = 10, label = c("bc", "b", "c", "a", "bc"))
-#Line values from WHO permissible limits for heavy metals in plant and soil (1996)
-# + geom_hline(yintercept=4.605, linetype="dashed", size=0.75) 
-# Adds line for US average from US Toxic Substances and Disease Registry
-# + geom_hline(yintercept=3.611, linetype="dotted", size=0.75, color="black") 
-#Adds group means
-#+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") 
-
 
 #Checking distribution for stats on depth
 bartlett.test(Cr_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p = 0.0003218
@@ -389,12 +367,6 @@ Cr_depth +
   annotate("text", x = 1:3, y = -0.5, label = c("840", "153", "79")) +
   ylim(-0.5,10) + 
   annotate("text", x = 1:3, y = 10, label = c("b", "a", "c"))
-#Line values from WHO permissible limits for heavy metals in plant and soil (1996)
-# + geom_hline(yintercept=4.605, linetype="dashed", size=0.75)
-# Adds line for US average from US Toxic Substances and Disease Registry
-# + geom_hline(yintercept=3.611, linetype="dotted", size=0.75, color="black")
-# Adds group means
-# + stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") 
 
 
 ```
@@ -408,7 +380,6 @@ summary(USGS_analyze$Hg_ppm, na.rm=TRUE)
    # 0.01    0.04    0.06   30.44    0.09 6090.00     351  
 sd(USGS_analyze$Hg_ppm, na.rm=TRUE)
 #sd is 0.058
-
 
 #Checking distribution
 shapiro.test(USGS_analyze$Hg_ppm) #tests for normality, p < 0.001
@@ -452,13 +423,6 @@ Hg_plot +
   annotate("text", x = 1:5, y = -6, label = c("83", "124", "411", "12", "170")) + 
   ylim(-6,10) + 
   annotate("text", x = 1:5, y = 10, label = c("b", "d", "c", "a", "c")) 
-#Adds a health limit line from the Canadian Council of Ministers (2009)
-# + geom_hline(yintercept=1.887, linetype="dashed", size=0.75) 
-# Adds a line for average value of soils from W USA (Obrist et al., 2016)
-# + geom_hline(yintercept=-3.5404, linetype="dotted", size=0.75, color="black")
-#Adds group means
-#+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white")
-
 
 #Checking distribution for stats for depth
 bartlett.test(Hg_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
@@ -494,12 +458,6 @@ Hg_depth +
   annotate("text", x = 1:3, y = -6, label = c("591", "144", "65")) +
   ylim(-6,10) + 
   annotate("text", x = 1:3, y = 10, label = c("b", "b", "a")) 
-#Adds a health limit line from the Canadian Council of Ministers (2009)
-# + geom_hline(yintercept=1.887, linetype="dashed", size=0.75) 
-# Adds a line for average value of soils from W USA (Obrist et al., 2016)
-# + geom_hline(yintercept=-3.5404, linetype="dotted", size=0.75, color="black")
-#Adds group means
-#+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white")
 
 ```
 
@@ -542,7 +500,7 @@ Ni_count %>%
 Ni_plot <- ggplot(USGS_analyze, aes(Source, Ni_log, fill=Source)) + 
   geom_boxplot() +
   xlab("source") +
-  ylab("log [Ni (mg/kg)]") +
+  ylab("ln [Ni (mg/kg)]") +
   theme_classic()+ 
    theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -554,12 +512,6 @@ Ni_plot +
   annotate("text", x = 1:5, y = -0.5, label = c("83", "273", "531", "19", "167")) +
   ylim(-0.5,10) + 
   annotate("text", x = 1:5, y = 10, label = c("d", "a", "b", "a", "c"))
-##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
-# +  geom_hline(yintercept=3.555, linetype="dashed", size=0.75)
-#Adds a US average from the Toxic Substances and Disease Registry
-# + geom_hline(yintercept=3.6888, linetype="dotted", size=0.75, color="black") 
-# Adds group means
-#+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white")
 
 #Checking distribution for stats for depth
 bartlett.test(Ni_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
@@ -595,12 +547,6 @@ Ni_depth +
   annotate("text", x = 1:3, y = -0.5, label = c("835", "153", "85")) +
   ylim(-0.5,10) + 
   annotate("text", x = 1:3, y = 10, label = c("a", "b", "b"))
-##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
-# +  geom_hline(yintercept=3.555, linetype="dashed", size=0.75)
-#Adds a US average from the Toxic Substances and Disease Registry
-# + geom_hline(yintercept=3.6888, linetype="dotted", size=0.75, color="black") 
-# Adds group means
-#+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white")
 ```
 
 
@@ -612,8 +558,6 @@ summary(USGS_analyze$Pb_ppm, na.rm=TRUE)
    #2.00    9.00   13.00   21.06   19.00  720.00      70 
 sd(USGS_analyze$Pb_ppm, na.rm=TRUE)
 #stavard deviation is 41.14311
-
-
 
 #Checking distrubition
 shapiro.test(USGS_analyze$Pb_ppm) #tests for normality, p < 0.001
@@ -655,12 +599,6 @@ Pb_plot +
   annotate("text", x = 1:5, y = -0.5, label = c("83", "231", "581", "19", "167")) +
   ylim(-0.5,10) +
   annotate("text", x = 1:5, y = 10, label = c("b", "b", "b", "a", "c"))
-##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
-# + geom_hline(yintercept=4.4426, linetype="dashed", size=0.75)
-# Adds US Average from Toxic Substances and Disease Registry
-# + geom_hline(yintercept=3.401, linetype="dotted", size=0.75) 
-# Adds group means
-#+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") 
 
 #Checking distribution for stats for depth
 bartlett.test(Pb_ppm~Depth, data=USGS_analyze) #tests for homogeneity of variance, p < 0.001
@@ -695,12 +633,6 @@ Pb_depth +
   annotate("text", x = 1:3, y = -0.5, label = c("844","152","85"))  +
   ylim(-0.5,10) +
   annotate("text", x = 1:3, y = 10, label = c("b", "a", "b"))
-##Line values from WHO permissible limits for heavy metals in plant and soil (1996)
-# + geom_hline(yintercept=4.4426, linetype="dashed", size=0.75)
-# Adds US Average from Toxic Substances and Disease Registry
-# + geom_hline(yintercept=3.401, linetype="dotted", size=0.75) 
-# Adds group means
-#+ stat_summary(fun.y=mean, geom="point", shape=23, size=3, color="black", fill="white") 
 
 ```
 Making figure for % over limits: 
