@@ -761,8 +761,14 @@ ggplot(data=df3, aes(x=metal, y=percent, fill=limit)) +
         legend.title=element_blank())
 ```
 
-
 ```{r}
 ### work on new PCA here! 
+pca.matrix <- filter(USGS_analyze, is.na(Hg_ppm) == FALSE)
+
+
+
+#metals.pca <- prcomp(USGS_analyze[,c(14,16,18,20,22)], center = TRUE)
+#summary(metals.pca)
+```
 
 
