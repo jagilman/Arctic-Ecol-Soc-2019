@@ -57,7 +57,7 @@ Filtering everything that has no info on the following:
 * depth
 * sample source
 
-Then narrowed down columns.  
+Then narrowed down columns futher to final metals of interest.  
 
 ```{r latlon_depth}
 
