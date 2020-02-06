@@ -762,13 +762,16 @@ ggplot(data=df3, aes(x=metal, y=percent, fill=limit)) +
 ```
 
 ```{r}
-### work on new PCA here! 
-pca.matrix <- filter(USGS_analyze, is.na(Hg_ppm) == FALSE)
+### work on new PCA here!
+##this isn't working..for some reason its turning the data martix into a time series object? will start working back here next work session. 
+pca.matrix <-filter(USGS_analyze, is.na(USGS_analyze$Hg_ppm) == FALSE)
+pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$As_ppm) == FALSE)
+pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$Cr_ppm) == FALSE)
+pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$Ni_ppm) == FALSE)
+pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$Pb_ppm) == FALSE)
 
-
-
-#metals.pca <- prcomp(USGS_analyze[,c(14,16,18,20,22)], center = TRUE)
-#summary(metals.pca)
+metals.pca <- prcomp(USGS_analyze[,c(14,16,18,20,22)], center = TRUE)
+summary(metals.pca)
 ```
 
 
