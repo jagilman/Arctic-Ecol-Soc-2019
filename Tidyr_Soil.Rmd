@@ -761,85 +761,8 @@ ggplot(data=df3, aes(x=metal, y=percent, fill=limit)) +
         legend.title=element_blank())
 ```
 
-OLD VERSION OF DATAFRAME AND PLOT CREATION for % over limits and averages: 
-```{r}
-#making a plot of values above health limits: 
-#creates a vector of the % of samples above health limits
-limits <- c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE))
-
-#making a dataframe to add metals names
-limits <- as.data.frame(limits)
-limits$metals <- c("As", "Cr", "Hg", "Ni", "Pb")
-
-#barplot of % over limit - color version for presentations
-ggplot(limits, aes(metals, limits, fill=metals)) +
-  geom_col(
-    aes(x = metals, ymin = 0, ymax = limits))+ ylim(0,1.0)+
-    xlab("") +
-  ylab("Proprtion Over Human Health Standard") +
-  scale_fill_manual(values=c("#de2d26", "#e6550d","#31a354", "#3182bd","#756bb1"))+
-  theme_classic()
-
-#greyscale version for manuscript
-ggplot(limits, aes(metals, limits, fill=metals)) +
-  geom_col(
-    aes(x = metals, ymin = 0, ymax = limits))+ ylim(0,1.0)+
-    xlab("") +
-  ylab("Proprtion Over Human Health Standard") +
-  scale_fill_manual(values=c("#d9d9d9", "#bdbdbd","#969696", "#737373","#525252"))+
-  theme_classic()
-
-
-#making a plot of values above US averages: 
-#creates a vector of the % of samples above averages
-averages <- c(mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 13, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE))
-
-#making a dataframe to add metals names
-averages <- as.data.frame(averages)
-averages$metals <- c("As", "Cr", "Hg", "Ni", "Pb")
-
-#barplot of % over limit - color version for presentations
-ggplot(averages, aes(metals, averages, fill=metals)) +
-  geom_col(
-    aes(x = metals, ymin = 0, ymax = averages))+ ylim(0,1.0)+
-    xlab("") +
-  ylab("Proprtion Above US Averages") +
-  scale_fill_manual(values=c("#de2d26", "#e6550d","#31a354", "#3182bd","#756bb1"))+
-  theme_classic()
-
-#greyscale version for manuscript
-ggplot(averages, aes(metals, averages, fill=metals)) +
-  geom_col(
-    aes(x = metals, ymin = 0, ymax = averages))+ ylim(0,1.0)+
-    xlab("") +
-  ylab("Proprtion Above US Averages") +
-  scale_fill_manual(values=c("#d9d9d9", "#bdbdbd","#969696", "#737373","#525252"))+
-  theme_classic()
-```
-
-
-Depth loop...still in process. 
 
 ```{r}
-#Can't get this to work yet...I think something is wrong with the UPPER column? It says it's numeric...but it won't perform any mathematical operations on the column. 
-
-#> USGS5$UPPER
-#NULL
-#> as.numeric(USGS5$UPPER)
-#numeric(0)
-
-
-###should work in theory...doesn't
-converted <- mutate(USGS5, TOP = 
-        ifelse(grepl("in", UNIT), USGS5$UPPER*2.54,
-        ifelse(grepl("ft", UNIT), USGS5$UPPER*30.48, USGS5$UPPER*1))
-
-
-###should work in theory...doesn't
-USGS5$TOP <- ifelse(USGS5$UNIT %in% "in", USGS5$UPPER*2.54, USGS5$UPPER*1, 
-ifelse(USGS5$UNIT %in% "ft", USGS5$UPPER*30.48, USGS5$UPPER*1))
-
-
-```
+### work on new PCA here! 
 
 
