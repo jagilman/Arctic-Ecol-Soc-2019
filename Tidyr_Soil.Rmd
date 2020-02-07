@@ -702,16 +702,22 @@ average_plot
 
 PCA? Comparing metals? 
 ```{r}
+##Honestly - I don't think this is informative (because of lack of consistent metadata and/or ancillary environmental data across samples) nor really necessary for the message of the paper? 
+
 ### work on new PCA here!
 ##this isn't working..for some reason its turning the data martix into a time series object? will start working back here next work session. 
 pca.matrix <-filter(USGS_analyze, is.na(USGS_analyze$Hg_ppm) == FALSE)
-pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$As_ppm) == FALSE)
-pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$Cr_ppm) == FALSE)
-pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$Ni_ppm) == FALSE)
-pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$Pb_ppm) == FALSE)
-
-metals.pca <- prcomp(USGS_analyze[,c(14,16,18,20,22)], center = TRUE)
+pca.matrix <- filter(pca.matrix, is.na(As_ppm) == FALSE)
+pca.matrix <- filter(pca.matrix, is.na(Cr_ppm) == FALSE)
+pca.matrix <- filter(pca.matrix, is.na(Ni_ppm) == FALSE)
+pca.matrix <- filter(pca.matrix, is.na(Pb_ppm) == FALSE)
+#Removing NAs for each metal to ensure each sample has all values reduced sample number from 1551 to 787
+library(ggfortify)
+main.pca <- (pca.matrix[c(14,16,18,20,22)])
+metals.pca <- princomp(main.pca)
 summary(metals.pca)
+loadings(metals.pca)
+autoplot(metals.pca, data = pca.matrix, colour = "Source", loadings=TRUE, loadings.label=TRUE)
 ```
 
 
