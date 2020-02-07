@@ -725,6 +725,21 @@ fviz_pca_var(metals.pca,
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE     # Avoid text overlapping
              )
+
+
+### Cr vs Ni plot R4 asked about
+Cr_vs_Ni <- ggplot(data=USGS_analyze, aes(x= Cr_ppm, y= Ni_ppm, color = Source))+
+  geom_point()+
+  theme_classic()
+Cr_vs_Ni
+
+Cr_vs_Ni_2 <- ggplot(data=USGS_analyze, aes(x= Cr_ppm, y= Ni_ppm))+
+  geom_point()+
+  geom_smooth(method=lm)+
+  xlim(0,100)+
+  ylim(0,60)+
+  theme_classic()
+Cr_vs_Ni_2
 ```
 
 
