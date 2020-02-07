@@ -661,7 +661,7 @@ all.data.health <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 3),
 
 health_plot <- ggplot(data=all.data.health, aes(x=metal, y=percent, fill=limit)) +
   geom_bar(stat="identity", position=position_dodge()) + ylim(0,100) +
-  geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
+  geom_text(aes(label=round(percent, 1)), vjust=-0.2, color="black",
             position = position_dodge(0.9), size = 3.25, fontface = "bold") +
   scale_fill_manual(values=c("#d73027", "#fee090", "#91bfdb"))+
   ylab("Percent of sample locations over health limit")+
@@ -685,7 +685,7 @@ all.data.avg <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 3),
 
 average_plot <- ggplot(data=all.data.avg, aes(x=metal, y=percent, fill=limit)) +
   geom_bar(stat="identity", position=position_dodge()) + ylim(0,100) +
-  geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
+  geom_text(aes(label=round(percent, 1)), vjust=-0.2, color="black",
             position = position_dodge(0.9), size = 3.25, fontface = "bold") +
   scale_fill_manual(values=c("#d73027", "#fee090", "#91bfdb"))+
   ylab("Percent of sample locations over US average")+
