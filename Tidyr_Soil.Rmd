@@ -635,11 +635,99 @@ Pb_depth +
   annotate("text", x = 1:3, y = 10, label = c("b", "a", "b"))
 
 ```
-Making figure for % over limits: 
+Making NEW figure for % over health limits and USA averages: 
 ```{r}
-#Calculates the % of samples in the dataset that were collected between 0-10cm depth
-mean(USGS_analyze$upper.cm < 10, na.rm = TRUE)
+#Calculates the % of samples in the dataset that were collected between 0-10cm depth and 0-5cm depth - used to determine which soil comparison to use (we have one for A horizon and one for 0-5cm form USGS from US soils)
+mean(USGS_analyze$TOP_CM < 10, na.rm = TRUE)
 #Returns 0.735
+mean(USGS_analyze$TOP_CM < 5.1, na.rm = TRUE)
+#Returns 0.714, due to unit conversion of a group of samples collected ~2in to cm, there is a chunk of samples that have a depth of 5.08cm - which is not meaningfully different than 5.0cm
+
+compare.upper <- filter(USGS_analyze, TOP_CM < 10.1)
+#913 observations (set to 10.1 to be inclusive of the 10cm samples)
+compare.lower <- filter(USGS_analyze, TOP_CM > 10)
+#238 observations
+
+#has percent over health limits/over averages for all samples. 
+#Using Canada health standards
+all.data.health <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 3),
+                  limit=rep(c("all samples","< 10cm", "> 10cm"),each = 5),
+                  #first calulates % over health for all data
+                  percent = c(mean((USGS_analyze$As_ppm > 20)*100, na.rm=TRUE), mean((USGS_analyze$Cr_ppm > 250)*100, na.rm=TRUE), mean((USGS_analyze$Hg_ppm > 0.8)*100, na.rm=TRUE), mean((USGS_analyze$Ni_ppm > 100)*100, na.rm=TRUE), mean((USGS_analyze$Pb_ppm > 200)*100, na.rm=TRUE),
+                  #then calculates % over health for upper soils
+                  mean((compare.upper$As_ppm > 20)*100, na.rm=TRUE), mean((compare.upper$Cr_ppm > 250)*100, na.rm=TRUE), mean((compare.upper$Hg_ppm > 0.8)*100, na.rm=TRUE), mean((compare.upper$Ni_ppm > 100)*100, na.rm=TRUE), mean((compare.upper$Pb_ppm > 200)*100, na.rm=TRUE),
+                  #then calculates % over health for lower soils
+                  mean((compare.lower$As_ppm > 20)*100, na.rm=TRUE), mean((compare.lower$Cr_ppm > 250)*100, na.rm=TRUE), mean((compare.lower$Hg_ppm > 0.8)*100, na.rm=TRUE), mean((compare.lower$Ni_ppm > 100)*100, na.rm=TRUE), mean((compare.lower$Pb_ppm > 200)*100, na.rm=TRUE)))
+
+health_plot <- ggplot(data=all.data.health, aes(x=metal, y=percent, fill=limit)) +
+  geom_bar(stat="identity", position=position_dodge()) + ylim(0,100) +
+  geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
+            position = position_dodge(0.9), size = 3.25, fontface = "bold") +
+  scale_fill_manual(values=c("#d73027", "#fee090", "#91bfdb"))+
+  ylab("Percent of sample locations over health limit")+
+  theme_classic() +
+  theme(axis.title.x=element_blank(),
+        axis.title.y=element_text(face="bold"),
+        axis.text.x = element_text(size = 10, face = "bold"),
+        axis.text.y = element_text(size = 10, face = "bold"),
+        legend.text=element_text(face="bold"),
+        legend.title=element_blank())
+health_plot
+
+all.data.avg <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 3),
+                limit=rep(c("all samples","< 10cm", "> 10cm"),each = 5),
+                #first caluclates at % over US avg
+                percent = c(mean((USGS_analyze$As_ppm > 6.6)*100, na.rm=TRUE), mean((USGS_analyze$Cr_ppm > 37)*100, na.rm=TRUE), mean((USGS_analyze$Hg_ppm > 0.04)*100, na.rm=TRUE), mean((USGS_analyze$Ni_ppm > 18.5)*100, na.rm=TRUE), mean((USGS_analyze$Pb_ppm > 22.2)*100, na.rm=TRUE),
+                #then calculates at % over US avg
+                mean((compare.upper$As_ppm > 6.6)*100, na.rm=TRUE), mean((compare.upper$Cr_ppm > 37)*100, na.rm=TRUE), mean((compare.upper$Hg_ppm > 0.04)*100, na.rm=TRUE), mean((compare.upper$Ni_ppm > 18.5)*100, na.rm=TRUE), mean((compare.upper$Pb_ppm > 22.2)*100, na.rm=TRUE),
+               #then calculates % over US avg
+               mean((compare.lower$As_ppm > 6.6)*100, na.rm=TRUE), mean((compare.lower$Cr_ppm > 37)*100, na.rm=TRUE), mean((compare.lower$Hg_ppm > 0.04)*100, na.rm=TRUE), mean((compare.lower$Ni_ppm > 18.5)*100, na.rm=TRUE), mean((compare.lower$Pb_ppm > 22.2)*100, na.rm=TRUE)))
+
+average_plot <- ggplot(data=all.data.avg, aes(x=metal, y=percent, fill=limit)) +
+  geom_bar(stat="identity", position=position_dodge()) + ylim(0,100) +
+  geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
+            position = position_dodge(0.9), size = 3.25, fontface = "bold") +
+  scale_fill_manual(values=c("#d73027", "#fee090", "#91bfdb"))+
+  ylab("Percent of sample locations over US average")+
+  theme_classic() +
+  theme(axis.title.x=element_blank(),
+        axis.title.y=element_text(face="bold"),
+        axis.text.x = element_text(size = 10, face = "bold"),
+        axis.text.y = element_text(size = 10, face = "bold"),
+        legend.text=element_text(face="bold"),
+        legend.title=element_blank())
+average_plot
+
+```
+
+PCA? Comparing metals? 
+```{r}
+### work on new PCA here!
+##this isn't working..for some reason its turning the data martix into a time series object? will start working back here next work session. 
+pca.matrix <-filter(USGS_analyze, is.na(USGS_analyze$Hg_ppm) == FALSE)
+pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$As_ppm) == FALSE)
+pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$Cr_ppm) == FALSE)
+pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$Ni_ppm) == FALSE)
+pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$Pb_ppm) == FALSE)
+
+metals.pca <- prcomp(USGS_analyze[,c(14,16,18,20,22)], center = TRUE)
+summary(metals.pca)
+```
+
+
+
+OLD % over calculations/plots
+```{r}
+#Calculates the % of samples in the dataset that were collected between 0-10cm depth and 0-5cm depth - used to determine which soil comparison to use (we have one for A horizon and one for 0-5cm form USGS from US soils)
+mean(USGS_analyze$TOP_CM < 10, na.rm = TRUE)
+#Returns 0.735
+mean(USGS_analyze$TOP_CM < 5.1, na.rm = TRUE)
+#Returns 0.714, due to unit conversion of a group of samples collected ~2in to cm, there is a chunk of samples that have a depth of 5.08cm - which is not meaningfully different than 5.0cm
+
+compare.upper <- filter(USGS_analyze, TOP_CM < 10.1)
+#913 observations (set to 10.1 to be inclusive of the 10cm samples)
+compare.lower <- filter(USGS_analyze, TOP_CM > 10)
+#238 observations
 
 #Making a dataframe with no mine-impacted soil to compare % levels
 no_mine <- filter(USGS_analyze, Source != "mine-impacted")
@@ -761,17 +849,6 @@ ggplot(data=df3, aes(x=metal, y=percent, fill=limit)) +
         legend.title=element_blank())
 ```
 
-```{r}
-### work on new PCA here!
-##this isn't working..for some reason its turning the data martix into a time series object? will start working back here next work session. 
-pca.matrix <-filter(USGS_analyze, is.na(USGS_analyze$Hg_ppm) == FALSE)
-pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$As_ppm) == FALSE)
-pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$Cr_ppm) == FALSE)
-pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$Ni_ppm) == FALSE)
-pca.matrix <- filter(USGS_analyze, is.na(USGS_analyze$Pb_ppm) == FALSE)
 
-metals.pca <- prcomp(USGS_analyze[,c(14,16,18,20,22)], center = TRUE)
-summary(metals.pca)
-```
 
 
