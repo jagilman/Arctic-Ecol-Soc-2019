@@ -130,8 +130,8 @@ USGS_analyze$Source <- recode(USGS_analyze$Source, "grassland/grazing land/culti
 USGS_analyze$Source <- recode(USGS_analyze$Source, "tundra/alpine tundra"  = "tundra")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "float"  = "glacial deposit")
 USGS_analyze$Source <- recode(USGS_analyze$Source, "glacial debris/deposit"  = "glacial deposit")
-USGS_analyze$Source <- recode(USGS_analyze$Source, "wetland/swamp/marsh/bog/fen"  = "sedge/moss/shrub wetland")
-USGS_analyze$Source <- recode(USGS_analyze$Source, "surface"  = "sedge/moss/shrub wetland")
+USGS_analyze$Source <- recode(USGS_analyze$Source, "wetland/swamp/marsh/bog/fen"  = "wetland")
+USGS_analyze$Source <- recode(USGS_analyze$Source, "surface"  = "wetland")
 
 levels(USGS_analyze$Source)
 
