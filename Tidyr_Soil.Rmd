@@ -635,7 +635,132 @@ Pb_depth +
   annotate("text", x = 1:3, y = 10, label = c("b", "a", "b"))
 
 ```
-Making NEW figure for % over health limits and USA averages: 
+
+OLD % over calculations/plots
+```{r}
+
+#Making a dataframe with no mine-impacted soil to compare % levels
+no_mine <- filter(USGS_analyze, Source != "mine-impacted")
+
+#making dataframes for plots
+#df1 - has perecent over health limits for sites with/without mines. currently has values from Kamunda et al. (2016) for Cananda, who cites "Soil, Ground Water and Sediment Standards for Use Under Part XV.1 of the Environmental Protection Act" from Canada, but does not report the same numbers as in those government documents? 
+df1 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
+                  mines= rep(c("with mines", "without"), each = 5),
+                  percent = c(mean(USGS_analyze$As_ppm > 20, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 250, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.8, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 200, na.rm=TRUE), mean(no_mine$As_ppm > 20, na.rm=TRUE), mean(no_mine$Cr_ppm > 250, na.rm=TRUE), mean(no_mine$Hg_ppm > 0.8, na.rm=TRUE), mean(no_mine$Ni_ppm > 100, na.rm=TRUE), mean(no_mine$Pb_ppm > 200, na.rm=TRUE)))
+
+ggplot(data=df1, aes(x=metal, y=percent, fill=mines)) +
+scale_fill_manual(values=c("#bdbdbd", "#737373"))+
+geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
+position = position_dodge(0.9), size = 3.25, fontface = "bold") +
+ylab("proportion of samples over health limits")+
+geom_bar(stat="identity", position=position_dodge()) + ylim(0,1.0) + theme_classic()+
+theme(axis.title.x=element_blank(),
+        axis.title.y=element_text(face="bold"),
+        axis.text.x = element_text(size = 10, face = "bold"),
+        axis.text.y = element_text(size = 10, face = "bold"),
+        legend.text=element_text(face="bold"),
+        legend.title=element_blank())
+
+#df2 - has perecent over US averages for sites with/without mines. 
+#Currently using averagr values for the A Horizon from the USGS, Smith et al., 2013, Geochem. and Mineralogical Data for Soils of the Conterminous US, Data Series 801
+df2 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
+                  mines= rep(c("with mines", "without"), each = 5),
+                  percent = c(mean(USGS_analyze$As_ppm > 6.6, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.04, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 18.5, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 22.2, na.rm=TRUE), mean(no_mine$As_ppm > 6.6, na.rm=TRUE), mean(no_mine$Cr_ppm > 37, na.rm=TRUE), mean(no_mine$Hg_ppm > 0.04, na.rm=TRUE), mean(no_mine$Ni_ppm > 18.5, na.rm=TRUE), mean(no_mine$Pb_ppm > 22.2, na.rm=TRUE)))
+
+ggplot(data=df2, aes(x=metal, y=percent, fill=mines)) +
+scale_fill_manual(values=c("#bdbdbd", "#737373"))+
+geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
+position = position_dodge(0.9), size = 3.25, fontface = "bold") +
+ylab("proportion of samples over US average")+
+geom_bar(stat="identity", position=position_dodge()) + ylim(0,1.0) + theme_classic()+
+theme(axis.title.x=element_blank(),
+        axis.title.y=element_text(face="bold"),
+        axis.text.x = element_text(size = 10, face = "bold"),
+        axis.text.y = element_text(size = 10, face = "bold"),
+        legend.text=element_text(face="bold"),
+        legend.title=element_blank())
+
+
+#df3 - has percent over health limits/over averages for whole dataset
+df3 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
+                  limit=rep(c("health limit","US average"),each = 5),
+                  percent = c(mean((USGS_analyze$As_ppm > 20)*100, na.rm=TRUE), mean((USGS_analyze$Cr_ppm > 250)*100, na.rm=TRUE), mean((USGS_analyze$Hg_ppm > 0.8)*100, na.rm=TRUE), mean((USGS_analyze$Ni_ppm > 100)*100, na.rm=TRUE), mean((USGS_analyze$Pb_ppm > 200)*100, na.rm=TRUE), mean((USGS_analyze$As_ppm > 6.6)*100, na.rm=TRUE), mean((USGS_analyze$Cr_ppm > 37)*100, na.rm=TRUE), mean((USGS_analyze$Hg_ppm > 0.04)*100, na.rm=TRUE), mean((USGS_analyze$Ni_ppm > 18.5)*100, na.rm=TRUE), mean((USGS_analyze$Pb_ppm > 22.2)*100, na.rm=TRUE)))
+
+ggplot(data=df3, aes(x=metal, y=percent, fill=limit)) +
+  geom_bar(stat="identity", position=position_dodge()) + ylim(0,100) +
+  geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
+  position = position_dodge(0.9), size = 3.25, fontface = "bold") +
+  scale_fill_manual(values=c("#bdbdbd", "#737373"))+
+  ylab("Percent of sample locations over limit")+
+  theme_classic() +
+  theme(axis.title.x=element_blank(),
+        axis.title.y=element_text(face="bold"),
+        axis.text.x = element_text(size = 10, face = "bold"),
+        axis.text.y = element_text(size = 10, face = "bold"),
+        legend.text=element_text(face="bold"),
+        legend.title=element_blank())
+
+
+
+
+# Do we need this? the % show up on the plots so probably not: 
+#Calculates the % of values greater than the Canada EPA soil limit reported in Kamunda et al. (2016) (20 mg/kg)
+# mean(USGS_analyze$As_ppm > 20, na.rm=TRUE)
+# mean(no_mine$As_ppm > 20, na.rm=TRUE)
+#Calculates the proportion of values greater than the US avg for A horizon soils from the USGS reported in Smith et al. (2013), Data Series 801 (6.6 mg/kg)
+# mean(USGS_analyze$As_ppm > 6.6, na.rm=TRUE)
+# mean(no_mine$As_ppm > 6.6, na.rm=TRUE)
+
+# #Calculates the % of values greater than the Canada EPA soil limit reported in Kamunda et al. (2016)  (250 mg/kg)
+# mean(USGS_analyze$Cr_ppm > 250, na.rm=TRUE)
+# mean(no_mine$Cr_ppm > 250, na.rm=TRUE)
+# Calculates the proportion of values greater than the US avg for A horizon soils from the USGS reported in Smith et al. (2013), Data Series 801 (37 mg/kg)
+# mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE)
+# mean(no_mine$Cr_ppm > 37, na.rm=TRUE)
+# 
+# Calculates the % of values greater than the Canada EPA soil limit reported in Kamunda et al. (2016) (0.8 mg/kg)
+# mean(USGS_analyze$Hg_ppm > 0.8, na.rm=TRUE)
+# mean(no_mine$Hg_ppm > 0.8, na.rm=TRUE)
+#Calculates the proportion of values greater than the US avg for A horizon soils from the USGS reported in Smith et al. (2013), Data Series 801 (0.04 mg/kg)
+# mean(USGS_analyze$Hg_ppm > 0.04, na.rm=TRUE)
+# mean(no_mine$Hg_ppm > 0.04, na.rm=TRUE)
+# #Over the "elevated" level in the Obrist abstract of 0.1 mg/kg
+# mean(USGS_analyze$Hg_ppm > 0.1, na.rm=TRUE)
+
+#Calculates the % of values greater than the Canada EPA soil limit reported in Kamunda et al. (2016) (100 mg/kg)
+# mean(USGS_analyze$Ni_ppm > 100, na.rm=TRUE)
+# mean(no_mine$Ni_ppm > 100, na.rm=TRUE)
+# Calculates the proportion of values greater than the US avg for A horizon soils from the USGS reported in Smith et al. (2013), Data Series 801 (18.5 mg/kg)
+# mean(USGS_analyze$Ni_ppm > 18.5, na.rm=TRUE)
+# mean(no_mine$Ni_ppm > 18.5, na.rm=TRUE)
+
+#Calculates the % of values greater than the Canada EPA soil limit reported in Kamunda et al. (2016) (200 mg/kg)
+# mean(USGS_analyze$Pb_ppm > 200, na.rm=TRUE)
+# mean(no_mine$Pb_ppm > 200, na.rm=TRUE)
+# Calculates the proportion of values greater than the US avg for A horizon soils from the USGS reported in Smith et al. (2013), Data Series 801 (22.2 mg/kg)
+# mean(USGS_analyze$Pb_ppm > 22.2, na.rm=TRUE)
+# mean(no_mine$Pb_ppm > 22,2, na.rm=TRUE)
+```
+
+
+```{r}
+### Cr vs Ni plot R4 asked about
+Cr_vs_Ni <- ggplot(data=USGS_analyze, aes(x= Cr_ppm, y= Ni_ppm, color = Source))+
+  geom_point()+
+  theme_classic()
+Cr_vs_Ni
+
+Cr_vs_Ni_2 <- ggplot(data=USGS_analyze, aes(x= Cr_ppm, y= Ni_ppm))+
+  geom_point()+
+  geom_smooth(method=lm)+
+  xlim(0,100)+
+  ylim(0,60)+
+  theme_classic()
+Cr_vs_Ni_2
+```
+
+
+% over limits/averages by depth - we decided this was too complex. 
 ```{r}
 #Calculates the % of samples in the dataset that were collected between 0-10cm depth and 0-5cm depth - used to determine which soil comparison to use (we have one for A horizon and one for 0-5cm form USGS from US soils)
 mean(USGS_analyze$TOP_CM < 10, na.rm = TRUE)
@@ -697,184 +822,6 @@ average_plot <- ggplot(data=all.data.avg, aes(x=metal, y=percent, fill=limit)) +
         legend.text=element_text(face="bold"),
         legend.title=element_blank())
 average_plot
-
-```
-
-PCA? Comparing metals? 
-```{r}
-##Honestly - I don't think this is informative (because of lack of consistent metadata and/or ancillary environmental data across samples) nor really necessary for the message of the paper? 
-
-### work on new PCA here!
-##this isn't working..for some reason its turning the data martix into a time series object? will start working back here next work session. 
-pca.matrix <-filter(USGS_analyze, is.na(USGS_analyze$Hg_ppm) == FALSE)
-pca.matrix <- filter(pca.matrix, is.na(As_ppm) == FALSE)
-pca.matrix <- filter(pca.matrix, is.na(Cr_ppm) == FALSE)
-pca.matrix <- filter(pca.matrix, is.na(Ni_ppm) == FALSE)
-pca.matrix <- filter(pca.matrix, is.na(Pb_ppm) == FALSE)
-#Removing NAs for each metal to ensure each sample has all values reduced sample number from 1551 to 787
-library(ggfortify)
-main.pca <- (pca.matrix[c(14,16,18,20,22)])
-metals.pca <- prcomp(main.pca)
-summary(metals.pca)
-loadings(metals.pca)
-autoplot(metals.pca, data = pca.matrix, colour = "Source", loadings=TRUE, loadings.label=TRUE)
-
-
-fviz_pca_var(metals.pca,
-             col.var = "contrib", # Color by contributions to the PC
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE     # Avoid text overlapping
-             )
-
-
-### Cr vs Ni plot R4 asked about
-Cr_vs_Ni <- ggplot(data=USGS_analyze, aes(x= Cr_ppm, y= Ni_ppm, color = Source))+
-  geom_point()+
-  theme_classic()
-Cr_vs_Ni
-
-Cr_vs_Ni_2 <- ggplot(data=USGS_analyze, aes(x= Cr_ppm, y= Ni_ppm))+
-  geom_point()+
-  geom_smooth(method=lm)+
-  xlim(0,100)+
-  ylim(0,60)+
-  theme_classic()
-Cr_vs_Ni_2
-```
-
-
-
-OLD % over calculations/plots
-```{r}
-#Calculates the % of samples in the dataset that were collected between 0-10cm depth and 0-5cm depth - used to determine which soil comparison to use (we have one for A horizon and one for 0-5cm form USGS from US soils)
-mean(USGS_analyze$TOP_CM < 10, na.rm = TRUE)
-#Returns 0.735
-mean(USGS_analyze$TOP_CM < 5.1, na.rm = TRUE)
-#Returns 0.714, due to unit conversion of a group of samples collected ~2in to cm, there is a chunk of samples that have a depth of 5.08cm - which is not meaningfully different than 5.0cm
-
-compare.upper <- filter(USGS_analyze, TOP_CM < 10.1)
-#913 observations (set to 10.1 to be inclusive of the 10cm samples)
-compare.lower <- filter(USGS_analyze, TOP_CM > 10)
-#238 observations
-
-#Making a dataframe with no mine-impacted soil to compare % levels
-no_mine <- filter(USGS_analyze, Source != "mine-impacted")
-
-#Calculates the proportion of values greater than the UK Envi Agency As in soil limit (32 mg/kg)
-mean(USGS_analyze$As_ppm > 32, na.rm=TRUE)
-# with mines: 0.1425
-mean(no_mine$As_ppm > 32, na.rm=TRUE)
-# without mines = 0.1262
-#Calculates the proportion of values greater than the US avg for As in soil from the Toxic Substances and Disease Registry (7.2 mg/kg)
-mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE)
-# with mines: 0.7211
-mean(no_mine$As_ppm > 7.2, na.rm=TRUE)
-# without mines = 0.7158
-
-#Calculates the proportion of values greater than the WHO Cr in soil limit (100 mg/kg)
-mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE)
-# with mines: 0.09235075
-mean(no_mine$Cr_ppm > 100, na.rm=TRUE)
-# without mines: 0.08641975
-#Calculates the proportion of values greater than the US avg for Cr in soil from the Toxic Substances and Disease Registry (37 mg/kg)
-mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE)
-# with mines: 0.7014925
-mean(no_mine$Cr_ppm > 37, na.rm=TRUE)
-# without mines: 0.697056
-
-#Calculates the proportion of values greater than the Canadian Council of Ministers of the Environment Hg in soil limit (6.6 mg/kg)
-mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE)
-# with mines: 0.0375
-mean(no_mine$Hg_ppm > 6.6, na.rm=TRUE)
-# without mines: 0.02284264
-#Calculates the proportion of values greater than the median value for soils in the Western United States (0.029 mg/kg; from Obrist et al., 2016)
-mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE)
-# with mines 0.935
-mean(no_mine$Hg_ppm > 0.029, na.rm=TRUE)
-# without mines: 0.934
-#Over the "elevated" level in the Obrist abstract of 0.1 mg/kg
-mean(USGS_analyze$Hg_ppm > 0.1, na.rm=TRUE)
-#returns 0.18
-
-
-#Calculates the proportion of values greater than the WHO Ni in soil limit (35 mg/kg)
-mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE)
-# with mines: 0.3522833
-mean(no_mine$Ni_ppm > 35, na.rm=TRUE)
-# without mines: 0.3425047
-#Calculates the proportion of values greater than the US avg for Ni in soil from the Toxic Substances and Disease Registry (13 mg/kg)
-mean(USGS_analyze$Ni_ppm > 13, na.rm=TRUE)
-# with mines: 0.8583411
-mean(no_mine$Ni_ppm > 13, na.rm=TRUE)
-# without mines: 0.8567362
-
-#Calculates the proportion of values greater than the WHO Pb in soil limit (85 mg/kg)
-mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE)
-# with mine: 0.02867715
-mean(no_mine$Pb_ppm > 85, na.rm=TRUE)
-# without mines: 0.02730697
-#Calculates the proportion of values greater than the US avg for Pb in soil from the Toxic Substances and Disease Registry (30 mg/kg)
-mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE)
-# with mines: 0.1008326
-mean(no_mine$Pb_ppm > 30, na.rm=TRUE)
-# without mines: 0.09510358
-
-#making dataframes for plots
-#df1 - has perecent over health limits for sites with/without mines
-df1 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
-                  mines= rep(c("with mines", "without"), each = 5),
-                  percent = c(mean(USGS_analyze$As_ppm > 32, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 100, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 6.6, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 35, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 85, na.rm=TRUE), mean(no_mine$As_ppm > 32, na.rm=TRUE), mean(no_mine$Cr_ppm > 100, na.rm=TRUE), mean(no_mine$Hg_ppm > 6.6, na.rm=TRUE), mean(no_mine$Ni_ppm > 35, na.rm=TRUE), mean(no_mine$Pb_ppm > 85, na.rm=TRUE)))
-
-ggplot(data=df1, aes(x=metal, y=percent, fill=mines)) +
-scale_fill_manual(values=c("#bdbdbd", "#737373"))+
-geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
-position = position_dodge(0.9), size = 3.25, fontface = "bold") +
-ylab("proportion of samples over health limits")+
-geom_bar(stat="identity", position=position_dodge()) + ylim(0,1.0) + theme_classic()+
-theme(axis.title.x=element_blank(),
-        axis.title.y=element_text(face="bold"),
-        axis.text.x = element_text(size = 10, face = "bold"),
-        axis.text.y = element_text(size = 10, face = "bold"),
-        legend.text=element_text(face="bold"),
-        legend.title=element_blank())
-
-#df2 - has perecent over US averages for sites with/without mines
-df2 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
-                  mines= rep(c("with mines", "without"), each = 5),
-                  percent = c(mean(USGS_analyze$As_ppm > 7.2, na.rm=TRUE), mean(USGS_analyze$Cr_ppm > 37, na.rm=TRUE), mean(USGS_analyze$Hg_ppm > 0.029, na.rm=TRUE), mean(USGS_analyze$Ni_ppm > 13, na.rm=TRUE), mean(USGS_analyze$Pb_ppm > 30, na.rm=TRUE), mean(no_mine$As_ppm > 7.2, na.rm=TRUE), mean(no_mine$Cr_ppm > 37, na.rm=TRUE), mean(no_mine$Hg_ppm > 0.029, na.rm=TRUE), mean(no_mine$Ni_ppm > 13, na.rm=TRUE), mean(no_mine$Pb_ppm > 37, na.rm=TRUE)))
-
-ggplot(data=df2, aes(x=metal, y=percent, fill=mines)) +
-scale_fill_manual(values=c("#bdbdbd", "#737373"))+
-geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
-position = position_dodge(0.9), size = 3.25, fontface = "bold") +
-ylab("proportion of samples over US average")+
-geom_bar(stat="identity", position=position_dodge()) + ylim(0,1.0) + theme_classic()+
-theme(axis.title.x=element_blank(),
-        axis.title.y=element_text(face="bold"),
-        axis.text.x = element_text(size = 10, face = "bold"),
-        axis.text.y = element_text(size = 10, face = "bold"),
-        legend.text=element_text(face="bold"),
-        legend.title=element_blank())
-
-
-#df3 - has percent over health limits/over averages for whole dataset
-df3 <- data.frame(metal= rep(c("As", "Cr", "Hg", "Ni", "Pb"), 2),
-                  limit=rep(c("health limit","US average"),each = 5),
-                  percent = c(mean((USGS_analyze$As_ppm > 32)*100, na.rm=TRUE), mean((USGS_analyze$Cr_ppm > 100)*100, na.rm=TRUE), mean((USGS_analyze$Hg_ppm > 6.6)*100, na.rm=TRUE), mean((USGS_analyze$Ni_ppm > 35)*100, na.rm=TRUE), mean((USGS_analyze$Pb_ppm > 85)*100, na.rm=TRUE), mean((USGS_analyze$As_ppm > 7.2)*100, na.rm=TRUE), mean((USGS_analyze$Cr_ppm > 37)*100, na.rm=TRUE), mean((USGS_analyze$Hg_ppm > 0.029)*100, na.rm=TRUE), mean((USGS_analyze$Ni_ppm > 13)*100, na.rm=TRUE), mean((USGS_analyze$Pb_ppm > 30)*100, na.rm=TRUE)))
-
-ggplot(data=df3, aes(x=metal, y=percent, fill=limit)) +
-  geom_bar(stat="identity", position=position_dodge()) + ylim(0,100) +
-  geom_text(aes(label=round(percent, 2)), vjust=-0.2, color="black",
-  position = position_dodge(0.9), size = 3.25, fontface = "bold") +
-  scale_fill_manual(values=c("#bdbdbd", "#737373"))+
-  ylab("Percent of sample locations over limit")+
-  theme_classic() +
-  theme(axis.title.x=element_blank(),
-        axis.title.y=element_text(face="bold"),
-        axis.text.x = element_text(size = 10, face = "bold"),
-        axis.text.y = element_text(size = 10, face = "bold"),
-        legend.text=element_text(face="bold"),
-        legend.title=element_blank())
 ```
 
 
